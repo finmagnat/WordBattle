@@ -5,20 +5,34 @@ using UnityEngine;
 
 namespace Core.Services
 {
+    public enum AdsEnvironment
+    {
+        Test,
+        Production
+    }
+
     [Serializable]
     public sealed class AdsRewardItem
     {
         public BoosterType BoosterType;
         public RewardType RewardType;
         public int Count;
+
         [Min(0), Tooltip("More weight - more chance of showing")]
         public int Weight;
+
         public string[] LabelLocaleKeys;
     }
 
     [CreateAssetMenu(menuName = "Configs/AdsConfig")]
     public sealed class AdsConfig : ScriptableObject
-    {   
+    {
+        [Header("Environment")]
+        [TextArea]
+        public string _ = "Test          ← Internal / Closed Testing\n    Production    ← Google Play Production";
+        
+        public AdsEnvironment Environment = AdsEnvironment.Test;
+
         [Header("AdMob Rewarded Ad Unit")]
         public string RewardedAd;
 
@@ -26,21 +40,17 @@ namespace Core.Services
         public bool InterstitialIsActive;
         public string InterstitialAd;
 
-#if UNITY_EDITOR
         [Header("Test Mode")]
-        public bool UseTestIds;
-#endif
+        public string TestAd = "ca-app-pub-3940256099942544/5224354917";
 
         [Header("Rewarded Booster Offers (finish popups)")]
         public List<AdsRewardItem> AdsRewardItems = new();
-        
+
         public string GetRewardedId()
         {
-#if UNITY_EDITOR
-            if (UseTestIds)
-                return "ca-app-pub-3940256099942544/5224354917";
-#endif
-            return RewardedAd;
+            return Environment == AdsEnvironment.Test
+                ? TestAd
+                : RewardedAd;
         }
     }
 }

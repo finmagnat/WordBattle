@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8ac74bb3bf14d79b8ccb478f62a592e, type: 3}
   m_Name: AdsConfig
   m_EditorClassIdentifier: Assembly-CSharp::Core.Services.AdsConfig
+  _: "Test          \t\u2190 Internal / Closed Testing\nProduction\t\u2190 Google
+    Play Production"
+  Environment: 0
   RewardedAd: ca-app-pub-8216303467519012/4101298318
   InterstitialIsActive: 0
   InterstitialAd: ca-app-pub-8216303467519012/8664733002
-  UseTestIds: 0
+  TestAd: ca-app-pub-3940256099942544/5224354917
   AdsRewardItems:
   - BoosterType: 1
     RewardType: 1

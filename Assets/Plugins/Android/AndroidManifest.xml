@@ -3,6 +3,20 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application>
-        <!-- Оставляем библиотечный файл чистым от стартовых интентов -->
+        <activity
+                android:name="com.unity3d.player.CustomSplashActivity"
+                android:theme="@style/CustomLaunchTheme"
+                android:exported="true"
+                android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale|layoutDirection|density"
+                android:hardwareAccelerated="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
+            <meta-data android:name="android.app.lib_name" android:value="game" />
+        </activity>
     </application>
 </manifest>
