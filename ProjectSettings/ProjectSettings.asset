@@ -813,7 +813,7 @@ PlayerSettings:
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
   scriptingDefineSymbols:
-    Android: DOTWEEN;gameanalytics_admob_enabled;APP_UI_EDITOR_ONLY
+    Android: DOTWEEN;gameanalytics_admob_enabled;APP_UI_EDITOR_ONLY;SENTIS_ANALYTICS_ENABLED
     EmbeddedLinux: DOTWEEN
     GameCoreScarlett: DOTWEEN
     GameCoreXboxOne: DOTWEEN
@@ -939,7 +939,7 @@ PlayerSettings:
   - High
   - Very High
   - Ultra
-  projectName: Balda
+  projectName: Wordlet
   organizationId: finmagnat
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
