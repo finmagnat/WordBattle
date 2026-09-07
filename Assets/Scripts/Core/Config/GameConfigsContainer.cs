@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Core.Config
 {
-    [CreateAssetMenu(menuName = "Wordlet/Config/Configs Container", fileName = "GameConfigsContainer")]
+    [CreateAssetMenu(menuName = "Game/Config/Configs Container", fileName = "GameConfigsContainer")]
     public class GameConfigsContainer : ScriptableObject
     {
         [Tooltip("Список всех конфигов, которые должны быть зарегистрированы в DI")]

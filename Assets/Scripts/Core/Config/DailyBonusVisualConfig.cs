@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Core.Config
 {
-    [CreateAssetMenu(menuName = "Wordlet/Config/Daily Bonus Visual Config", fileName = "DailyBonusVisualConfig")]
+    [CreateAssetMenu(menuName = "Game/Config/Daily Bonus Visual Config", fileName = "DailyBonusVisualConfig")]
     public class DailyBonusVisualConfig : ScriptableObject
     {
         [Header("Localization keys")]

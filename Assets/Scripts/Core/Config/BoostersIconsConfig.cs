@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Core.Config
 {
-    [CreateAssetMenu(menuName = "Wordlet/Config/Boosters", fileName = "BoostersIconsConfig")]
+    [CreateAssetMenu(menuName = "Game/Config/Boosters", fileName = "BoostersIconsConfig")]
     public class BoostersIconsConfig : ScriptableObject
     {
         public List<BoosterIconData> Items => _items;

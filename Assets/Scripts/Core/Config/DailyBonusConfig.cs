@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Core.Config
 {
-    [CreateAssetMenu(menuName = "Wordlet/Config/Daily Bonus TitleData Template", fileName = "DailyBonusConfig")]
+    [CreateAssetMenu(menuName = "Game/Config/Daily Bonus TitleData Template", fileName = "DailyBonusConfig")]
     public class DailyBonusConfig : ScriptableObject
     {
         [Header("Authoring template only")]
