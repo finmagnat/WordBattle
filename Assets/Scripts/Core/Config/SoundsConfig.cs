@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Core.Config
 {
-    [CreateAssetMenu(menuName = "Wordlet/Config/Sounds", fileName = "SoundsConfig")]
+    [CreateAssetMenu(menuName = "Game/Config/Sounds", fileName = "SoundsConfig")]
     public class SoundsConfig : ScriptableObject
     {
         public static string StartNewGame => nameof(AssetKey.sfx_start_new_game);

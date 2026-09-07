@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Core.Config
 {
-    [CreateAssetMenu(menuName = "Wordlet/Shop/Shop Catalog", fileName = "ShopCatalog")]
+    [CreateAssetMenu(menuName = "Game/Shop/Shop Catalog", fileName = "ShopCatalog")]
     public sealed class ShopCatalog : ScriptableObject
     {
         public const string RemoveInterstitialProductId = "remove_interstitial_ads";

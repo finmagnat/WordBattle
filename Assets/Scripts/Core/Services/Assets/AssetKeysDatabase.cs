@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AssetKeysDatabase", menuName = "Wordlet/Config/Asset Keys Database")]
+[CreateAssetMenu(fileName = "AssetKeysDatabase", menuName = "Game/Config/Asset Keys Database")]
 public class AssetKeysDatabase : ScriptableObject
 {
     [System.Serializable]

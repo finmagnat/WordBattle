@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Core.Services.DataDictionary
 {
-    [CreateAssetMenu(menuName = "Wordlet/Dictionary/Language Config", fileName = "LanguageDictionaryConfig")]
+    [CreateAssetMenu(menuName = "Game/Dictionary/Language Config", fileName = "LanguageDictionaryConfig")]
     public class LanguageDictionaryConfig : ScriptableObject
     {
         [Header("Language Info")]
