@@ -1,8 +1,8 @@
-# Wordlet
+# WordBattle
   
-**Unity:** 2022.3.45f1 LTS (URP)  
+**Unity:** 6000.3.22f1 LTS (URP)  
 **Packages:** Addressables 1.22.3, TextMeshPro, URP  
-**Main scene to run:** `Start.unity`
+**Main scene to run:** `Main.unity`
 
 ---
 

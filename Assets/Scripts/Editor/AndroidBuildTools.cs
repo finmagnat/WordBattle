@@ -15,7 +15,7 @@ namespace Core.Config.EditorTools
         {
             BuildAndroidAab(
                 requiredEnvironment: AdsEnvironment.Test,
-                defaultFileName: "Wordlet-closed-test.aab",
+                defaultFileName: "WordBattle-closed-test.aab",
                 buildLabel: "Closed Test");
         }
 
@@ -24,7 +24,7 @@ namespace Core.Config.EditorTools
         {
             BuildAndroidAab(
                 requiredEnvironment: AdsEnvironment.Production,
-                defaultFileName: "Wordlet-production.aab",
+                defaultFileName: "WordBattle-production.aab",
                 buildLabel: "Production");
         }
 

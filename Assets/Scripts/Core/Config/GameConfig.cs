@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 namespace Core.Config
 {
-    [CreateAssetMenu(menuName = "Wordlet/Config/Game Config", fileName = "GameConfig")]
+    [CreateAssetMenu(menuName = "Game/Config/Game Config", fileName = "GameConfig")]
     public class GameConfig : ScriptableObject
     {
         //---------------------------------

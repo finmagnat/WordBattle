@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Core.Config
 {
-    [CreateAssetMenu(menuName = "Wordlet/Config/Skins", fileName = "SkinsConfig")]
+    [CreateAssetMenu(menuName = "Game/Config/Skins", fileName = "SkinsConfig")]
     public class SkinsConfig : ScriptableObject
     {
         public List<SkinData> Skins => _skins;

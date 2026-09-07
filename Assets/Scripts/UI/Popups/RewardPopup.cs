@@ -37,7 +37,7 @@ namespace UI.Popups
         public override async UniTask ShowAsync()
         {
             await base.ShowAsync();
-            _audioService?.PlaySfxAsync(SoundsConfig.StartNewGame);
+            _audioService?.PlaySfxAsync(SoundsConfig.PopupReward);
             _analytics.TrackEvent(AnalyticsEvents.Navigation.RewardPopupShown, GetAnalyticsParams());
         }
 
