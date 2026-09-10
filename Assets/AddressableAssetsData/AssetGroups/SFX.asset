@@ -45,8 +45,20 @@ MonoBehaviour:
     m_SerializedLabels:
     - SFX
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4f390726e8b383946b073a2251eedd0f
+    m_Address: sfx_booster_swap_launch
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 600d9a9da8735544eaa94c396fe20cde
     m_Address: sfx_pause
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6059adb87c7d0434ca7de2691962f707
+    m_Address: sfx_booster_mixer_launch
     m_ReadOnly: 0
     m_SerializedLabels:
     - SFX
@@ -137,6 +149,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: eb6f5248225e6aa4cadaf89675bcd30b
     m_Address: sfx_letter_put_success
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: facd75348351deb45a52d8687ed82ef2
+    m_Address: sfx_booster_eraser_launch
     m_ReadOnly: 0
     m_SerializedLabels:
     - SFX

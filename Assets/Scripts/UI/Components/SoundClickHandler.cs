@@ -8,18 +8,19 @@ namespace Core.UI.Components
 {
     public class SoundClickHandler : MonoBehaviour, IPointerClickHandler
     {
-        [SerializeField] private string _sfxKey = SoundsConfig.ButtonClick;
+        [SerializeField] private string _uniqueSfxKey;
+        private string _defaultSfxKey = SoundsConfig.ButtonClick;
         
         [Inject] private AudioService _audioService;
         
         public void OnPointerClick(PointerEventData eventData)
         {
-            _audioService?.PlaySfxAsync(_sfxKey);
+            _audioService?.PlaySfxAsync(string.IsNullOrEmpty(_uniqueSfxKey) ? _defaultSfxKey : _uniqueSfxKey);
         }
         
         public void OnPointerClick()
         {
-            _audioService?.PlaySfxAsync(_sfxKey);
+            _audioService?.PlaySfxAsync(string.IsNullOrEmpty(_uniqueSfxKey) ? _defaultSfxKey : _uniqueSfxKey);
         }
     }
 }

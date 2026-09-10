@@ -72,7 +72,8 @@ namespace Core.Services
             if (_sfxCache.TryGetValue(addressKey, out var cachedClip))
                 return cachedClip;
 
-            var clip = await _loader.LoadAssetAsync<AudioClip>(addressKey);
+            
+            var clip = await _loader.LoadAssetAsync<AudioClip>(_configService.Sounds.GetAddressKey(addressKey));
             if (clip == null)
             {
                 Debug.LogWarning($"Audio clip not found: {addressKey}");
@@ -125,7 +126,7 @@ namespace Core.Services
         private void InitDebugCache()
         {
             foreach (var sound in _configService.Sounds.Sounds)
-                _sfxCache[sound.Key] = sound.Clip;
+                _sfxCache[sound.Id] = sound.Clip;
         }
 
         public void SetSfxVolume(float value)
