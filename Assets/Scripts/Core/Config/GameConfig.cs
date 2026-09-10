@@ -10,8 +10,8 @@ namespace Core.Config
     {
         //---------------------------------
         [Header("Address")]
-        public string Privacy = "https://finmagnat.github.io/wordlet-privacy/";
-        public string Terms = "https://finmagnat.github.io/wordlet-terms/";
+        public string Privacy = "https://finmagnat.github.io/wordbattle-privacy/";
+        public string Terms = "https://finmagnat.github.io/wordbattle-terms/";
         public string Support = "semantica.dev@gmail.com";
         
         //---------------------------------
