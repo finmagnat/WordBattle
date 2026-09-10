@@ -45,6 +45,7 @@ namespace UI.Popups
                     _audioService?.PlaySfxAsync(SoundsConfig.SkinChanged);
                     SendAnalytics(AnalyticsEvents.Navigation.ApplySkinsClicked);
                 }
+                else _audioService?.PlaySfxAsync(SoundsConfig.ButtonClick);
                 await HideAsync();
             });
         }
