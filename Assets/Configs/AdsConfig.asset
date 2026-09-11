@@ -40,6 +40,8 @@ MonoBehaviour:
     Weight: 3
     LabelLocaleKeys:
     - Eraser_TEXT_001
+    - Eraser_TEXT_002
+    - Eraser_TEXT_003
   - BoosterType: 4
     RewardType: 4
     Count: 1
@@ -52,3 +54,4 @@ MonoBehaviour:
     Weight: 5
     LabelLocaleKeys:
     - Swap_TEXT_001
+    - Swap_TEXT_002

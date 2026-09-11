@@ -19,31 +19,43 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 29429649408
-    m_Localized: Bukovka is popular with 83% of players
+    m_Localized: 83% of players love this booster!
     m_Metadata:
       m_Items: []
   - m_Id: 632839000064
-    m_Localized: Bukovka is in demand!
+    m_Localized: '"Bukovka" is popular with 83% of players!'
     m_Metadata:
       m_Items: []
   - m_Id: 1287104286720
-    m_Localized: Slowdown is in demand!
+    m_Localized: "More time \u2013 more chances!"
     m_Metadata:
       m_Items: []
   - m_Id: 832752111616
-    m_Localized: Slowdown is in demand by 70% of players.
+    m_Localized: The most popular booster!
     m_Metadata:
       m_Items: []
   - m_Id: 7751399165952
-    m_Localized: With this booster you have a better chance of winning!
+    m_Localized: Increase your chances of winning!
     m_Metadata:
       m_Items: []
   - m_Id: 7943246630912
-    m_Localized: With this booster you have a better chance of winning!
+    m_Localized: Get new opportunities!
     m_Metadata:
       m_Items: []
   - m_Id: 7990650654720
-    m_Localized: With this booster you have a better chance of winning!
+    m_Localized: Make the letters work in your favor!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5115727316021248
+    m_Localized: Use the eraser and win!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5116786457473024
+    m_Localized: Change the game in your favor!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5118851917312000
+    m_Localized: The coolest booster!
     m_Metadata:
       m_Items: []
   references:
