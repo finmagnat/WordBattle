@@ -38,11 +38,7 @@ MonoBehaviour:
     StatisticButtonAlias: ButtonStatistic_Blue
     DefaultButtonAlias: ButtonBlue
     MainScreenTheme:
-      SkyColor: {r: 0.71488965, g: 0.7952953, b: 0.990566, a: 1}
-      CloudsFarColor: {r: 0.7137255, g: 0.79607844, b: 0.99215686, a: 1}
-      CloudsMidColor: {r: 0.7137255, g: 0.79607844, b: 0.99215686, a: 1}
-      CloudsNearColor: {r: 0.7137255, g: 0.79607844, b: 0.99215686, a: 1}
-      AtmosphericLightColor: {r: 0.7137255, g: 0.79607844, b: 0.99215686, a: 1}
+      HomeBackgroundAlias: ParalaxBackground_Blue
       SettingsButtonAlias: SettingsButtonBlue
       SkinButtonAlias: SkinButtonBlue
       InfoButtonAlias: InfoButtonBlue
@@ -71,11 +67,7 @@ MonoBehaviour:
     StatisticButtonAlias: ButtonStatistic_Pink
     DefaultButtonAlias: ButtonPink
     MainScreenTheme:
-      SkyColor: {r: 1, g: 1, b: 1, a: 1}
-      CloudsFarColor: {r: 1, g: 1, b: 1, a: 1}
-      CloudsMidColor: {r: 1, g: 1, b: 1, a: 1}
-      CloudsNearColor: {r: 1, g: 1, b: 1, a: 1}
-      AtmosphericLightColor: {r: 1, g: 1, b: 1, a: 1}
+      HomeBackgroundAlias: ParalaxBackground_Pink
       SettingsButtonAlias: SettingsButtonPink
       SkinButtonAlias: SkinButtonPink
       InfoButtonAlias: InfoButtonPink

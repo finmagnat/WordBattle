@@ -24,12 +24,14 @@ namespace UI.Screens
         [SerializeField] private Button _skinsButton;
         [SerializeField] private Button _shopButton;
         [SerializeField] private Button _dailyBonusButton;
+        [SerializeField] private RectTransform _mainScreenBackgroung;
         
         [Inject] private IUIManager _ui;
         [Inject] private ILoadingUI _loadingUI;
         [Inject] private ISaveService _saveService;
         [Inject] private SkinsService _skinsService;
         [Inject] private ISpriteService _spritesService;
+        [Inject] private IPrefabService _prefabService;
         [Inject] private GameController _gameController;
         [Inject] private LocalizationService _localization;
         [Inject] private ConfigService _configService;
@@ -38,6 +40,7 @@ namespace UI.Screens
         [Inject] private IDailyBonusService _dailyBonusService;
 
         private bool _isProcessing;
+        private GameObject _backgroundInstance;
 
         private void Start()
         {
@@ -256,6 +259,22 @@ namespace UI.Screens
             _infoButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.InfoButtonAlias);
             _skinsButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.SkinButtonAlias);
             _shopButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.ShopButtonAlias);
+
+            var prefab = await _prefabService.GetPrefabAsync(
+                skin.MainScreenTheme.HomeBackgroundAlias);
+
+            if (prefab == null)
+                return;
+
+            if (_backgroundInstance != null)
+                Destroy(_backgroundInstance);
+
+            _backgroundInstance = Instantiate(
+                prefab,
+                _mainScreenBackgroung,
+                false);
+
+            _backgroundInstance.transform.SetAsFirstSibling();
         }
 
         private void SendAnalyticsShown()

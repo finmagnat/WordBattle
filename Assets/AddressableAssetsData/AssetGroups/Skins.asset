@@ -171,6 +171,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8e8da2ff0f2518a49932a04765bcb16f
+    m_Address: ParalaxBackground_Pink
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 922f3aed922ef9444876c12a6602e189
     m_Address: InfoButtonPink
     m_ReadOnly: 0
@@ -203,6 +209,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cefc5fa555269d142a73e07bfa665b3f
     m_Address: ButtonStatistic_Pink
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d7d03e95aea0132479e7ba652d9a8b5e
+    m_Address: ParalaxBackground_Blue
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin

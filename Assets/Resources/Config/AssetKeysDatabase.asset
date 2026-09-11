@@ -71,6 +71,8 @@ MonoBehaviour:
     AddressKey: ButtonTools_Blue
   - Id: CellBackgroundDefaultBlue
     AddressKey: CellBackgroundDefaultBlue
+  - Id: ParalaxBackground_Pink
+    AddressKey: ParalaxBackground_Pink
   - Id: InfoButtonPink
     AddressKey: InfoButtonPink
   - Id: ButtonBlue
@@ -83,6 +85,8 @@ MonoBehaviour:
     AddressKey: SettingsButtonPink
   - Id: ButtonStatistic_Pink
     AddressKey: ButtonStatistic_Pink
+  - Id: ParalaxBackground_Blue
+    AddressKey: ParalaxBackground_Blue
   - Id: SettingsButtonBlue
     AddressKey: SettingsButtonBlue
   - Id: ButtonPass_Blue
@@ -113,8 +117,12 @@ MonoBehaviour:
     AddressKey: sfx_opponent_made_move
   - Id: sfx_pass
     AddressKey: sfx_pass
+  - Id: sfx_booster_swap_launch
+    AddressKey: sfx_booster_swap_launch
   - Id: sfx_pause
     AddressKey: sfx_pause
+  - Id: sfx_booster_mixer_launch
+    AddressKey: sfx_booster_mixer_launch
   - Id: sfx_popup_question
     AddressKey: sfx_popup_question
   - Id: sfx_letter_unblinking
@@ -145,10 +153,6 @@ MonoBehaviour:
     AddressKey: sfx_start_new_game
   - Id: sfx_letter_put_success
     AddressKey: sfx_letter_put_success
-  - Id: sfx_booster_mixer_launch
-    AddressKey: sfx_booster_mixer_launch
-  - Id: sfx_booster_swap_launch
-    AddressKey: sfx_booster_swap_launch
   - Id: sfx_booster_eraser_launch
     AddressKey: sfx_booster_eraser_launch
   - Id: BoosterEraser

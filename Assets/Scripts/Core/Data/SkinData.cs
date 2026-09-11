@@ -38,7 +38,7 @@ namespace Core.Data
         public string RepeatGameButtonAlias; // Играть снова
         public string StatisticButtonAlias; // Статистика
         
-        [Header("Кнопки домашнего экрана и попапов")]
+        [Header("Кнопки и фон домашнего экрана и попапов")]
         public string DefaultButtonAlias;
         
         public MainScreenThemeData MainScreenTheme;
@@ -47,11 +47,8 @@ namespace Core.Data
     [Serializable]
     public class MainScreenThemeData
     {
-        public Color SkyColor = Color.white;
-        public Color CloudsFarColor = Color.white;
-        public Color CloudsMidColor = Color.white;
-        public Color CloudsNearColor = Color.white;
-        public Color AtmosphericLightColor = Color.white;
+        [Header("Главный фон для домашнего экрана")]
+        public string HomeBackgroundAlias;
         
         [Header("Кнопки меню домашнего экрана")]
         public string SettingsButtonAlias;

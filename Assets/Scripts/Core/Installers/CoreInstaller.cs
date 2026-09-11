@@ -48,6 +48,7 @@ namespace Core.Installers
             Container.Bind<IInternetConnectionService>().To<InternetConnectionService>().AsSingle();
 
             Container.Bind<ISpriteService>().To<SpriteService>().AsSingle();
+            Container.Bind<IPrefabService>().To<PrefabService>().AsSingle();
 
             Container.Bind<AnalyticsPlayerContext>().AsSingle();
             Container.BindInstance(_analyticsSettings).AsSingle();
