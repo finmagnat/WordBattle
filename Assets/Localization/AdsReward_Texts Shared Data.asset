@@ -43,6 +43,18 @@ MonoBehaviour:
     m_Key: Swap_TEXT_001
     m_Metadata:
       m_Items: []
+  - m_Id: 5115727316021248
+    m_Key: Eraser_TEXT_002
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5116786457473024
+    m_Key: Swap_TEXT_002
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5118851917312000
+    m_Key: Eraser_TEXT_003
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
