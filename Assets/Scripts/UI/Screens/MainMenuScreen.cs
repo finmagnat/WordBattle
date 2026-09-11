@@ -15,7 +15,7 @@ using Zenject;
 
 namespace UI.Screens
 {
-    public class MainMenuScreen : UIScreen
+    public class MainMenuScreen : UIScreen, IUIScreenPreparable
     {
         [SerializeField] private Button _playAIButton;
         [SerializeField] private Button _loadAndplayAIButton;
@@ -169,7 +169,6 @@ namespace UI.Screens
                 _isProcessing = false;
             });
             
-            UpdateSkin();
         }
 
         private async UniTask StartGame(bool isLoadSavedGame = false)
@@ -225,7 +224,7 @@ namespace UI.Screens
         
         private void OnSkinChanged(SkinData skinCurrent)
         {
-            UpdateSkin();
+            UpdateSkin().Forget();
         }
 
         private void OnDailyBonusStateChanged(DailyBonusState state)
@@ -240,6 +239,11 @@ namespace UI.Screens
             SendAnalyticsShown();
             return base.ShowAsync();
         } 
+
+        public UniTask PrepareAsync()
+        {
+            return UpdateSkin();
+        }
 
         private void UpdateDailyBonusButton()
         {
