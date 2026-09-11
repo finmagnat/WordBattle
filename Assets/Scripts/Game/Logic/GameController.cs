@@ -62,6 +62,7 @@ namespace Game.Logic
         private ComplexityAISettings _complexityAISettings;
         private int _durationGame;
         private string _firstWord;
+        private string _lastAcceptedWord;
         private SaveGameData _saveGameData;
         private bool _isSavedGame;
         private bool _timeExpiredStatus;
@@ -193,6 +194,7 @@ namespace Game.Logic
 
             _bPause = false;
             _ownerPassedLastTurn = false;
+            _lastAcceptedWord = null;
 
             _gameScreen.PlayerPanelOwner.SetPlayerName(_localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyNamePlayerOwner));
 
@@ -349,6 +351,9 @@ namespace Game.Logic
                         _dictionaryService.DictionaryConfig.languageCode);
 
                     Cancel();
+
+                    if (!string.IsNullOrEmpty(_lastAcceptedWord))
+                        _gameScreen.SetTextWordWithInfoIcon(_lastAcceptedWord);
                 }
                 else
                 {
@@ -520,6 +525,7 @@ namespace Game.Logic
                 _gameScreen.CancelButton.SetActive(false);
                 _gameScreen.PauseButton.interactable = false;
                 _gameScreen.PassButton.interactable = false;
+                _lastAcceptedWord = word;
                 _gameScreen.SetTextWordWithInfoIcon(word);
 
                 var selectedIndexes = _wordsFieldManager.WordsFieldData.GetSelectedIndexesSnapshot();
