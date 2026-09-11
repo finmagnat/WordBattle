@@ -248,7 +248,7 @@ namespace Game.Logic
             if (!host.IsGameStarted || host.IsPaused || !host.IsOwnerTurn)
                 return;
 
-            _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch); // TODO: Установить уникальный звук для бустера
+            _audioService?.PlaySfxAsync(SoundsConfig.BoosterMixerLaunch);
 
             host.CancelCurrentMove();
 
@@ -270,7 +270,7 @@ namespace Game.Logic
             if (!host.IsGameStarted || host.IsPaused || !host.IsOwnerTurn)
                 return;
 
-            _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch); // TODO: Установить уникальный звук для бустера
+            _audioService?.PlaySfxAsync(SoundsConfig.BoosterEraserLaunch);
 
             host.CancelCurrentMove();
 
@@ -290,7 +290,7 @@ namespace Game.Logic
             if (!host.IsGameStarted || host.IsPaused || !host.IsOwnerTurn)
                 return;
 
-            _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch); // TODO: Установить уникальный звук для бустера
+            _audioService?.PlaySfxAsync(SoundsConfig.BoosterSwapLaunch);
 
             host.CancelCurrentMove();
 

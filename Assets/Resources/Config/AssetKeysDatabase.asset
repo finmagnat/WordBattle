@@ -67,6 +67,8 @@ MonoBehaviour:
     AddressKey: KeybourdTile
   - Id: Handle_Blue
     AddressKey: Handle_Blue
+  - Id: ButtonTools_Blue
+    AddressKey: ButtonTools_Blue
   - Id: CellBackgroundDefaultBlue
     AddressKey: CellBackgroundDefaultBlue
   - Id: InfoButtonPink
@@ -75,6 +77,8 @@ MonoBehaviour:
     AddressKey: ButtonBlue
   - Id: ButtonGo_Pink
     AddressKey: ButtonGo_Pink
+  - Id: ButtonTools_Pink
+    AddressKey: ButtonTools_Pink
   - Id: SettingsButtonPink
     AddressKey: SettingsButtonPink
   - Id: ButtonStatistic_Pink
@@ -99,10 +103,6 @@ MonoBehaviour:
     AddressKey: SkinButtonBlue
   - Id: CellSelected
     AddressKey: CellSelected
-  - Id: ButtonTools_Pink
-    AddressKey: ButtonTools_Pink
-  - Id: ButtonTools_Blue
-    AddressKey: ButtonTools_Blue
   - Id: sfx_letter_selected
     AddressKey: sfx_letter_selected
   - Id: sfx_opponent_find_word_fail
@@ -145,6 +145,12 @@ MonoBehaviour:
     AddressKey: sfx_start_new_game
   - Id: sfx_letter_put_success
     AddressKey: sfx_letter_put_success
+  - Id: sfx_booster_mixer_launch
+    AddressKey: sfx_booster_mixer_launch
+  - Id: sfx_booster_swap_launch
+    AddressKey: sfx_booster_swap_launch
+  - Id: sfx_booster_eraser_launch
+    AddressKey: sfx_booster_eraser_launch
   - Id: BoosterEraser
     AddressKey: BoosterEraser
   - Id: BoosterSlowdown
