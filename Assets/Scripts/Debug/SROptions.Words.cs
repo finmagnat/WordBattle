@@ -1,15 +1,25 @@
 using System.ComponentModel;
 using Core.DebugTools;
+using Core.Services;
 using Core.Services.ReportWord;
+using UnityEngine.Localization.Settings;
+using Zenject;
 
 public partial class SROptions
-{
+{   
     [Category("Dev/Words/Common")]
     [DisplayName("Language"), Sort(1)]
     public DebugLanguage Language
     {
         get => DebugLanguageCode.SelectedLanguage;
         set => DebugLanguageCode.SelectedLanguage = value;
+    }
+    
+    [Category("Dev/Words/Common")]
+    [DisplayName("Set Localization UI"), Sort(2)]
+    public void SetLocalizationUI()
+    {
+        SRDebugNewWordsBridge.Instance?.SetLocalization();
     }
 
     //------------ NEW WORDS

@@ -39,28 +39,34 @@ namespace UI.Popups
 
         public override async UniTask ShowAsync()
         {
-            if (!_languageBar.activeSelf) return;
-
-            _oldLanguage = _localization.CurrentLocale;
-
-            if (_locales == null)
+            if (_configService.Game.enableChangeLocalization)
             {
-                _locales = _localization.GetAvailableLocales();
-                var options = new List<TMP_Dropdown.OptionData>(_locales.Count);
-                int curIndex = 0, i = 0;
-                foreach (var locale in _locales)
-                {
-                    options.Add(new TMP_Dropdown.OptionData(locale.LocaleName));
-                    if (locale.LocaleName == _oldLanguage.LocaleName)
-                        curIndex = i;
-                    i++;
-                }
+                _languageBar.SetActive(true);
+                _oldLanguage = _localization.CurrentLocale;
 
-                _landDropdown.ClearOptions();
-                _landDropdown.AddOptions(options);
-                _landDropdown.value = curIndex;
-                _landDropdown.RefreshShownValue();
-                _landDropdown.onValueChanged.AddListener(OnDropdownChanged);
+                if (_locales == null)
+                {
+                    _locales = _localization.GetAvailableLocales();
+                    var options = new List<TMP_Dropdown.OptionData>(_locales.Count);
+                    int curIndex = 0, i = 0;
+                    foreach (var locale in _locales)
+                    {
+                        options.Add(new TMP_Dropdown.OptionData(locale.LocaleName));
+                        if (locale.LocaleName == _oldLanguage.LocaleName)
+                            curIndex = i;
+                        i++;
+                    }
+
+                    _landDropdown.ClearOptions();
+                    _landDropdown.AddOptions(options);
+                    _landDropdown.value = curIndex;
+                    _landDropdown.RefreshShownValue();
+                    _landDropdown.onValueChanged.AddListener(OnDropdownChanged);
+                }
+            }
+            else
+            {
+                _languageBar.SetActive(false);
             }
 
             UpdateSoundView();
