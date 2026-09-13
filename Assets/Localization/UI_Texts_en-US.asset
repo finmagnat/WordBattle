@@ -645,6 +645,22 @@ MonoBehaviour:
     m_Localized: Mixer
     m_Metadata:
       m_Items: []
+  - m_Id: 110846098640617472
+    m_Localized: Update required
+    m_Metadata:
+      m_Items: []
+  - m_Id: 110846098682560512
+    m_Localized: 'This version of the game is no longer supported.
+
+
+      Update
+      the game to continue.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 110846098682560513
+    m_Localized: Update
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

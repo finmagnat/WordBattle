@@ -587,6 +587,18 @@ MonoBehaviour:
     m_Key: LOADING_SCREEN_MIXER
     m_Metadata:
       m_Items: []
+  - m_Id: 110846098640617472
+    m_Key: FORCE_UPDATE_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 110846098682560512
+    m_Key: FORCE_UPDATE_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 110846098682560513
+    m_Key: FORCE_UPDATE_BUTTON
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

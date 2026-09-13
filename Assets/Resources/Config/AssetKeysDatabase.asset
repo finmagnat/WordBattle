@@ -211,3 +211,5 @@ MonoBehaviour:
     AddressKey: MissingWordPopup
   - Id: LosePopup
     AddressKey: LosePopup
+  - Id: ForceUpdatePopup
+    AddressKey: ForceUpdatePopup

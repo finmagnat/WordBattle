@@ -6,6 +6,7 @@ using Core.Services;
 using Core.Services.NewWords;
 using Core.Services.ReportWord;
 using Core.Services.Shop;
+using Core.Services.UpdateGate;
 using Core.UI;
 using Cysharp.Threading.Tasks;
 using Game.Logic;
@@ -74,6 +75,7 @@ namespace Core.Installers
             Container.Bind<IInventoryService>().To<InventoryService>().AsSingle().NonLazy();
 
             Container.BindInterfacesAndSelfTo<PlayFabAuthService>().AsSingle();
+            Container.Bind<UpdateGateService>().AsSingle();
             Container.BindInterfacesAndSelfTo<ProfileService>().AsSingle();
             Container.BindInterfacesAndSelfTo<InventorySyncService>().AsSingle();
             Container.BindInterfacesAndSelfTo<StarterBonusService>().AsSingle();
@@ -155,24 +157,32 @@ namespace Core.Installers
                 loading.SetProgress(0.20f);
             }
 
-            await Container.Resolve<DictionaryManager>().InitializeAsync();
+            await Container.Resolve<PlayFabAuthService>().InitializeAsync();
             loading.SetProgress(0.25f);
 
-            await Container.Resolve<SkinsService>().InitializeAsync();
+            var updateGate = Container.Resolve<UpdateGateService>();
+            if (await updateGate.IsUpdateRequiredAsync())
+            {
+                await loading.HideAsync();
+                await updateGate.ShowBlockingPopupAsync();
+                return;
+            }
+
+            await Container.Resolve<DictionaryManager>().InitializeAsync();
             loading.SetProgress(0.30f);
 
-            await Container.Resolve<GameController>().InitializeAsync();
+            await Container.Resolve<SkinsService>().InitializeAsync();
             loading.SetProgress(0.35f);
+
+            await Container.Resolve<GameController>().InitializeAsync();
+            loading.SetProgress(0.40f);
 
             await Container.Resolve<AudioService>().InitializeAsync();
             await Container.Resolve<VibrationService>().InitializeAsync();
-            loading.SetProgress(0.40f);
+            loading.SetProgress(0.45f);
 
             await Container.Resolve<IShopService>().InitializeAsync();
             loading.SetProgress(0.50f);
-
-            await Container.Resolve<PlayFabAuthService>().InitializeAsync();
-            loading.SetProgress(0.60f);
 
             var adsEntitlementInit = Container.Resolve<AdsEntitlementService>().InitializeAsync();
             InitializeProfileInBackgroundAsync(Container.Resolve<ProfileService>()).Forget();
