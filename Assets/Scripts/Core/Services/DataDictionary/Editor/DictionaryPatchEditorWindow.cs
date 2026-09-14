@@ -1,8 +1,11 @@
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using Core.DataDictionary.Editor;
+using Core.DataDictionary.Tools;
 using Cysharp.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
@@ -31,6 +34,15 @@ namespace Core.Services.DataDictionary.Editor
         private bool _modified;
         private bool _busy;
         private Vector2 _scrollPosition;
+        private TextAsset _bulkUpsertAsset;
+        private string _bulkUpsertPath = string.Empty;
+        private string _bulkUpsertResult = string.Empty;
+        private TextAsset _bulkRemoveAsset;
+        private string _bulkRemovePath = string.Empty;
+        private string _bulkRemoveResult = string.Empty;
+        private TextAsset _dictionaryAsset;
+        private string _releaseStatus = string.Empty;
+        private DictionaryPatchDiff _previewDiff;
 
         [MenuItem("Tools/Dictionary/Patch Editor")]
         public static void Open()
@@ -74,8 +86,14 @@ namespace Core.Services.DataDictionary.Editor
             {
                 _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
                 DrawUpsertSection();
+                EditorGUILayout.Space(8);
+                DrawBulkUpsertSection();
                 EditorGUILayout.Space(12);
                 DrawRemoveSection();
+                EditorGUILayout.Space(8);
+                DrawBulkRemoveSection();
+                EditorGUILayout.Space(16);
+                DrawReleaseSection();
                 EditorGUILayout.EndScrollView();
             }
 
@@ -274,6 +292,153 @@ namespace Core.Services.DataDictionary.Editor
             }
         }
 
+        private void DrawBulkUpsertSection()
+        {
+            EditorGUILayout.LabelField("Bulk Upsert", EditorStyles.boldLabel);
+            DrawTextSourceSelector(
+                ref _bulkUpsertAsset,
+                ref _bulkUpsertPath,
+                "Select Upsert Dictionary File");
+
+            using (new EditorGUI.DisabledScope(!_isLoaded || _busy || !HasSource(_bulkUpsertAsset, _bulkUpsertPath)))
+            {
+                if (GUILayout.Button("Import Upsert"))
+                    ImportBulkUpsert();
+            }
+
+            if (!string.IsNullOrWhiteSpace(_bulkUpsertResult))
+                EditorGUILayout.HelpBox(_bulkUpsertResult, MessageType.Info);
+        }
+
+        private void DrawBulkRemoveSection()
+        {
+            EditorGUILayout.LabelField("Bulk Remove", EditorStyles.boldLabel);
+            DrawTextSourceSelector(
+                ref _bulkRemoveAsset,
+                ref _bulkRemovePath,
+                "Select Remove Word List");
+
+            using (new EditorGUI.DisabledScope(!_isLoaded || _busy || !HasSource(_bulkRemoveAsset, _bulkRemovePath)))
+            {
+                if (GUILayout.Button("Import Remove"))
+                    ImportBulkRemove();
+            }
+
+            if (!string.IsNullOrWhiteSpace(_bulkRemoveResult))
+                EditorGUILayout.HelpBox(_bulkRemoveResult, MessageType.Info);
+        }
+
+        private void DrawReleaseSection()
+        {
+            EditorGUILayout.LabelField("RELEASE / BASELINE", EditorStyles.boldLabel);
+
+            EditorGUI.BeginChangeCheck();
+            _dictionaryAsset = (TextAsset)EditorGUILayout.ObjectField(
+                "Dictionary",
+                _dictionaryAsset,
+                typeof(TextAsset),
+                false);
+            if (EditorGUI.EndChangeCheck())
+            {
+                _previewDiff = null;
+                _releaseStatus = string.Empty;
+            }
+
+            if (GUILayout.Button("Use Selection", GUILayout.Width(110)))
+            {
+                if (Selection.activeObject is TextAsset selectedAsset)
+                {
+                    _dictionaryAsset = selectedAsset;
+                    _previewDiff = null;
+                    _releaseStatus = string.Empty;
+                }
+                else
+                {
+                    _releaseStatus = "Project selection is not a TextAsset.";
+                }
+            }
+
+            DrawDictionaryLanguageStatus();
+
+            bool patchValid = DictionaryPatchValidator.TryValidate(_patch, out _);
+            bool canPreview = _isLoaded && !_busy && patchValid && _dictionaryAsset != null;
+            bool canApply = canPreview && !_modified && LoadedContextMatchesCurrent() && IsDictionaryLanguageValid();
+
+            if (_modified)
+            {
+                EditorGUILayout.HelpBox(
+                    "Save patch to PlayFab before applying it to the dictionary.",
+                    MessageType.Warning);
+            }
+
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                using (new EditorGUI.DisabledScope(!canPreview))
+                {
+                    if (GUILayout.Button("Preview Changes"))
+                        PreviewDictionaryChanges();
+                }
+
+                using (new EditorGUI.DisabledScope(!canApply))
+                {
+                    if (GUILayout.Button("Apply Patch to Dictionary..."))
+                        ApplyPatchToDictionary();
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(_releaseStatus))
+                EditorGUILayout.HelpBox(_releaseStatus, MessageType.Info);
+
+            DrawPreview();
+        }
+
+        private void DrawTextSourceSelector(
+            ref TextAsset sourceAsset,
+            ref string sourcePath,
+            string browseTitle)
+        {
+            EditorGUI.BeginChangeCheck();
+            sourceAsset = (TextAsset)EditorGUILayout.ObjectField(
+                "Source",
+                sourceAsset,
+                typeof(TextAsset),
+                false);
+            if (EditorGUI.EndChangeCheck())
+                sourcePath = sourceAsset != null ? AssetDatabase.GetAssetPath(sourceAsset) : string.Empty;
+
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                if (GUILayout.Button("Use Selection"))
+                {
+                    if (Selection.activeObject is TextAsset selectedAsset)
+                    {
+                        sourceAsset = selectedAsset;
+                        sourcePath = AssetDatabase.GetAssetPath(selectedAsset);
+                    }
+                    else
+                    {
+                        EditorUtility.DisplayDialog(
+                            "Invalid Selection",
+                            "Project selection is not a TextAsset.",
+                            "OK");
+                    }
+                }
+
+                if (GUILayout.Button("Browse"))
+                {
+                    string selectedPath = EditorUtility.OpenFilePanel(browseTitle, Application.dataPath, "txt");
+                    if (!string.IsNullOrWhiteSpace(selectedPath))
+                    {
+                        sourcePath = selectedPath;
+                        sourceAsset = TryLoadProjectTextAsset(selectedPath);
+                    }
+                }
+            }
+
+            if (sourceAsset == null && !string.IsNullOrWhiteSpace(sourcePath))
+                EditorGUILayout.LabelField("File", sourcePath, EditorStyles.wordWrappedMiniLabel);
+        }
+
         private void DrawValidationStatus()
         {
             if (string.IsNullOrEmpty(_validationError))
@@ -292,6 +457,220 @@ namespace Core.Services.DataDictionary.Editor
                     MarkModified();
                 }
             }
+        }
+
+        private void ImportBulkUpsert()
+        {
+            _bulkUpsertResult = string.Empty;
+            if (!DictionaryPatchFileOperations.TryParseUpsertSource(
+                    _bulkUpsertAsset,
+                    _bulkUpsertPath,
+                    out List<DictionaryEntry> importedEntries,
+                    out string error))
+            {
+                ShowUpsertImportFailure(error);
+                return;
+            }
+
+            if (!DictionaryPatchFileOperations.TryMergeUpsert(
+                    _patch,
+                    importedEntries,
+                    out DictionaryPatchModel candidate,
+                    out DictionaryPatchBulkImportResult importResult,
+                    out string candidateError))
+            {
+                ShowUpsertImportFailure(candidateError);
+                return;
+            }
+
+            _patch = candidate;
+            _bulkUpsertResult =
+                $"Imported: {importResult.Imported}\n" +
+                $"Added: {importResult.Added}\n" +
+                $"Replaced: {importResult.Existing}\n" +
+                $"Moved from Remove: {importResult.Moved}";
+            MarkModified();
+        }
+
+        private void ImportBulkRemove()
+        {
+            _bulkRemoveResult = string.Empty;
+            if (!DictionaryPatchFileOperations.TryParseRemoveSource(
+                    _bulkRemoveAsset,
+                    _bulkRemovePath,
+                    out List<string> importedWords,
+                    out string error))
+            {
+                EditorUtility.DisplayDialog(
+                    "Import failed",
+                    $"Remove list validation errors found.\n\n{error}",
+                    "OK");
+                return;
+            }
+
+            if (!DictionaryPatchFileOperations.TryMergeRemove(
+                    _patch,
+                    importedWords,
+                    out DictionaryPatchModel candidate,
+                    out DictionaryPatchBulkImportResult importResult,
+                    out string candidateError))
+            {
+                EditorUtility.DisplayDialog(
+                    "Import failed",
+                    $"Patch validation failed.\n\n{candidateError}",
+                    "OK");
+                return;
+            }
+
+            _patch = candidate;
+            _bulkRemoveResult =
+                $"Imported: {importResult.Imported}\n" +
+                $"Added: {importResult.Added}\n" +
+                $"Already present: {importResult.Existing}\n" +
+                $"Moved from Upsert: {importResult.Moved}";
+            MarkModified();
+        }
+
+        private void ShowUpsertImportFailure(string error)
+        {
+            bool openTools = EditorUtility.DisplayDialog(
+                "Import failed",
+                $"Dictionary validation errors found.\n\n{error}",
+                "Open in Dictionary Tools",
+                "Cancel");
+            if (!openTools)
+                return;
+
+            if (_bulkUpsertAsset != null)
+                DictionaryToolsWindow.OpenWithAsset(_bulkUpsertAsset);
+            else
+                DictionaryToolsWindow.Open();
+        }
+
+        private void PreviewDictionaryChanges()
+        {
+            if (!DictionaryPatchFileOperations.TryCreateApplyPlan(
+                    _dictionaryAsset,
+                    CurrentLanguageCode,
+                    _patch,
+                    out DictionaryPatchApplyPlan plan,
+                    out string error))
+            {
+                _previewDiff = null;
+                _releaseStatus = error;
+                return;
+            }
+
+            _previewDiff = plan.Diff;
+            _releaseStatus =
+                $"Preview ready. Add: {plan.Diff.Added.Count}, " +
+                $"Replace: {plan.Diff.Replaced.Count}, Remove: {plan.Diff.Removed.Count}.";
+        }
+
+        private void ApplyPatchToDictionary()
+        {
+            if (_modified)
+            {
+                _releaseStatus = "Save patch to PlayFab before applying it to the dictionary.";
+                return;
+            }
+
+            if (!DictionaryPatchFileOperations.TryCreateApplyPlan(
+                    _dictionaryAsset,
+                    CurrentLanguageCode,
+                    _patch,
+                    out DictionaryPatchApplyPlan plan,
+                    out string error))
+            {
+                _previewDiff = null;
+                _releaseStatus = error;
+                return;
+            }
+
+            _previewDiff = plan.Diff;
+            string dictionaryName = Path.GetFileNameWithoutExtension(plan.AssetPath);
+            string confirmation =
+                $"Apply {CurrentTitleDataKey} revision {plan.Revision} to {dictionaryName}?\n\n" +
+                $"Add: {plan.Diff.Added.Count}\n" +
+                $"Replace: {plan.Diff.Replaced.Count}\n" +
+                $"Remove: {plan.Diff.Removed.Count}\n\n" +
+                "Dictionary will be modified on disk.";
+
+            if (!EditorUtility.DisplayDialog(
+                    "Apply Patch to Dictionary",
+                    confirmation,
+                    "Apply",
+                    "Cancel"))
+            {
+                return;
+            }
+
+            if (!DictionaryPatchFileOperations.TryApplyPlan(plan, out error))
+            {
+                _releaseStatus = error;
+                return;
+            }
+
+            _releaseStatus =
+                $"Patch applied successfully.\n" +
+                $"Revision: {plan.Revision}\n" +
+                $"Added: {plan.Diff.Added.Count}\n" +
+                $"Replaced: {plan.Diff.Replaced.Count}\n" +
+                $"Removed: {plan.Diff.Removed.Count}";
+        }
+
+        private void DrawDictionaryLanguageStatus()
+        {
+            if (_dictionaryAsset == null)
+                return;
+
+            if (DictionaryPatchFileOperations.TryGetDictionaryLanguage(
+                    _dictionaryAsset,
+                    out string language,
+                    out string error))
+            {
+                bool matches = string.Equals(
+                    language,
+                    CurrentLanguageCode,
+                    StringComparison.OrdinalIgnoreCase);
+                EditorGUILayout.HelpBox(
+                    matches
+                        ? $"Dictionary language: {language.ToUpperInvariant()} (matches patch)."
+                        : $"Dictionary language: {language.ToUpperInvariant()} (current patch: {_language}).",
+                    matches ? MessageType.Info : MessageType.Error);
+            }
+            else
+            {
+                EditorGUILayout.HelpBox(error, MessageType.Error);
+            }
+        }
+
+        private void DrawPreview()
+        {
+            if (_previewDiff == null)
+                return;
+
+            EditorGUILayout.Space(4);
+            EditorGUILayout.LabelField(
+                $"Preview — Add: {_previewDiff.Added.Count}, " +
+                $"Replace: {_previewDiff.Replaced.Count}, Remove: {_previewDiff.Removed.Count}",
+                EditorStyles.boldLabel);
+            DrawPreviewGroup("ADD", "+", _previewDiff.Added);
+            DrawPreviewGroup("UPDATE", "~", _previewDiff.Replaced);
+            DrawPreviewGroup("REMOVE", "-", _previewDiff.Removed);
+        }
+
+        private static void DrawPreviewGroup(
+            string title,
+            string marker,
+            IReadOnlyList<string> words)
+        {
+            if (words.Count == 0)
+                return;
+
+            EditorGUILayout.LabelField($"{title}:", EditorStyles.miniBoldLabel);
+            foreach (string word in words)
+                EditorGUILayout.LabelField($"{marker} {word}");
         }
 
         private void ConfirmAndLoad()
@@ -323,6 +702,10 @@ namespace Core.Services.DataDictionary.Editor
                     _isLoaded = true;
                     _modified = true;
                     hasUnsavedChanges = true;
+                    _previewDiff = null;
+                    _releaseStatus = string.Empty;
+                    _bulkUpsertResult = string.Empty;
+                    _bulkRemoveResult = string.Empty;
                     CaptureLoadedContext();
                     SetStatus(
                         "Modified",
@@ -345,6 +728,10 @@ namespace Core.Services.DataDictionary.Editor
                 _isLoaded = true;
                 _modified = false;
                 hasUnsavedChanges = false;
+                _previewDiff = null;
+                _releaseStatus = string.Empty;
+                _bulkUpsertResult = string.Empty;
+                _bulkRemoveResult = string.Empty;
                 CaptureLoadedContext();
                 SetStatus(
                     "Loaded",
@@ -420,6 +807,8 @@ namespace Core.Services.DataDictionary.Editor
                 _loadedRevision = patchToSave.revision;
                 _modified = false;
                 hasUnsavedChanges = false;
+                _previewDiff = null;
+                _releaseStatus = string.Empty;
                 CaptureLoadedContext();
                 ValidateCurrentPatch();
                 SetStatus(
@@ -494,6 +883,10 @@ namespace Core.Services.DataDictionary.Editor
             _loadedTitleDataKey = string.Empty;
             _status = "Not Loaded";
             _statusDetails = string.Empty;
+            _previewDiff = null;
+            _releaseStatus = string.Empty;
+            _bulkUpsertResult = string.Empty;
+            _bulkRemoveResult = string.Empty;
             ValidateCurrentPatch();
         }
 
@@ -501,6 +894,8 @@ namespace Core.Services.DataDictionary.Editor
         {
             _modified = true;
             hasUnsavedChanges = true;
+            _previewDiff = null;
+            _releaseStatus = string.Empty;
             ValidateCurrentPatch();
             Repaint();
         }
@@ -571,6 +966,38 @@ namespace Core.Services.DataDictionary.Editor
                    && string.Equals(_loadedTitleDataKey, CurrentTitleDataKey, StringComparison.Ordinal);
         }
 
+        private bool IsDictionaryLanguageValid()
+        {
+            return _dictionaryAsset != null
+                   && DictionaryPatchFileOperations.TryGetDictionaryLanguage(
+                       _dictionaryAsset,
+                       out string language,
+                       out _)
+                   && string.Equals(
+                       language,
+                       CurrentLanguageCode,
+                       StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool HasSource(TextAsset asset, string path)
+        {
+            if (asset != null)
+                return true;
+
+            return !string.IsNullOrWhiteSpace(path) && File.Exists(path);
+        }
+
+        private static TextAsset TryLoadProjectTextAsset(string absolutePath)
+        {
+            string normalizedPath = Path.GetFullPath(absolutePath).Replace('\\', '/');
+            string assetsPath = Path.GetFullPath(Application.dataPath).Replace('\\', '/').TrimEnd('/');
+            if (!normalizedPath.StartsWith(assetsPath + "/", StringComparison.OrdinalIgnoreCase))
+                return null;
+
+            string assetPath = "Assets" + normalizedPath.Substring(assetsPath.Length);
+            return AssetDatabase.LoadAssetAtPath<TextAsset>(assetPath);
+        }
+
         private void CaptureLoadedContext()
         {
             _loadedTitleId = _titleId;
@@ -607,6 +1034,7 @@ namespace Core.Services.DataDictionary.Editor
         }
 
         private string CurrentTitleDataKey => $"DictionaryPatch_{_language}";
+        private string CurrentLanguageCode => _language.ToString().ToLowerInvariant();
 
         private static DictionaryPatchModel CreateEmptyPatch()
         {
