@@ -15,6 +15,18 @@ namespace Core.Services.DataDictionary
         private static readonly TimeSpan RequestTimeout = TimeSpan.FromSeconds(10);
 
         private readonly HashSet<string> _processedLocales = new();
+        private readonly Dictionary<string, int> _appliedRevisions = new();
+
+        public int GetAppliedRevision(string languageCode)
+        {
+            string locale = NormalizeLocale(languageCode);
+            return _appliedRevisions.TryGetValue(locale, out int revision) ? revision : 0;
+        }
+
+        public bool WasPatchApplied(string languageCode)
+        {
+            return _appliedRevisions.ContainsKey(NormalizeLocale(languageCode));
+        }
 
         public async UniTask ApplyLatestPatchAsync(string languageCode, DictionaryService dictionaryService)
         {
@@ -43,7 +55,7 @@ namespace Core.Services.DataDictionary
             }
         }
 
-        private static async UniTask ApplyLatestPatchInternalAsync(
+        private async UniTask ApplyLatestPatchInternalAsync(
             string locale,
             DictionaryService dictionaryService)
         {
@@ -70,6 +82,7 @@ namespace Core.Services.DataDictionary
                         DictionaryPatchApplyResult result = dictionaryService.ApplyPatch(cachedPatch);
                         cachedRevision = cachedPatch.revision;
                         cacheApplied = true;
+                        _appliedRevisions[locale] = cachedPatch.revision;
                         LogApplied(locale, "cached", cachedPatch.revision, result);
                     }
                     else
@@ -117,6 +130,7 @@ namespace Core.Services.DataDictionary
             }
 
             DictionaryPatchApplyResult remoteResult = dictionaryService.ApplyPatch(remotePatch);
+            _appliedRevisions[locale] = remotePatch.revision;
             LogApplied(locale, "remote", remotePatch.revision, remoteResult);
         }
 

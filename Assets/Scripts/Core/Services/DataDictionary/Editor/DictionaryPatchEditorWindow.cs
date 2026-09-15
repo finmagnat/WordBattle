@@ -6,7 +6,9 @@ using System.Linq;
 using System.Text;
 using Core.DataDictionary.Editor;
 using Core.DataDictionary.Tools;
+using Core.Build;
 using Cysharp.Threading.Tasks;
+using PlayFab;
 using UnityEditor;
 using UnityEngine;
 
@@ -19,19 +21,19 @@ namespace Core.Services.DataDictionary.Editor
 
         private readonly DictionaryPatchAdminClient _adminClient = new();
 
-        private PatchLanguage _language = PatchLanguage.RU;
+        [SerializeField] private PatchLanguage _language = PatchLanguage.RU;
         private SearchScope _searchScope = SearchScope.All;
-        private DictionaryPatchModel _patch;
+        [SerializeField] private DictionaryPatchModel _patch;
         private string _titleId;
         private string _search = string.Empty;
         private string _status = "Not Loaded";
         private string _statusDetails = string.Empty;
         private string _validationError = string.Empty;
-        private string _loadedTitleId = string.Empty;
-        private string _loadedTitleDataKey = string.Empty;
-        private int _loadedRevision;
-        private bool _isLoaded;
-        private bool _modified;
+        [SerializeField] private string _loadedTitleId = string.Empty;
+        [SerializeField] private string _loadedTitleDataKey = string.Empty;
+        [SerializeField] private int _loadedRevision;
+        [SerializeField] private bool _isLoaded;
+        [SerializeField] private bool _modified;
         private bool _busy;
         private Vector2 _scrollPosition;
         private TextAsset _bulkUpsertAsset;
@@ -54,6 +56,7 @@ namespace Core.Services.DataDictionary.Editor
         {
             _titleId = EditorPrefs.GetString(TitleIdEditorPrefsKey, DefaultTitleId);
             _patch ??= CreateEmptyPatch();
+            hasUnsavedChanges = _modified;
             saveChangesMessage =
                 "The Dictionary Patch Editor contains changes that have not been saved to PlayFab.";
             ValidateCurrentPatch();
@@ -94,6 +97,8 @@ namespace Core.Services.DataDictionary.Editor
                 DrawBulkRemoveSection();
                 EditorGUILayout.Space(16);
                 DrawReleaseSection();
+                EditorGUILayout.Space(16);
+                DrawRuntimeTestSection();
                 EditorGUILayout.EndScrollView();
             }
 
@@ -391,6 +396,145 @@ namespace Core.Services.DataDictionary.Editor
 
             DrawPreview();
         }
+
+        private void DrawRuntimeTestSection()
+        {
+            EditorGUILayout.LabelField("RUNTIME TEST", EditorStyles.boldLabel);
+
+            string lastJson = SessionState.GetString(
+                DictionaryPatchRuntimeTestBridge.LastResultKey,
+                string.Empty);
+            DictionaryPatchRuntimeTestResult last = string.IsNullOrEmpty(lastJson)
+                ? null
+                : JsonUtility.FromJson<DictionaryPatchRuntimeTestResult>(lastJson);
+
+            if (last != null && !DictionaryPatchRuntimeTestCoordinator.IsRunning
+                && _status == "Runtime test starting...")
+                SetStatus(last.status == "PASSED" ? "Runtime test passed" : "Runtime test failed", last.details);
+
+            if (DictionaryPatchRuntimeTestCoordinator.IsRunning)
+                EditorGUILayout.LabelField("Last test", "RUNNING");
+            else if (last == null)
+                EditorGUILayout.LabelField("Last test", "Not tested");
+            else
+            {
+                bool outdated = _modified || !_isLoaded
+                                || !string.Equals(last.language, CurrentLanguageCode, StringComparison.OrdinalIgnoreCase)
+                                || !string.Equals(last.titleId, _titleId, StringComparison.OrdinalIgnoreCase)
+                                || last.expectedRevision != _loadedRevision
+                                || !string.Equals(
+                                    last.fingerprint,
+                                    DictionaryPatchRuntimeTestBridge.GetPatchFingerprint(_patch),
+                                    StringComparison.Ordinal);
+                EditorGUILayout.LabelField("Last test", outdated ? "OUTDATED" : last.status);
+                EditorGUILayout.LabelField("Language", last.language?.ToUpperInvariant() ?? "-");
+                EditorGUILayout.LabelField("Tested revision", last.expectedRevision.ToString());
+                EditorGUILayout.LabelField("Current revision", _isLoaded ? _loadedRevision.ToString() : "-");
+                EditorGUILayout.LabelField("Build", last.build.ToString());
+                EditorGUILayout.LabelField("Upsert tested", $"{last.upsertPassed}/{last.upsertTotal}");
+                EditorGUILayout.LabelField("Remove tested", $"{last.removePassed}/{last.removeTotal}");
+                if (!string.IsNullOrWhiteSpace(last.details))
+                    EditorGUILayout.HelpBox(last.details, last.status == "PASSED" && !outdated
+                        ? MessageType.Info
+                        : MessageType.Warning);
+            }
+
+            if (_modified)
+                EditorGUILayout.HelpBox("Save patch to PlayFab before runtime testing.", MessageType.Warning);
+
+            string runtimeTitleId = PlayFabSettings.TitleId;
+            if (_isLoaded && !string.Equals(
+                    _titleId?.Trim(),
+                    runtimeTitleId?.Trim(),
+                    StringComparison.OrdinalIgnoreCase))
+                EditorGUILayout.HelpBox(
+                    "Patch Editor Title ID does not match runtime PlayFab Title ID.\n" +
+                    $"Editor: {_titleId}\nRuntime: {runtimeTitleId}",
+                    MessageType.Error);
+
+            bool canTest = _isLoaded && !_modified && !_busy
+                           && LoadedContextMatchesCurrent()
+                           && !DictionaryPatchRuntimeTestCoordinator.IsRunning
+                           && !EditorApplication.isPlayingOrWillChangePlaymode
+                           && !string.IsNullOrWhiteSpace(_titleId)
+                           && DictionaryPatchAdminClient.HasSecretKey
+                           && DictionaryPatchValidator.TryValidate(_patch, out _);
+
+            using (new EditorGUI.DisabledScope(!canTest))
+            {
+                if (GUILayout.Button("Test Patch ▶"))
+                    TestSavedPatchAsync().Forget();
+            }
+        }
+
+        private async UniTaskVoid TestSavedPatchAsync()
+        {
+            string runtimeTitleId = PlayFabSettings.TitleId;
+            if (!string.Equals(_titleId.Trim(), runtimeTitleId?.Trim(), StringComparison.OrdinalIgnoreCase))
+            {
+                SetStatus(
+                    "Error",
+                    "Patch Editor Title ID does not match runtime PlayFab Title ID.\n" +
+                    $"Editor: {_titleId}\nRuntime: {runtimeTitleId}");
+                return;
+            }
+
+            var snapshot = new DictionaryPatchRuntimeTestSnapshot
+            {
+                language = CurrentLanguageCode,
+                titleId = _titleId.Trim(),
+                build = BuildInfo.AndroidVersionCode,
+                patch = JsonUtility.FromJson<DictionaryPatchModel>(JsonUtility.ToJson(_patch)),
+                fingerprint = DictionaryPatchRuntimeTestBridge.GetPatchFingerprint(_patch)
+            };
+
+            BeginOperation("Checking remote patch revision...");
+            try
+            {
+                DictionaryPatchAdminClient.TitleDataReadResult remote =
+                    await _adminClient.GetTitleDataAsync(_titleId, CurrentTitleDataKey);
+                if (!remote.Exists)
+                {
+                    throw new InvalidOperationException(
+                        "Remote patch key is missing. Reload patch before testing.");
+                }
+
+                if (!DictionaryPatchService.TryDeserializePatch(
+                        remote.Value,
+                        out DictionaryPatchModel remotePatch,
+                        out string remoteError))
+                    throw new InvalidOperationException(
+                        $"Remote patch is invalid: {remoteError}. Reload patch before testing.");
+
+                if (remotePatch.revision != _loadedRevision)
+                {
+                    throw new InvalidOperationException(
+                        $"Remote patch has changed (loaded revision {_loadedRevision}, " +
+                        $"remote revision {remotePatch.revision}). Reload patch before testing.");
+                }
+
+                if (!string.Equals(
+                        DictionaryPatchRuntimeTestBridge.GetPatchFingerprint(remotePatch),
+                        snapshot.fingerprint,
+                        StringComparison.Ordinal))
+                    throw new InvalidOperationException(
+                        "Remote patch content has changed. Reload patch before testing.");
+
+                if (!DictionaryPatchRuntimeTestCoordinator.Start(snapshot, out string startError))
+                    throw new InvalidOperationException(startError);
+
+                SetStatus("Runtime test starting...", "Play Mode will exit automatically after PASS, FAIL or timeout.");
+            }
+            catch (Exception exception)
+            {
+                SetStatus("Error", exception.Message);
+            }
+            finally
+            {
+                EndOperation();
+            }
+        }
+
 
         private void DrawTextSourceSelector(
             ref TextAsset sourceAsset,

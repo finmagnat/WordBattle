@@ -172,6 +172,11 @@ namespace Core.Installers
             var dictionaryManager = Container.Resolve<DictionaryManager>();
             await dictionaryManager.InitializeAsync();
             await dictionaryManager.EnsureCurrentLocaleLoadedAsync();
+#if UNITY_EDITOR
+            DictionaryPatchRuntimeTestBridge.OnDictionaryReady(
+                dictionaryManager,
+                Container.Resolve<DictionaryPatchService>());
+#endif
             loading.SetProgress(0.30f);
 
             await Container.Resolve<SkinsService>().InitializeAsync();
