@@ -46,6 +46,16 @@ namespace Core.Services.DataDictionary.Editor
         private string _releaseStatus = string.Empty;
         private DictionaryPatchDiff _previewDiff;
 
+        private static GUIStyle _normalStatusStyle;
+        private static GUIStyle _successStatusStyle;
+        private static GUIStyle _warningStatusStyle;
+        private static GUIStyle _errorStatusStyle;
+        private static GUIStyle _modifiedStatusStyle;
+
+        private static readonly Color StatusRed = new(1f, 0.35f, 0.35f);
+        private static readonly Color StatusGreen = new(0.4f, 0.9f, 0.45f);
+        private static readonly Color StatusOrange = new(1f, 0.7f, 0.25f);
+
         [MenuItem("Tools/Dictionary/Patch Editor")]
         public static void Open()
         {
@@ -74,8 +84,56 @@ namespace Core.Services.DataDictionary.Editor
             base.DiscardChanges();
         }
 
+        private static void EnsureStatusStyles()
+        {
+            if (_normalStatusStyle != null)
+                return;
+
+            _normalStatusStyle = new GUIStyle(EditorStyles.label);
+            _successStatusStyle = new GUIStyle(_normalStatusStyle) { normal = { textColor = StatusGreen } };
+            _warningStatusStyle = new GUIStyle(_normalStatusStyle)
+            {
+                fontStyle = FontStyle.Bold,
+                normal = { textColor = StatusOrange }
+            };
+            _errorStatusStyle = new GUIStyle(_normalStatusStyle)
+            {
+                fontStyle = FontStyle.Bold,
+                normal = { textColor = StatusRed }
+            };
+            _modifiedStatusStyle = new GUIStyle(_errorStatusStyle);
+        }
+
+        private static GUIStyle GetSecretKeyStatusStyle()
+        {
+            return DictionaryPatchAdminClient.HasSecretKey ? _successStatusStyle : _errorStatusStyle;
+        }
+
+        private static GUIStyle GetPatchStatusStyle(string status)
+        {
+            if (string.Equals(status, "Modified *", StringComparison.OrdinalIgnoreCase))
+                return _modifiedStatusStyle;
+            if (string.Equals(status, "Error", StringComparison.OrdinalIgnoreCase))
+                return _errorStatusStyle;
+            if (string.Equals(status, "Warning", StringComparison.OrdinalIgnoreCase))
+                return _warningStatusStyle;
+            return _normalStatusStyle;
+        }
+
+        private static GUIStyle GetRuntimeTestStatusStyle(string status)
+        {
+            if (string.Equals(status, "PASSED", StringComparison.OrdinalIgnoreCase))
+                return _successStatusStyle;
+            if (string.Equals(status, "FAILED", StringComparison.OrdinalIgnoreCase))
+                return _errorStatusStyle;
+            if (string.Equals(status, "OUTDATED", StringComparison.OrdinalIgnoreCase))
+                return _warningStatusStyle;
+            return _normalStatusStyle;
+        }
+
         private void OnGUI()
         {
+            EnsureStatusStyles();
             DrawConnectionSection();
             EditorGUILayout.Space(8);
             DrawSummarySection();
@@ -123,9 +181,8 @@ namespace Core.Services.DataDictionary.Editor
             }
 
             EditorGUILayout.LabelField("Title Data Key", CurrentTitleDataKey);
-            EditorGUILayout.LabelField(
-                "Secret Key status",
-                DictionaryPatchAdminClient.HasSecretKey ? "Found" : "Missing");
+            string secretKeyStatus = DictionaryPatchAdminClient.HasSecretKey ? "Found" : "Missing";
+            EditorGUILayout.LabelField("Secret Key status", secretKeyStatus, GetSecretKeyStatusStyle());
 
             if (!DictionaryPatchAdminClient.HasSecretKey)
             {
@@ -138,7 +195,8 @@ namespace Core.Services.DataDictionary.Editor
 
         private void DrawSummarySection()
         {
-            EditorGUILayout.LabelField("Status", _modified ? "Modified *" : _status);
+            string patchStatus = _modified ? "Modified *" : _status;
+            EditorGUILayout.LabelField("Status", patchStatus, GetPatchStatusStyle(patchStatus));
             EditorGUILayout.LabelField("Schema version", _patch.schemaVersion.ToString());
             EditorGUILayout.LabelField("Loaded revision", _isLoaded ? _loadedRevision.ToString() : "-");
             EditorGUILayout.LabelField("Next revision", _isLoaded ? (_loadedRevision + 1).ToString() : "-");
@@ -413,9 +471,9 @@ namespace Core.Services.DataDictionary.Editor
                 SetStatus(last.status == "PASSED" ? "Runtime test passed" : "Runtime test failed", last.details);
 
             if (DictionaryPatchRuntimeTestCoordinator.IsRunning)
-                EditorGUILayout.LabelField("Last test", "RUNNING");
+                EditorGUILayout.LabelField("Last test", "RUNNING", _normalStatusStyle);
             else if (last == null)
-                EditorGUILayout.LabelField("Last test", "Not tested");
+                EditorGUILayout.LabelField("Last test", "Not tested", _normalStatusStyle);
             else
             {
                 bool outdated = _modified || !_isLoaded
@@ -426,7 +484,8 @@ namespace Core.Services.DataDictionary.Editor
                                     last.fingerprint,
                                     DictionaryPatchRuntimeTestBridge.GetPatchFingerprint(_patch),
                                     StringComparison.Ordinal);
-                EditorGUILayout.LabelField("Last test", outdated ? "OUTDATED" : last.status);
+                string runtimeStatus = outdated ? "OUTDATED" : last.status;
+                EditorGUILayout.LabelField("Last test", runtimeStatus, GetRuntimeTestStatusStyle(runtimeStatus));
                 EditorGUILayout.LabelField("Language", last.language?.ToUpperInvariant() ?? "-");
                 EditorGUILayout.LabelField("Tested revision", last.expectedRevision.ToString());
                 EditorGUILayout.LabelField("Current revision", _isLoaded ? _loadedRevision.ToString() : "-");
