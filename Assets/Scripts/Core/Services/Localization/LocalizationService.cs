@@ -49,6 +49,15 @@ namespace Core.Services
 
             Debug.Log($"🌐 Localization initialized. Available: {LocalizationSettings.AvailableLocales.Locales.Count}");
 
+#if UNITY_EDITOR
+            if (Core.Services.DataDictionary.DictionaryPatchRuntimeTestBridge.TryGetLanguageOverride(
+                    out string testLanguage))
+            {
+                SetLocaleForRuntimeTest(testLanguage);
+                return;
+            }
+#endif
+
             string savedCode = PlayerPrefs.GetString(PlayerPrefsKey.LocaleCurrent, string.Empty);
 
             if (!string.IsNullOrEmpty(savedCode))
@@ -98,6 +107,28 @@ namespace Core.Services
 
             OnLocaleChanged?.Invoke(locale);
         }
+
+#if UNITY_EDITOR
+        private void SetLocaleForRuntimeTest(string code)
+        {
+            var locale = LocalizationSettings.AvailableLocales.GetLocale(code)
+                         ?? LocalizationSettings.AvailableLocales.GetLocale(
+                             code.Equals("en", StringComparison.OrdinalIgnoreCase) ? "en-US" : code);
+            if (locale == null)
+                throw new InvalidOperationException($"Runtime patch test locale '{code}' is unavailable.");
+
+            LocalizationSettings.SelectedLocale = locale;
+            _cache.Clear();
+            if (!IsInitialized)
+            {
+                IsInitialized = true;
+                OnInitialized?.Invoke();
+            }
+
+            OnLocaleChanged?.Invoke(locale);
+            Debug.Log($"[DictionaryPatchRuntimeTest] Temporary locale: {locale.Identifier.Code}");
+        }
+#endif
 
         // ---------------------------------------------------------
         // ASYNCHRONOUS LOCALIZED STRING

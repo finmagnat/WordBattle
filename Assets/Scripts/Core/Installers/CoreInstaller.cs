@@ -59,6 +59,7 @@ namespace Core.Installers
 
             Container.Bind<List<LanguageDictionaryConfig>>().FromInstance(_dictPresenter.configs).AsSingle();
             Container.Bind<DictionaryService>().AsSingle();
+            Container.Bind<DictionaryPatchService>().AsSingle();
             Container.Bind<DictionaryManager>().AsSingle().NonLazy();
 
             Container.BindInterfacesAndSelfTo<AudioService>().AsSingle().NonLazy();
@@ -168,7 +169,14 @@ namespace Core.Installers
                 return;
             }
 
-            await Container.Resolve<DictionaryManager>().InitializeAsync();
+            var dictionaryManager = Container.Resolve<DictionaryManager>();
+            await dictionaryManager.InitializeAsync();
+            await dictionaryManager.EnsureCurrentLocaleLoadedAsync();
+#if UNITY_EDITOR
+            DictionaryPatchRuntimeTestBridge.OnDictionaryReady(
+                dictionaryManager,
+                Container.Resolve<DictionaryPatchService>());
+#endif
             loading.SetProgress(0.30f);
 
             await Container.Resolve<SkinsService>().InitializeAsync();

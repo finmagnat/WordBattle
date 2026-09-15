@@ -24,6 +24,7 @@ namespace Core.Services.DataDictionary
         public string Alphabet => _alphabet; // Алфавит текущего словаря.
         public IReadOnlyCollection<string> Words => _words;
         public IReadOnlyDictionary<string, string> WordDefinitions => _definitionsByWord;
+        public bool IsLoaded => _isLoaded;
 
         public DictionaryService(AddressablesLoader loader)
         {
@@ -304,7 +305,60 @@ namespace Core.Services.DataDictionary
                 : string.Empty;
         }
 
-        private static string NormalizeWord(string word)
+        public DictionaryPatchApplyResult ApplyPatch(DictionaryPatchModel patch)
+        {
+            if (!_isLoaded)
+                throw new InvalidOperationException("Cannot apply a dictionary patch before the embedded dictionary is loaded.");
+
+            if (!DictionaryPatchValidator.TryValidate(patch, out string error))
+                throw new ArgumentException($"Cannot apply an invalid dictionary patch: {error}", nameof(patch));
+
+            var patchedWords = new HashSet<string>(_words);
+            var patchedDefinitions = new Dictionary<string, string>(_definitionsByWord);
+            int removedExistingCount = 0;
+
+            foreach (DictionaryPatchEntry entry in patch.upsert)
+            {
+                string word = NormalizeWord(entry.word);
+                patchedWords.Add(word);
+
+                if (string.IsNullOrWhiteSpace(entry.definition))
+                    patchedDefinitions.Remove(word);
+                else
+                    patchedDefinitions[word] = entry.definition.Trim();
+            }
+
+            foreach (string rawWord in patch.remove)
+            {
+                string word = NormalizeWord(rawWord);
+                if (patchedWords.Remove(word))
+                    removedExistingCount++;
+
+                patchedDefinitions.Remove(word);
+            }
+
+            _words = patchedWords;
+            _definitionsByWord = patchedDefinitions;
+            _wordsByLength = new Dictionary<int, List<string>>();
+            BuildWordLengthIndex();
+
+            if (_config != null)
+            {
+                _cacheByDictionaryKey[GetCacheKey(_config)] = new DictionaryData(
+                    _alphabet,
+                    _words,
+                    _definitionsByWord,
+                    _wordsByLength);
+            }
+
+            return new DictionaryPatchApplyResult(
+                patch.upsert.Count,
+                patch.remove.Count,
+                removedExistingCount,
+                _words.Count);
+        }
+
+        internal static string NormalizeWord(string word)
         {
             return word?.Trim().ToUpperInvariant() ?? string.Empty;
         }
@@ -328,5 +382,25 @@ namespace Core.Services.DataDictionary
             public Dictionary<string, string> DefinitionsByWord { get; }
             public Dictionary<int, List<string>> WordsByLength { get; }
         }
+    }
+
+    public readonly struct DictionaryPatchApplyResult
+    {
+        public DictionaryPatchApplyResult(
+            int upsertCount,
+            int removeCount,
+            int removedExistingCount,
+            int totalWords)
+        {
+            UpsertCount = upsertCount;
+            RemoveCount = removeCount;
+            RemovedExistingCount = removedExistingCount;
+            TotalWords = totalWords;
+        }
+
+        public int UpsertCount { get; }
+        public int RemoveCount { get; }
+        public int RemovedExistingCount { get; }
+        public int TotalWords { get; }
     }
 }

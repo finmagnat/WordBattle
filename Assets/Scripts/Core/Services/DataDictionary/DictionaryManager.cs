@@ -9,6 +9,7 @@ namespace Core.Services.DataDictionary
     public class DictionaryManager
     {
         private readonly DictionaryService _dictionaryService;
+        private readonly DictionaryPatchService _patchService;
         private readonly LocalizationService _localization;
         private readonly Dictionary<string, LanguageDictionaryConfig> _configs = new();
 
@@ -17,10 +18,12 @@ namespace Core.Services.DataDictionary
         [Inject]
         public DictionaryManager(
             DictionaryService dictionaryService,
+            DictionaryPatchService patchService,
             LocalizationService localization,
             List<LanguageDictionaryConfig> configs)
         {
             _dictionaryService = dictionaryService;
+            _patchService = patchService;
             _localization = localization;
             
             foreach (var cfg in configs)
@@ -41,6 +44,7 @@ namespace Core.Services.DataDictionary
 
         private void OnLocaleChanged(Locale _)
         {
+            EnsureCurrentLocaleLoadedAsync().Forget();
         }
 
         public async UniTask EnsureCurrentLocaleLoadedAsync()
@@ -54,6 +58,9 @@ namespace Core.Services.DataDictionary
             }
 
             await _dictionaryService.InitializeAsync(cfg);
+            if (_dictionaryService.IsLoaded)
+                await _patchService.ApplyLatestPatchAsync(cfg.languageCode, _dictionaryService);
+
             Debug.Log($"📚 Dictionary switched → {cfg.languageCode} (locale was {code})");
         }
         

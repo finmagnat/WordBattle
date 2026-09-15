@@ -25,6 +25,13 @@ namespace Core.Services.UpdateGate
 
         public async UniTask<bool> IsUpdateRequiredAsync()
         {
+#if UNITY_EDITOR
+            if (Core.Services.DataDictionary.DictionaryPatchRuntimeTestBridge.IsActive)
+            {
+                Debug.Log("[DictionaryPatchRuntimeTest] MinimumSupportedBuild check bypassed for this test session only.");
+                return false;
+            }
+#endif
             int currentBuild = BuildInfo.AndroidVersionCode;
             if (currentBuild <= 0)
             {
