@@ -29,6 +29,7 @@ namespace Core.Data
         public Color KeyboardLetterColor; // Цвет кнопки на клавиатуре
         
         [Header("Кнопки игрового экрана")]
+        public string ButtonsBkgAlias;
         public string HomeButtonAlias; // Домой
         public string OptionsButtonAlias; // Опции
         public string PauseButtonAlias; // Пауза 
@@ -51,6 +52,7 @@ namespace Core.Data
         public string HomeBackgroundAlias;
         
         [Header("Кнопки меню домашнего экрана")]
+        public string ButtonsBkgAlias;
         public string SettingsButtonAlias;
         public string SkinButtonAlias;
         public string InfoButtonAlias;

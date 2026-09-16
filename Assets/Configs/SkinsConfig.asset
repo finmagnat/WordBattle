@@ -16,18 +16,19 @@ MonoBehaviour:
   _skins:
   - SkinType: 1
     ColorPreviewTile: {r: 0.5294118, g: 0.8078432, b: 0.9803922, a: 1}
-    MainBackgroundAlias: MainBackgroundBlue
+    MainBackgroundAlias: MainBackground_Blue
     PlayerPanelBackgroundAlias: PlayerPanel_Blue
     FrameBackgroundAlias: Frame_Blue
     HandleBackgroundAlias: Handle_Blue
     ProgressBackgroundAlias: ProgressBkg_Blue
-    CellBackgroundDefaultAlias: CellBackgroundDefaultBlue
-    CellBackgroundFilledAlias: CellBackgroundFilledBlue
+    CellBackgroundDefaultAlias: CellBackgroundDefault_Blue
+    CellBackgroundFilledAlias: CellBackgroundFilled_Blue
     CellSelectedAlias: CellSelected
     LettersSelectedAlias: LetterSelected
     LettersFieldColor: {r: 0.23642753, g: 0.3400565, b: 0.6509434, a: 1}
     KeyboardTileAlias: KeybourdTile
     KeyboardLetterColor: {r: 0.23921569, g: 0.34117648, b: 0.6509804, a: 1}
+    ButtonsBkgAlias: ButtonBg_Blue
     HomeButtonAlias: ButtonHome_Blue
     OptionsButtonAlias: ButtonTools_Blue
     PauseButtonAlias: ButtonPause_Blue
@@ -36,27 +37,29 @@ MonoBehaviour:
     PassButtonAlias: ButtonPass_Blue
     RepeatGameButtonAlias: ButtonGo_Blue
     StatisticButtonAlias: ButtonStatistic_Blue
-    DefaultButtonAlias: ButtonBlue
+    DefaultButtonAlias: Button_Blue
     MainScreenTheme:
       HomeBackgroundAlias: ParalaxBackground_Blue
-      SettingsButtonAlias: SettingsButtonBlue
-      SkinButtonAlias: SkinButtonBlue
-      InfoButtonAlias: InfoButtonBlue
-      ShopButtonAlias: ShopButtonBlue
+      ButtonsBkgAlias: IconBg_Blue
+      SettingsButtonAlias: IconSettings_Blue
+      SkinButtonAlias: IconSkin_Blue
+      InfoButtonAlias: IconInfo_Blue
+      ShopButtonAlias: IconShop_Blue
   - SkinType: 2
     ColorPreviewTile: {r: 1, g: 0.7529412, b: 0.79607844, a: 1}
-    MainBackgroundAlias: MainBackgroundPink
+    MainBackgroundAlias: MainBackground_Pink
     PlayerPanelBackgroundAlias: PlayerPanel_Pink
     FrameBackgroundAlias: Frame_Pink
     HandleBackgroundAlias: Handle_Pink
     ProgressBackgroundAlias: ProgressBkg_Pink
-    CellBackgroundDefaultAlias: CellBackgroundDefaultPink
-    CellBackgroundFilledAlias: CellBackgroundFilledPink
+    CellBackgroundDefaultAlias: CellBackgroundDefault_Pink
+    CellBackgroundFilledAlias: CellBackgroundFilled_Pink
     CellSelectedAlias: CellSelected
     LettersSelectedAlias: LetterSelected
     LettersFieldColor: {r: 0.4433962, g: 0.018823417, b: 0.4433962, a: 1}
     KeyboardTileAlias: KeybourdTile
     KeyboardLetterColor: {r: 0.44313726, g: 0.019607844, b: 0.44313726, a: 1}
+    ButtonsBkgAlias: ButtonBg_Pink
     HomeButtonAlias: ButtonHome_Pink
     OptionsButtonAlias: ButtonTools_Pink
     PauseButtonAlias: ButtonPause_Pink
@@ -65,10 +68,11 @@ MonoBehaviour:
     PassButtonAlias: ButtonPass_Pink
     RepeatGameButtonAlias: ButtonGo_Pink
     StatisticButtonAlias: ButtonStatistic_Pink
-    DefaultButtonAlias: ButtonPink
+    DefaultButtonAlias: Button_Pink
     MainScreenTheme:
       HomeBackgroundAlias: ParalaxBackground_Pink
-      SettingsButtonAlias: SettingsButtonPink
-      SkinButtonAlias: SkinButtonPink
-      InfoButtonAlias: InfoButtonPink
-      ShopButtonAlias: ShopButtonPink
+      ButtonsBkgAlias: IconBg_Pink
+      SettingsButtonAlias: IconSettings_Pink
+      SkinButtonAlias: IconSkin_Pink
+      InfoButtonAlias: IconInfo_Pink
+      ShopButtonAlias: IconShop_Pink

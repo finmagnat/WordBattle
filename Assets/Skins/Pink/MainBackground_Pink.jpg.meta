@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a659a50b40ada824e9795e31f87b628f
+guid: 44fa276c0ce3bac44baa616d2abe39c3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5082868938543981976
-    second: ButtonPink02_0
+      213: -51414630706865171
+    second: MainBackgroundPink_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 50
+    textureFormat: 51
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -139,23 +139,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ButtonPink02_0
+      name: MainBackgroundPink_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 530
-        height: 201
+        width: 1024
+        height: 1536
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 94, y: 110, z: 94, w: 80}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 895e7c19e5af98640800000000000000
-      internalID: 5082868938543981976
+      spriteID: deb95707aa6594ff0800000000000000
+      internalID: -51414630706865171
       vertices: []
       indices: 
       edges: []
@@ -164,7 +164,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 45b9dd8332fe230408eae04e0ea74cc7
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ButtonPink02_0: 5082868938543981976
+      MainBackgroundPink_0: -51414630706865171
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
