@@ -71,10 +71,6 @@ MonoBehaviour:
     m_Key: BUTTON_PLAY
     m_Metadata:
       m_Items: []
-  - m_Id: 1123733329248256
-    m_Key: SCREEN_MAIN_TITLE_GAME
-    m_Metadata:
-      m_Items: []
   - m_Id: 2206895979462656
     m_Key: LOADING_TEXT
     m_Metadata:
