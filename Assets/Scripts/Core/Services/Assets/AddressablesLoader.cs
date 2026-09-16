@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -8,75 +9,97 @@ namespace Core.Services
 {
     public class AddressablesLoader
     {
-        // Кэш загруженных ресурсов
         private readonly Dictionary<string, AsyncOperationHandle> _loaded = new();
-        private readonly Dictionary<string, object> _cache = new();
 
         public async UniTask<T> LoadCachedAsync<T>(string key) where T : UnityEngine.Object
-        {
-            if (_cache.TryGetValue(key, out var cached))
-                return cached as T;
-
-            var asset = await LoadAssetAsync<T>(key);
-            if (asset != null)
-                _cache[key] = asset;
-
-            return asset;
-        }
+            => await LoadAssetAsync<T>(key);
 
         /// <summary>
-        /// Универсальная загрузка ресурсов Addressables по ключу.
+        /// Loads an Addressable asset and reuses an existing operation for the same key.
         /// </summary>
         public async UniTask<T> LoadAssetAsync<T>(string key) where T : class
         {
-            // Если уже есть в кэше
-            if (_loaded.TryGetValue(key, out var cached))
+            if (string.IsNullOrEmpty(key))
             {
-                if (cached.Result is T result)
-                    return result;
-            }
-
-            // Загружаем
-            AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(key);
-            await handle.ToUniTask();
-
-            if (handle.Status != AsyncOperationStatus.Succeeded)
-            {
-                Debug.LogError($"❌ Addressables failed to load key: {key}");
+                Debug.LogError("Addressables key cannot be null or empty.");
                 return null;
             }
 
+            if (_loaded.TryGetValue(key, out var cached))
+                return await AwaitResultAsync<T>(key, cached);
+
+            AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(key);
             _loaded[key] = handle;
-            return handle.Result;
+
+            return await AwaitResultAsync<T>(key, handle);
         }
 
-        /// <summary>
-        /// Проверка — загружен ли ключ.
-        /// </summary>
+        private async UniTask<T> AwaitResultAsync<T>(string key, AsyncOperationHandle handle) where T : class
+        {
+            try
+            {
+                await handle.ToUniTask();
+            }
+            catch (Exception exception)
+            {
+                ReleaseIfCurrent(key, handle);
+                Debug.LogError($"Addressables failed to load key '{key}': {exception.Message}");
+                return null;
+            }
+
+            if (handle.Status != AsyncOperationStatus.Succeeded)
+            {
+                ReleaseIfCurrent(key, handle);
+                Debug.LogError($"Addressables failed to load key: {key}");
+                return null;
+            }
+
+            if (handle.Result is T result)
+                return result;
+
+            Debug.LogError(
+                $"Addressable '{key}' was loaded as {handle.Result?.GetType().Name ?? "null"}, " +
+                $"but {typeof(T).Name} was requested.");
+            return null;
+        }
+
+        private void ReleaseIfCurrent(string key, AsyncOperationHandle handle)
+        {
+            if (!_loaded.TryGetValue(key, out var current) || !current.Equals(handle))
+                return;
+
+            _loaded.Remove(key);
+
+            if (handle.IsValid())
+                Addressables.Release(handle);
+        }
+
         public bool IsLoaded(string key)
         {
-            return _loaded.ContainsKey(key);
+            return _loaded.TryGetValue(key, out var handle)
+                   && handle.IsValid()
+                   && handle.IsDone
+                   && handle.Status == AsyncOperationStatus.Succeeded;
         }
 
-        /// <summary>
-        /// Выгрузка конкретного ключа.
-        /// </summary>
         public void Unload(string key)
         {
             if (_loaded.TryGetValue(key, out var handle))
             {
-                Addressables.Release(handle);
+                if (handle.IsValid())
+                    Addressables.Release(handle);
+
                 _loaded.Remove(key);
             }
         }
 
-        /// <summary>
-        /// Выгрузка всех ресурсов.
-        /// </summary>
         public void ReleaseAll()
         {
             foreach (var handle in _loaded.Values)
-                Addressables.Release(handle);
+            {
+                if (handle.IsValid())
+                    Addressables.Release(handle);
+            }
 
             _loaded.Clear();
         }

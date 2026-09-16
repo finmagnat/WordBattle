@@ -19,13 +19,13 @@ namespace Core.UI
         private readonly Dictionary<string, UIScreen> _loadedScreens = new();
         private readonly Dictionary<string, UIPopup> _loadedPopups = new();
 
-        private AddressablesLoader _loader;
+        private IPrefabService _prefabService;
         private DiContainer _container;
 
         [Inject]
-        public void Construct(AddressablesLoader loader, DiContainer container)
+        public void Construct(IPrefabService prefabService, DiContainer container)
         {
-            _loader = loader;
+            _prefabService = prefabService;
             _container = container;
         }
 
@@ -95,7 +95,7 @@ namespace Core.UI
             if (_loadedScreens.TryGetValue(strAssetKey, out var existing))
                 return existing as T;
 
-            var prefab = await _loader.LoadAssetAsync<GameObject>(strAssetKey);
+            var prefab = await _prefabService.GetPrefabAsync(strAssetKey);
             if (prefab == null)
             {
                 Debug.LogError($"❌ Failed to load screen prefab: {strAssetKey}");
@@ -171,7 +171,7 @@ namespace Core.UI
             if (_loadedPopups.TryGetValue(strAssetKey, out var existing))
                 return existing as T;
 
-            var prefab = await _loader.LoadAssetAsync<GameObject>(strAssetKey);
+            var prefab = await _prefabService.GetPrefabAsync(strAssetKey);
             if (prefab == null)
             {
                 Debug.LogError($"❌ Failed to load popup prefab: {strAssetKey}");
