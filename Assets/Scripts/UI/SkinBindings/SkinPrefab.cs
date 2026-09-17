@@ -1,5 +1,5 @@
 using System;
-using Core.Config;
+using Core.Data;
 using Core.Services;
 using UnityEngine;
 
