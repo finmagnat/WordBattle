@@ -31,6 +31,8 @@ namespace Core.Config
         [Header("SERVICES")]
         public bool enableAnalytics = true;
         public bool enableAds = true;
+        [Tooltip("Пользователь не может переключать локализацию в SettingsPopup")]
+        public bool enableChangeLocalization = false;
         public bool useDebugLogs = true;
 
         [Tooltip("Firebase Realtime DB URL")]

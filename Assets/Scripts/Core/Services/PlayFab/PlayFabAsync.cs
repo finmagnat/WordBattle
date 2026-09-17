@@ -23,6 +23,9 @@ namespace Core.Services
        public static UniTask<GetLeaderboardAroundPlayerResult> GetLeaderboardAroundPlayerAsync(GetLeaderboardAroundPlayerRequest req)
            => Wrap<GetLeaderboardAroundPlayerResult>((ok, fail) => PlayFabClientAPI.GetLeaderboardAroundPlayer(req, ok, fail));
 
+       public static UniTask<GetTitleDataResult> GetTitleDataAsync(GetTitleDataRequest req)
+           => Wrap<GetTitleDataResult>((ok, fail) => PlayFabClientAPI.GetTitleData(req, ok, fail));
+
        private static UniTask<T> Wrap<T>(Action<Action<T>, Action<PlayFabError>> invoke)
        {
            var tcs = new UniTaskCompletionSource<T>();

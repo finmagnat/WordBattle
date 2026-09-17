@@ -71,8 +71,6 @@ MonoBehaviour:
     AddressKey: ButtonTools_Blue
   - Id: CellBackgroundDefaultBlue
     AddressKey: CellBackgroundDefaultBlue
-  - Id: ParalaxBackground_Pink
-    AddressKey: ParalaxBackground_Pink
   - Id: InfoButtonPink
     AddressKey: InfoButtonPink
   - Id: ButtonBlue
@@ -85,8 +83,6 @@ MonoBehaviour:
     AddressKey: SettingsButtonPink
   - Id: ButtonStatistic_Pink
     AddressKey: ButtonStatistic_Pink
-  - Id: ParalaxBackground_Blue
-    AddressKey: ParalaxBackground_Blue
   - Id: SettingsButtonBlue
     AddressKey: SettingsButtonBlue
   - Id: ButtonPass_Blue
@@ -115,10 +111,6 @@ MonoBehaviour:
     AddressKey: sfx_button_click
   - Id: sfx_opponent_made_move
     AddressKey: sfx_opponent_made_move
-  - Id: sfx_pass
-    AddressKey: sfx_pass
-  - Id: sfx_booster_swap_launch
-    AddressKey: sfx_booster_swap_launch
   - Id: sfx_pause
     AddressKey: sfx_pause
   - Id: sfx_booster_mixer_launch
@@ -135,8 +127,6 @@ MonoBehaviour:
     AddressKey: sfx_booster_slowdown_launch
   - Id: sfx_booster_not_found_word
     AddressKey: sfx_booster_not_found_word
-  - Id: sfx_skin_changed
-    AddressKey: sfx_skin_changed
   - Id: sfx_letter_blinking
     AddressKey: sfx_letter_blinking
   - Id: sfx_popup_warning
@@ -145,16 +135,22 @@ MonoBehaviour:
     AddressKey: sfx_i_made_move
   - Id: sfx_booster_found_word
     AddressKey: sfx_booster_found_word
-  - Id: sfx_i_won
-    AddressKey: sfx_i_won
-  - Id: sfx_draw
-    AddressKey: sfx_draw
   - Id: sfx_start_new_game
     AddressKey: sfx_start_new_game
   - Id: sfx_letter_put_success
     AddressKey: sfx_letter_put_success
   - Id: sfx_booster_eraser_launch
     AddressKey: sfx_booster_eraser_launch
+  - Id: sfx_booster_swap_launch
+    AddressKey: sfx_booster_swap_launch
+  - Id: sfx_draw
+    AddressKey: sfx_draw
+  - Id: sfx_i_won
+    AddressKey: sfx_i_won
+  - Id: sfx_pass
+    AddressKey: sfx_pass
+  - Id: sfx_skin_changed
+    AddressKey: sfx_skin_changed
   - Id: BoosterEraser
     AddressKey: BoosterEraser
   - Id: BoosterSlowdown
@@ -193,6 +189,8 @@ MonoBehaviour:
     AddressKey: AIGameScreen
   - Id: NoAdsPopup
     AddressKey: NoAdsPopup
+  - Id: ForceUpdatePopup
+    AddressKey: ForceUpdatePopup
   - Id: BlockUIScreen
     AddressKey: BlockUIScreen
   - Id: SkinsPopup

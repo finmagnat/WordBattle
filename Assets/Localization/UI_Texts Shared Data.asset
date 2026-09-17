@@ -71,10 +71,6 @@ MonoBehaviour:
     m_Key: BUTTON_PLAY
     m_Metadata:
       m_Items: []
-  - m_Id: 1123733329248256
-    m_Key: SCREEN_MAIN_TITLE_GAME
-    m_Metadata:
-      m_Items: []
   - m_Id: 2206895979462656
     m_Key: LOADING_TEXT
     m_Metadata:
@@ -585,6 +581,18 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 107223677663498240
     m_Key: LOADING_SCREEN_MIXER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 110846098640617472
+    m_Key: FORCE_UPDATE_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 110846098682560512
+    m_Key: FORCE_UPDATE_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 110846098682560513
+    m_Key: FORCE_UPDATE_BUTTON
     m_Metadata:
       m_Items: []
   m_Metadata:

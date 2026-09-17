@@ -99,6 +99,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - UI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9194f226d9d393c4bbcfd31dcc19e5b7
+    m_Address: ForceUpdatePopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c032aa51a0489ef4099b1d96afd9b831
     m_Address: BlockUIScreen
     m_ReadOnly: 0

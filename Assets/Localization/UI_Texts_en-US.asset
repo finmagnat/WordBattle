@@ -74,10 +74,6 @@ MonoBehaviour:
     m_Localized: Play
     m_Metadata:
       m_Items: []
-  - m_Id: 1123733329248256
-    m_Localized: Wordlet
-    m_Metadata:
-      m_Items: []
   - m_Id: 2206895979462656
     m_Localized: Loading...
     m_Metadata:
@@ -332,13 +328,13 @@ MonoBehaviour:
     m_Localized: '<line-height=100%>
 
       <size=200%><voffset=30><sprite name="letter"></voffset></size><size=100%><voffset=15>The
-      Wordlet found a word!</size></voffset>
+      Letter found a word!</size></voffset>
 
       </line-height>'
     m_Metadata:
       m_Items: []
   - m_Id: 23577908114505728
-    m_Localized: 'Wordlet couldn''t find the word.
+    m_Localized: 'Letter couldn''t find the word.
 
       The booster has been returned.'
     m_Metadata:
@@ -380,7 +376,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 37654904469602304
-    m_Localized: Wordlet
+    m_Localized: Letter
     m_Metadata:
       m_Items: []
   - m_Id: 37655851719606272
@@ -643,6 +639,22 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 107223677663498240
     m_Localized: Mixer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 110846098640617472
+    m_Localized: Update required
+    m_Metadata:
+      m_Items: []
+  - m_Id: 110846098682560512
+    m_Localized: 'This version of the game is no longer supported.
+
+
+      Update
+      the game to continue.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 110846098682560513
+    m_Localized: Update
     m_Metadata:
       m_Items: []
   references:

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core.Services;
 using Core.Services.NewWords;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace Core.DebugTools
     {
         [Inject] private INewWordsService _newWordsService;
         [Inject] private INewWordsLimitsService _newWordsLimitsService;
+        [Inject] private LocalizationService _localization;
 
         public static SRDebugNewWordsBridge Instance { get; private set; }
 
@@ -67,6 +69,13 @@ namespace Core.DebugTools
                 Debug.LogError($"[NewWords] ResetNewWordsLimits failed: {e}");
             }
         }
+        
+        public void SetLocalization()
+        {
+            var localeCode = DebugLanguageCode.Get();
+            _localization.SetLocale(localeCode);
+        }
+
 
         protected override UniTask<IReadOnlyList<NewWordEntryDto>> GetWordsAsync(string language)
         {

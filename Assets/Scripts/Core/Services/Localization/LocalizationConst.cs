@@ -31,5 +31,8 @@ namespace Core.Services
         public const string KeyErrorMsgSetLetterNoSelected = "ERROR_MSG_SET_LETTER_NO_SELECTED";
         public const string KeyErrorMsgWordNoSelected = "ERROR_MSG_WORD_NO_SELECTED";
         public const string KeyErrorMsgWordAlreadyBeen = "ERROR_MSG_WORD_ALREADY_BEEN";
+        public const string KeyForceUpdateTitle = "FORCE_UPDATE_TITLE";
+        public const string KeyForceUpdateText = "FORCE_UPDATE_TEXT";
+        public const string KeyForceUpdateButton = "FORCE_UPDATE_BUTTON";
     }
 }

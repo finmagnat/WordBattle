@@ -31,6 +31,18 @@ namespace Core.DataDictionary.Editor
             GetWindow<DictionaryToolsWindow>("Dictionary Tools");
         }
 
+        public static void OpenWithAsset(TextAsset textAsset)
+        {
+            DictionaryToolsWindow window = GetWindow<DictionaryToolsWindow>("Dictionary Tools");
+            if (textAsset != null)
+            {
+                Selection.activeObject = textAsset;
+                window.ApplyDictionaryAsset(textAsset);
+            }
+
+            window.Focus();
+        }
+
         private void OnEnable()
         {
             if (Selection.activeObject is TextAsset textAsset)
