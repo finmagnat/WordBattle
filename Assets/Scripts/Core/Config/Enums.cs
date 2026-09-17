@@ -40,6 +40,24 @@ namespace Core.Config
         Blue = 1,       
         Pink
     }
+
+    public enum SkinSpriteKey
+    {
+        None = 0,
+        Example = 1,
+    }
+
+    public enum SkinPrefabKey
+    {
+        None = 0,
+        Example = 1,
+    }
+
+    public enum SkinColorKey
+    {
+        None = 0,
+        Example = 1,
+    }
     
     public enum BannerType
     {

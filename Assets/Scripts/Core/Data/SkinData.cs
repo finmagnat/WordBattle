@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Core.Config;
 using UnityEngine;
 
@@ -43,6 +44,32 @@ namespace Core.Data
         public string DefaultButtonAlias;
         
         public MainScreenThemeData MainScreenTheme;
+
+        [Header("Новое runtime-ядро скинов")]
+        public List<SkinSpriteEntry> Sprites;
+        public List<SkinPrefabEntry> Prefabs;
+        public List<SkinColorEntry> Colors;
+    }
+
+    [Serializable]
+    public struct SkinSpriteEntry
+    {
+        public SkinSpriteKey Key;
+        public string Alias;
+    }
+
+    [Serializable]
+    public struct SkinPrefabEntry
+    {
+        public SkinPrefabKey Key;
+        public string Alias;
+    }
+
+    [Serializable]
+    public struct SkinColorEntry
+    {
+        public SkinColorKey Key;
+        public Color Value;
     }
     
     [Serializable]

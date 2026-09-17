@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -13,6 +14,42 @@ namespace Core.Services
 
         public async UniTask<T> LoadCachedAsync<T>(string key) where T : UnityEngine.Object
             => await LoadAssetAsync<T>(key);
+
+        /// <summary>
+        /// Loads an asset using a handle owned by the returned lease. Unlike the legacy cached API,
+        /// disposing this lease releases only this acquisition and cannot evict another client's cache entry.
+        /// </summary>
+        public async UniTask<AddressableLease<T>> AcquireAsync<T>(
+            string key,
+            CancellationToken cancellationToken = default) where T : UnityEngine.Object
+        {
+            if (string.IsNullOrWhiteSpace(key))
+                throw new ArgumentException("Addressables key cannot be null or empty.", nameof(key));
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(key);
+
+            try
+            {
+                T asset = await handle.ToUniTask(cancellationToken: cancellationToken);
+
+                if (handle.Status != AsyncOperationStatus.Succeeded || asset == null)
+                {
+                    throw new InvalidOperationException(
+                        $"Addressables failed to acquire '{key}' as {typeof(T).Name}.");
+                }
+
+                return new AddressableLease<T>(key, asset, handle);
+            }
+            catch
+            {
+                if (handle.IsValid())
+                    Addressables.Release(handle);
+
+                throw;
+            }
+        }
 
         /// <summary>
         /// Loads an Addressable asset and reuses an existing operation for the same key.
@@ -102,6 +139,34 @@ namespace Core.Services
             }
 
             _loaded.Clear();
+        }
+    }
+
+    public sealed class AddressableLease<T> : IDisposable where T : UnityEngine.Object
+    {
+        private AsyncOperationHandle<T> _handle;
+        private bool _isDisposed;
+
+        internal AddressableLease(string key, T asset, AsyncOperationHandle<T> handle)
+        {
+            Key = key;
+            Asset = asset;
+            _handle = handle;
+        }
+
+        public string Key { get; }
+        public T Asset { get; }
+        public bool IsDisposed => _isDisposed;
+
+        public void Dispose()
+        {
+            if (_isDisposed)
+                return;
+
+            _isDisposed = true;
+
+            if (_handle.IsValid())
+                Addressables.Release(_handle);
         }
     }
 }
