@@ -76,7 +76,7 @@ MonoBehaviour:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 43c491f9c4b590a46aaee1bbc12b4585
-    m_Address: ButtonTurquoise
+    m_Address: Button_Turquoise
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin

@@ -142,9 +142,9 @@ TextureImporter:
       name: BoosterMixer_0
       rect:
         serializedVersion: 2
-        x: 7
+        x: 0
         y: 0
-        width: 513
+        width: 520
         height: 505
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
