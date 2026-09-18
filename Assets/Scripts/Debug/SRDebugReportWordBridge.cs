@@ -92,7 +92,7 @@ namespace Core.DebugTools
         {
             try
             {
-                var language = DebugLanguageCode.Get();
+                var language = DebugLanguageCode.GetLanguageCode();
                 var rawWord = WordToAdd;
                 var reason = Reason;
 

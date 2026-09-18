@@ -1,9 +1,6 @@
 using System.ComponentModel;
 using Core.DebugTools;
-using Core.Services;
 using Core.Services.ReportWord;
-using UnityEngine.Localization.Settings;
-using Zenject;
 
 public partial class SROptions
 {   

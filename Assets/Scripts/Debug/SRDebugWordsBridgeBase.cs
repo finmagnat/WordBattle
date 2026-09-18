@@ -23,7 +23,7 @@ namespace Core.DebugTools
         {
             try
             {
-                var language = DebugLanguageCode.Get();
+                var language = DebugLanguageCode.GetLanguageCode();
                 var words = await GetWordsAsync(language);
 
                 if (words == null || words.Count == 0)
@@ -48,7 +48,7 @@ namespace Core.DebugTools
         {
             try
             {
-                var language = DebugLanguageCode.Get();
+                var language = DebugLanguageCode.GetLanguageCode();
                 var words = await GetWordsAsync(language);
 
                 if (words == null || words.Count == 0)
@@ -78,7 +78,7 @@ namespace Core.DebugTools
         {
             try
             {
-                var language = DebugLanguageCode.Get();
+                var language = DebugLanguageCode.GetLanguageCode();
                 await ClearWordsAsync(language);
 
                 Debug.Log($"{LogPrefix} Clear all result: language={language}");
