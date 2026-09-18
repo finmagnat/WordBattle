@@ -245,7 +245,6 @@ namespace UI.Screens
         public UniTask PrepareAsync()
         {
             return _skinBindings.PrepareAsync();
-            //return UpdateSkin();
         }
 
         private void UpdateDailyBonusButton()
@@ -259,31 +258,6 @@ namespace UI.Screens
         protected UniTask UpdateSkin()
         {
             return _skinBindings.PrepareAsync();
-            
-            /*var skin = _skinsService.SkinCurrent;
-            _playAIButton.image.sprite = await _spritesService.GetSpriteAsync(skin.DefaultButtonAlias);
-            _loadAndplayAIButton.image.sprite = await _spritesService.GetSpriteAsync(skin.DefaultButtonAlias);
-
-            _settingsButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.SettingsButtonAlias);
-            _infoButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.InfoButtonAlias);
-            _skinsButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.SkinButtonAlias);
-            _shopButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.ShopButtonAlias);
-
-            var prefab = await _prefabService.GetPrefabAsync(
-                skin.MainScreenTheme.HomeBackgroundAlias);
-
-            if (prefab == null)
-                return;
-
-            if (_backgroundInstance != null)
-                Destroy(_backgroundInstance);
-
-            _backgroundInstance = Instantiate(
-                prefab,
-                _mainScreenBackgroung,
-                false);
-
-            _backgroundInstance.transform.SetAsFirstSibling();**/
         }
 
         private void SendAnalyticsShown()

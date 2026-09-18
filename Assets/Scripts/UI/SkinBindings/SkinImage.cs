@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace UI.SkinBindings
 {
     [RequireComponent(typeof(Image))]
-    public sealed class SkinImage : SkinBindingBase
+    public sealed class SkinImage : SkinBindingBase, ISkinBinding<SkinSpriteKey>
     {
         [SerializeField] private SkinSpriteKey _key;
         [SerializeField] private Image _image;
@@ -29,13 +29,32 @@ namespace UI.SkinBindings
                 _image.sprite = sprite;
         }
 
+        public bool Apply(SkinSpriteKey key)
+        {
+            if (!TryGetCurrentRuntime(out SkinRuntime runtime))
+                return false;
+
+            SkinSpriteKey previousKey = _key;
+            _key = key;
+
+            if (!CanApply(runtime))
+            {
+                _key = previousKey;
+                return false;
+            }
+
+            Apply(runtime);
+            return true;
+        }
+
         private void Reset() => EnsureReferences();
         private void OnValidate() => EnsureReferences();
 
         private void EnsureReferences()
         {
-            if (_image == null)
-                _image = GetComponent<Image>();
+            // SkinImage always controls the Image on the same GameObject. Re-resolving it also
+            // prevents copied components from retaining a reference to another button's Image.
+            _image = GetComponent<Image>();
         }
     }
 }

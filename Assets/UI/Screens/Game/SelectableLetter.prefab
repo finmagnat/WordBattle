@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 463577067698597770}
   - component: {fileID: 461079149228713972}
   - component: {fileID: 7275816158971572331}
+  - component: {fileID: 8167204441936559117}
   m_Layer: 5
   m_Name: LetterText
   m_TagString: Untagged
@@ -257,6 +258,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8167204441936559117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393959519315753028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3544969b6ea1db941914be67be88e4c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinTMPColor
+  _key: 1
+  _text: {fileID: 7275816158971572331}
 --- !u!1 &6293983620884837654
 GameObject:
   m_ObjectHideFlags: 0

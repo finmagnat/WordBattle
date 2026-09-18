@@ -192,6 +192,37 @@ namespace Core.Services
             return CurrentRuntime;
         }
 
+        public Sprite GetSprite(SkinSpriteKey key) => GetReadyRuntime().GetSprite(key);
+        public GameObject GetPrefab(SkinPrefabKey key) => GetReadyRuntime().GetPrefab(key);
+        public Color GetColor(SkinColorKey key) => GetReadyRuntime().GetColor(key);
+
+        public bool TryGetSprite(SkinSpriteKey key, out Sprite sprite)
+        {
+            sprite = null;
+            return CurrentRuntime != null &&
+                   !CurrentRuntime.IsDisposed &&
+                   CurrentRuntime.SkinType == SkinCurrent.SkinType &&
+                   CurrentRuntime.TryGetSprite(key, out sprite);
+        }
+
+        public bool TryGetPrefab(SkinPrefabKey key, out GameObject prefab)
+        {
+            prefab = null;
+            return CurrentRuntime != null &&
+                   !CurrentRuntime.IsDisposed &&
+                   CurrentRuntime.SkinType == SkinCurrent.SkinType &&
+                   CurrentRuntime.TryGetPrefab(key, out prefab);
+        }
+
+        public bool TryGetColor(SkinColorKey key, out Color color)
+        {
+            color = default;
+            return CurrentRuntime != null &&
+                   !CurrentRuntime.IsDisposed &&
+                   CurrentRuntime.SkinType == SkinCurrent.SkinType &&
+                   CurrentRuntime.TryGetColor(key, out color);
+        }
+
         // Legacy synchronous API. Keep until its two existing call sites move to ApplySkinAsync.
         public void SaveSkinCurrent(SkinType skinType)
         {
@@ -241,6 +272,21 @@ namespace Core.Services
                 return skinData;
 
             throw new InvalidOperationException($"Skin '{skinType}' is absent from SkinsConfig.");
+        }
+
+        private SkinRuntime GetReadyRuntime()
+        {
+            ThrowIfDisposed();
+
+            if (CurrentRuntime == null ||
+                CurrentRuntime.IsDisposed ||
+                CurrentRuntime.SkinType != SkinCurrent.SkinType)
+            {
+                throw new InvalidOperationException(
+                    "Current skin runtime is not ready. Await EnsureCurrentRuntimeAsync or ApplySkinAsync first.");
+            }
+
+            return CurrentRuntime;
         }
 
         private static void SaveSelection(SkinType skinType)

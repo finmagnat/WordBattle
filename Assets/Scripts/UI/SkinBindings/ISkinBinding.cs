@@ -7,4 +7,9 @@ namespace UI.SkinBindings
         bool CanApply(SkinRuntime runtime);
         void Apply(SkinRuntime runtime);
     }
+
+    public interface ISkinBinding<in TKey> : ISkinBinding
+    {
+        bool Apply(TKey key);
+    }
 }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace UI.SkinBindings
 {
     [RequireComponent(typeof(Image))]
-    public sealed class SkinImageColor : SkinBindingBase
+    public sealed class SkinImageColor : SkinBindingBase, ISkinBinding<SkinColorKey>
     {
         [SerializeField] private SkinColorKey _key;
         [SerializeField] private Image _image;
@@ -29,13 +29,30 @@ namespace UI.SkinBindings
                 _image.color = color;
         }
 
+        public bool Apply(SkinColorKey key)
+        {
+            if (!TryGetCurrentRuntime(out SkinRuntime runtime))
+                return false;
+
+            SkinColorKey previousKey = _key;
+            _key = key;
+
+            if (!CanApply(runtime))
+            {
+                _key = previousKey;
+                return false;
+            }
+
+            Apply(runtime);
+            return true;
+        }
+
         private void Reset() => EnsureReferences();
         private void OnValidate() => EnsureReferences();
 
         private void EnsureReferences()
         {
-            if (_image == null)
-                _image = GetComponent<Image>();
+            _image = GetComponent<Image>();
         }
     }
 }

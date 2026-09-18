@@ -172,6 +172,7 @@ GameObject:
   - component: {fileID: 3073041249955341081}
   - component: {fileID: 6580441538550110275}
   - component: {fileID: 4737292977415038962}
+  - component: {fileID: 3852221670517318501}
   m_Layer: 5
   m_Name: ProgressTimer
   m_TagString: Untagged
@@ -277,6 +278,20 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
+--- !u!114 &3852221670517318501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203711111224309762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 5
+  _image: {fileID: 3073041249955341081}
 --- !u!1 &597341275915689201
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,6 +640,7 @@ GameObject:
   - component: {fileID: 3465451400916352731}
   - component: {fileID: 747101917035869872}
   - component: {fileID: 4142163477092799278}
+  - component: {fileID: 2778751062466264665}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -679,7 +695,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 2300202289637689586, guid: 0e014a509fe29104f8618a8dae1d426a, type: 3}
+  m_Sprite: {fileID: -1803461106088473014, guid: 604db95ad046f7246a3e3dde64dc3498, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -689,6 +705,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1.5
+--- !u!114 &2778751062466264665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199196439729278657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 19
+  _image: {fileID: 4142163477092799278}
 --- !u!1 &1221476948255041527
 GameObject:
   m_ObjectHideFlags: 0
@@ -800,6 +830,7 @@ GameObject:
   - component: {fileID: 3404322222310117209}
   - component: {fileID: 8851880056811487727}
   - component: {fileID: 8597433120990037995}
+  - component: {fileID: 4716176525280204161}
   m_Layer: 5
   m_Name: RepeatGameButton
   m_TagString: Untagged
@@ -946,6 +977,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
   _uniqueSfxKey: 
+--- !u!114 &4716176525280204161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371303826947740522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 23
+  _image: {fileID: 3949272871073480456}
 --- !u!1 &1765272806365248504
 GameObject:
   m_ObjectHideFlags: 0
@@ -1275,6 +1320,7 @@ GameObject:
   - component: {fileID: 3055151737391689093}
   - component: {fileID: 7627556124183397554}
   - component: {fileID: 1059032226880736654}
+  - component: {fileID: 8071331423987627838}
   m_Layer: 5
   m_Name: BacgroundPanel
   m_TagString: Untagged
@@ -1359,6 +1405,20 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &8071331423987627838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2006123204643753140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 3
+  _image: {fileID: 7627556124183397554}
 --- !u!1 &2234862826602032114
 GameObject:
   m_ObjectHideFlags: 0
@@ -1910,6 +1970,7 @@ GameObject:
   - component: {fileID: 5193407999907281354}
   - component: {fileID: 8715712784843217958}
   - component: {fileID: 7202944579780440315}
+  - component: {fileID: 8349027397687103526}
   m_Layer: 5
   m_Name: TipText
   m_TagString: Untagged
@@ -2060,6 +2121,20 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!114 &8349027397687103526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3429609669732681417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3544969b6ea1db941914be67be88e4c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinTMPColor
+  _key: 2
+  _text: {fileID: 8715712784843217958}
 --- !u!1 &3439151989541234669
 GameObject:
   m_ObjectHideFlags: 0
@@ -2074,6 +2149,7 @@ GameObject:
   - component: {fileID: 2458355809360450116}
   - component: {fileID: 762751161646911588}
   - component: {fileID: 2335176954123488471}
+  - component: {fileID: 5049093610609145986}
   m_Layer: 5
   m_Name: OptionsButton
   m_TagString: Untagged
@@ -2128,7 +2204,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 4741074960201275870, guid: 7346deba0a58b0b43a7b1d197bf397fc, type: 3}
+  m_Sprite: {fileID: 2788582324479176075, guid: 0abfbcb8a2a454d4a80bdd7790a6eb5a, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -2227,6 +2303,20 @@ MonoBehaviour:
   m_FlexibleWidth: 0
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &5049093610609145986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3439151989541234669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 18
+  _image: {fileID: 4901113357909336783}
 --- !u!1 &3444600465554957645
 GameObject:
   m_ObjectHideFlags: 0
@@ -2242,6 +2332,7 @@ GameObject:
   - component: {fileID: 5689286121469514212}
   - component: {fileID: 3263124835350801608}
   - component: {fileID: 5349609220994477674}
+  - component: {fileID: 8489544724708635225}
   m_Layer: 5
   m_Name: PauseButton
   m_TagString: Untagged
@@ -2296,7 +2387,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 2300202289637689586, guid: 0e014a509fe29104f8618a8dae1d426a, type: 3}
+  m_Sprite: {fileID: -1803461106088473014, guid: 604db95ad046f7246a3e3dde64dc3498, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -2410,6 +2501,20 @@ MonoBehaviour:
   m_FlexibleWidth: 0
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &8489544724708635225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3444600465554957645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 19
+  _image: {fileID: 6330576723951823726}
 --- !u!1 &3529645168333415769
 GameObject:
   m_ObjectHideFlags: 0
@@ -3154,6 +3259,7 @@ GameObject:
   - component: {fileID: 3387780538634914120}
   - component: {fileID: 7307568277056709459}
   - component: {fileID: 5535245910303551119}
+  - component: {fileID: 8017461316808193638}
   m_Layer: 5
   m_Name: CancelButton
   m_TagString: Untagged
@@ -3300,6 +3406,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
   _uniqueSfxKey: 
+--- !u!114 &8017461316808193638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4399313813612307205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 20
+  _image: {fileID: 4382277666220627091}
 --- !u!1 &4562967645534647347
 GameObject:
   m_ObjectHideFlags: 0
@@ -5058,6 +5178,7 @@ GameObject:
   - component: {fileID: 939743396283217504}
   - component: {fileID: 4484693847224070798}
   - component: {fileID: 5569906502976176443}
+  - component: {fileID: 1130586646763921766}
   m_Layer: 5
   m_Name: HomeButton
   m_TagString: Untagged
@@ -5211,6 +5332,20 @@ MonoBehaviour:
   m_FlexibleWidth: 0
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &1130586646763921766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7596267715526192323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 17
+  _image: {fileID: 3968885415468508503}
 --- !u!1 &7721084747038284858
 GameObject:
   m_ObjectHideFlags: 0
@@ -5225,6 +5360,7 @@ GameObject:
   - component: {fileID: 8922178149204596851}
   - component: {fileID: 7773021140687820570}
   - component: {fileID: 7608096604968330973}
+  - component: {fileID: 656309822907049941}
   m_Layer: 5
   m_Name: StatisticButton
   m_TagString: Untagged
@@ -5279,7 +5415,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1897077771743037749, guid: 673a883db8690d6489506e0c1bc1f0e1, type: 3}
+  m_Sprite: {fileID: -7778345876304216391, guid: e5869f0612ced0b4cb827671ab0e90e6, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -5378,6 +5514,20 @@ MonoBehaviour:
   m_FlexibleWidth: 0
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &656309822907049941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7721084747038284858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 25
+  _image: {fileID: 1186052122572867452}
 --- !u!1 &7741165702105115336
 GameObject:
   m_ObjectHideFlags: 0
@@ -5538,6 +5688,7 @@ GameObject:
   - component: {fileID: 2203480062585864751}
   - component: {fileID: 6626517079380670935}
   - component: {fileID: 8829522204547850670}
+  - component: {fileID: 8982634104150697303}
   m_Layer: 5
   m_Name: GoButton
   m_TagString: Untagged
@@ -5671,6 +5822,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adfb866e2ad94517a10bd45ec083997a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.Components.ButtonAnimator
+--- !u!114 &8982634104150697303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7799553635780736171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 21
+  _image: {fileID: 2203480062585864751}
 --- !u!1 &8030120902367849280
 GameObject:
   m_ObjectHideFlags: 0
@@ -6014,6 +6179,7 @@ GameObject:
   - component: {fileID: 1416382209582507180}
   - component: {fileID: 7088843173599144197}
   - component: {fileID: 8008834578615683437}
+  - component: {fileID: 549502506487725783}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -6080,6 +6246,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 2
+--- !u!114 &549502506487725783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8201738996378773544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 3
+  _image: {fileID: 8008834578615683437}
 --- !u!1 &8339762621120835612
 GameObject:
   m_ObjectHideFlags: 0
@@ -6255,6 +6435,7 @@ GameObject:
   - component: {fileID: 7536830645765942894}
   - component: {fileID: 5756743237885570236}
   - component: {fileID: 4927016041967995712}
+  - component: {fileID: 6067864491896636960}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -6309,7 +6490,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -7768209385516449521, guid: baf1bdf95086e47499b75e503a9eff6f, type: 3}
+  m_Sprite: {fileID: -3382092031144362159, guid: e55af0784c5e7694f91e0d9fc6ec04fb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6319,6 +6500,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6067864491896636960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8429828407885783448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 1
+  _image: {fileID: 4927016041967995712}
 --- !u!1 &8482236250861304937
 GameObject:
   m_ObjectHideFlags: 0
@@ -6530,6 +6725,7 @@ GameObject:
   - component: {fileID: 2060273859724502801}
   - component: {fileID: 4696974156665089600}
   - component: {fileID: 7083978647101907622}
+  - component: {fileID: 1635408620570895230}
   m_Layer: 5
   m_Name: PassButton
   m_TagString: Untagged
@@ -6584,7 +6780,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1457524276269373931, guid: e051a7596194d85409df7b0545ce5380, type: 3}
+  m_Sprite: {fileID: -389205344320748625, guid: 9176d651a6e92c94ea768d2a025b71e9, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -6670,6 +6866,20 @@ MonoBehaviour:
   m_FlexibleWidth: 0
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &1635408620570895230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8959738216645001394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 22
+  _image: {fileID: 2060273859724502801}
 --- !u!1001 &578416636277904337
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7306,6 +7516,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2048966547396175641, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9091887999447428883}
+    - targetCorrespondingSourceObject: {fileID: 2048966547396175641, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 633293665724061443}
     - targetCorrespondingSourceObject: {fileID: 6461008793082353388, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9013514060039636661}
@@ -7394,6 +7607,18 @@ MonoBehaviour:
   _holeOverlay: {fileID: 441991318237677251}
   _eraseBubblePopup: {fileID: 4543654959007652336}
   _pausePopup: {fileID: 5289673975630271292}
+--- !u!114 &633293665724061443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2783836625106720199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c78ded6aa4aa7db4991fff703f2c88ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinBindingGroup
 --- !u!224 &6470264668357583651 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7135874436514091517, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
@@ -7432,7 +7657,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -3382092031144362159, guid: e55af0784c5e7694f91e0d9fc6ec04fb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

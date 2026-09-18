@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace UI.SkinBindings
 {
-    public sealed class SkinTMPColor : SkinBindingBase
+    public sealed class SkinTMPColor : SkinBindingBase, ISkinBinding<SkinColorKey>
     {
         [SerializeField] private SkinColorKey _key;
         [SerializeField] private TMP_Text _text;
@@ -28,13 +28,30 @@ namespace UI.SkinBindings
                 _text.color = color;
         }
 
+        public bool Apply(SkinColorKey key)
+        {
+            if (!TryGetCurrentRuntime(out SkinRuntime runtime))
+                return false;
+
+            SkinColorKey previousKey = _key;
+            _key = key;
+
+            if (!CanApply(runtime))
+            {
+                _key = previousKey;
+                return false;
+            }
+
+            Apply(runtime);
+            return true;
+        }
+
         private void Reset() => EnsureReferences();
         private void OnValidate() => EnsureReferences();
 
         private void EnsureReferences()
         {
-            if (_text == null)
-                _text = GetComponent<TMP_Text>();
+            _text = GetComponent<TMP_Text>();
         }
     }
 }

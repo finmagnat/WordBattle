@@ -1,6 +1,6 @@
 using Core.Config;
+using Core.Data;
 using Core.Events;
-using Core.Generated;
 using Core.Services;
 using TMPro;
 using UnityEngine;
@@ -18,12 +18,13 @@ namespace UI.Components
         [SerializeField] private float _blinkDtDelay = 0.5f; // Интервал 0.5 секунды
         
         [Inject] private AudioService _audioService;
+
+        private ISkinsService _skinsService;
         
         public int Index { get; set; } // Индекс элемента на поле [0 - n]
         
         private bool IsHighlight => _highlightState == HighlightState.Highlighted;
         
-        private SkinCellData _skin;
         private WordsField _wordsField;
         private float _suppressClickUntil;
         private bool _handledPointerDownSelection;
@@ -40,6 +41,19 @@ namespace UI.Components
         private void Awake()
         {
             _wordsField = GetComponentInParent<WordsField>();
+        }
+
+        [Inject]
+        private void Construct(ISkinsService skinsService)
+        {
+            _skinsService = skinsService;
+            _skinsService.OnRuntimeChanged += OnRuntimeChanged;
+        }
+
+        private void OnDestroy()
+        {
+            if (_skinsService != null)
+                _skinsService.OnRuntimeChanged -= OnRuntimeChanged;
         }
 
         private void Update()
@@ -127,11 +141,35 @@ namespace UI.Components
             UnHighlight();
         }
 
-        internal void SetSkin(SkinCellData skin)
+        internal void ApplyCurrentSkin()
         {
-            _skin = skin;
-            _letterText.color = skin.letterTextColor;
+            if (_skinsService.TryGetColor(SkinColorKey.LettersFieldColor, out Color color))
+            {
+                _letterText.color = color;
+            }
+            else
+            {
+                Debug.LogWarning(
+                    $"[{nameof(SelectableLetter)}] Color key '{SkinColorKey.LettersFieldColor}' " +
+                    "is absent in the current skin runtime.",
+                    this);
+            }
+
             SetHighlightState(HighlightState.None);
+        }
+
+        public bool ApplyBackgroundSkin(SkinSpriteKey key)
+        {
+            if (_skinsService != null && _skinsService.TryGetSprite(key, out Sprite sprite))
+            {
+                _mainBackground.sprite = sprite;
+                return true;
+            }
+
+            Debug.LogWarning(
+                $"[{nameof(SelectableLetter)}] Sprite key '{key}' is absent in the current skin runtime.",
+                this);
+            return false;
         }
 
         /// <summary>
@@ -193,19 +231,23 @@ namespace UI.Components
             else
             {
                 _letterText.text = "";
-                _mainBackground.sprite = _skin.cellBackgroundDefault;
+                ApplyBackgroundSkin(SkinSpriteKey.CellBackgroundDefaultAlias);
             }
         }
         
         private void SetHighlightState(HighlightState state)
         {
             _highlightState = state;
-            _mainBackground.sprite = state switch
+            SkinSpriteKey key = state switch
             {
-                HighlightState.SelectedCell => _skin.selectedCell,
-                HighlightState.Highlighted => _skin.selectedLetter,
-                _ => Empty() ? _skin.cellBackgroundDefault : _skin.cellBackgroundFilled
+                HighlightState.SelectedCell => SkinSpriteKey.CellSelectedAlias,
+                HighlightState.Highlighted => SkinSpriteKey.LettersSelectedAlias,
+                _ => Empty()
+                    ? SkinSpriteKey.CellBackgroundDefaultAlias
+                    : SkinSpriteKey.CellBackgroundFilledAlias
             };
+
+            ApplyBackgroundSkin(key);
         }
 
         private void Blink()
@@ -214,15 +256,20 @@ namespace UI.Components
 
             if (_isIlluminated)
             {
-                _mainBackground.sprite = _skin.cellBackgroundFilled;
+                ApplyBackgroundSkin(SkinSpriteKey.CellBackgroundFilledAlias);
                 _audioService?.PlaySfxAsync(SoundsConfig.LetterUnblinking);
             }
             else
             {
                 ++_blinkCounter;
-                _mainBackground.sprite = _skin.selectedCell;
+                ApplyBackgroundSkin(SkinSpriteKey.CellSelectedAlias);
                 _audioService?.PlaySfxAsync(SoundsConfig.LetterBlinking);
             }
+        }
+
+        private void OnRuntimeChanged(SkinRuntime runtime)
+        {
+            ApplyCurrentSkin();
         }
 
         private bool IsInputLocked()
