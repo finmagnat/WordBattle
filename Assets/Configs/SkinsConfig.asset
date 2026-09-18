@@ -55,13 +55,13 @@ MonoBehaviour:
     - Key: 5
       Alias: ProgressBkg_Blue
     - Key: 8
-      Alias: IconSettings_Blue
+      Alias: ButtonSettings_Blue
     - Key: 9
-      Alias: IconSkin_Blue
+      Alias: ButtonSkin_Blue
     - Key: 10
-      Alias: IconInfo_Blue
+      Alias: ButtonInfo_Blue
     - Key: 11
-      Alias: IconShop_Blue
+      Alias: ButtonShop_Blue
     - Key: 12
       Alias: CellBackgroundDefault_Blue
     - Key: 13
@@ -139,13 +139,13 @@ MonoBehaviour:
     - Key: 5
       Alias: ProgressBkg_Pink
     - Key: 8
-      Alias: IconSettings_Pink
+      Alias: ButtonSettings_Pink
     - Key: 9
-      Alias: IconSkin_Pink
+      Alias: ButtonSkin_Pink
     - Key: 10
-      Alias: IconInfo_Pink
+      Alias: ButtonInfo_Pink
     - Key: 11
-      Alias: IconShop_Pink
+      Alias: ButtonShop_Pink
     - Key: 12
       Alias: CellBackgroundDefault_Pink
     - Key: 13
@@ -179,6 +179,6 @@ MonoBehaviour:
       Alias: ParalaxBackground_Pink
     Colors:
     - Key: 1
-      Value: {r: 0.23529412, g: 0.34117648, b: 0.6509804, a: 1}
+      Value: {r: 0.44313726, g: 0.019607844, b: 0.44313726, a: 1}
     - Key: 2
-      Value: {r: 0.23921569, g: 0.34117648, b: 0.6509804, a: 1}
+      Value: {r: 0.44313726, g: 0.019607844, b: 0.44313726, a: 1}

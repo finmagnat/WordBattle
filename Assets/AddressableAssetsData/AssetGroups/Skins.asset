@@ -16,7 +16,13 @@ MonoBehaviour:
   m_GUID: 2a8a01c8bc9622e4db02cb977cb1e9ea
   m_SerializeEntries:
   - m_GUID: 0484227f28714b848bec5d7799745f15
-    m_Address: IconTools_Pink
+    m_Address: ButtonTools_Pink
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0abfbcb8a2a454d4a80bdd7790a6eb5a
+    m_Address: ButtonTools_Blue
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin
@@ -46,7 +52,7 @@ MonoBehaviour:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2a3eaa024f54bfb42a91ab663ad01c62
-    m_Address: IconShop_Pink
+    m_Address: ButtonShop_Pink
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin
@@ -58,7 +64,7 @@ MonoBehaviour:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 33f9d25db3a297647b437c41d6a0e5ea
-    m_Address: IconInfo_Pink
+    m_Address: ButtonInfo_Pink
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin
@@ -88,7 +94,7 @@ MonoBehaviour:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4e9d74b5218bde04898283c7b1a6a95b
-    m_Address: IconSettings_Pink
+    m_Address: ButtonSettings_Pink
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin
@@ -101,6 +107,18 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 529cfb5996c121241b771bfb15ff1812
     m_Address: ButtonGo_Blue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5da83763a967c6a4e98999a13d24a79b
+    m_Address: ButtonInfo_Blue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 604db95ad046f7246a3e3dde64dc3498
+    m_Address: ButtonPause_Blue
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin
@@ -130,7 +148,7 @@ MonoBehaviour:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6cc30553cb33f654eb4515899caeea60
-    m_Address: IconSkin_Pink
+    m_Address: ButtonSkin_Pink
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin
@@ -153,12 +171,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 74f776a40fb934c4fb335f1f3f08c76d
-    m_Address: IconBg_Pink
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Skin
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 78ae07fb8f9480b4f89ad9ce1910393e
     m_Address: CellBackgroundDefault_Blue
     m_ReadOnly: 0
@@ -166,7 +178,13 @@ MonoBehaviour:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 850c50c64d4a8d24cb41b3b987cc2281
-    m_Address: IconStatistic_Pink
+    m_Address: ButtonStatistic_Pink
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8b01b2b3b5c357b4bbc5c45cbc606946
+    m_Address: ButtonShop_Blue
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin
@@ -183,6 +201,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9176d651a6e92c94ea768d2a025b71e9
+    m_Address: ButtonPass_Blue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 923a6125b2db0f1438295d4c0f5cea8e
     m_Address: Button_Blue
     m_ReadOnly: 0
@@ -190,7 +214,19 @@ MonoBehaviour:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 99ec2e3db5e63024a97c2cf490047e2c
-    m_Address: IconPass_Pink
+    m_Address: ButtonPass_Pink
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9c01e0c359ebbd5448a6a471cdc9fbb5
+    m_Address: ButtonSkin_Blue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9fb5239c6c767214db240f8f3732f7ef
+    m_Address: ButtonSettings_Blue
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin
@@ -202,13 +238,7 @@ MonoBehaviour:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b08cc38421b7c98469e0abc9cf1216d1
-    m_Address: IconPause_Pink
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Skin
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c34a83444c1962843a488125d6a2ca33
-    m_Address: ButtonBg_Pink
+    m_Address: ButtonPause_Pink
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin
@@ -221,6 +251,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e55af0784c5e7694f91e0d9fc6ec04fb
     m_Address: MainBackground_Blue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e5869f0612ced0b4cb827671ab0e90e6
+    m_Address: ButtonStatistic_Blue
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin
