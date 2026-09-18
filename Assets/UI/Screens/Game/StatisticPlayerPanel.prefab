@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8103170448835332409}
   - component: {fileID: 3263045444896261504}
   - component: {fileID: 7701792891080328310}
+  - component: {fileID: 1536319666776383968}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -75,6 +76,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 2
+--- !u!114 &1536319666776383968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4844638157448202629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 3
+  _image: {fileID: 7701792891080328310}
 --- !u!1 &6655500255918130231
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,6 +473,7 @@ GameObject:
   - component: {fileID: 6865671534205956101}
   - component: {fileID: 6867658686551849851}
   - component: {fileID: 6759573914571525507}
+  - component: {fileID: 7092993815654615347}
   m_Layer: 5
   m_Name: Handle
   m_TagString: Untagged
@@ -522,6 +538,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 20
+--- !u!114 &7092993815654615347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6655968857254161375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 4
+  _image: {fileID: 6759573914571525507}
 --- !u!1 &6656035798822912347
 GameObject:
   m_ObjectHideFlags: 0

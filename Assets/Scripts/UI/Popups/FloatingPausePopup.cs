@@ -2,7 +2,6 @@ using Core.Services;
 using Cysharp.Threading.Tasks;
 using UI.Components;
 using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 
 namespace UI.Popups
@@ -11,7 +10,6 @@ namespace UI.Popups
     {
         [Header("References")]
         [SerializeField] protected PauseButtonAnimator _pauseButtonAnimator;
-        [SerializeField] protected Image _pauseImage;
         
         [Inject] private SkinsService _skinsService;
         [Inject] private ISpriteService _spritesService;
@@ -28,11 +26,5 @@ namespace UI.Popups
             _pauseButtonAnimator.SetPaused(false);
         }
         
-        internal async UniTask UpdateSkin()
-        {
-            var skin = _skinsService.SkinCurrent;
-            _pauseImage.sprite = await _spritesService.GetSpriteAsync(skin.PauseButtonAlias);
-        }
-
     }
 }

@@ -49,6 +49,8 @@ namespace Core.Installers
             Container.Bind<IInternetConnectionService>().To<InternetConnectionService>().AsSingle();
 
             Container.Bind<ISpriteService>().To<SpriteService>().AsSingle();
+            Container.Bind<IPrefabService>().To<PrefabService>().AsSingle();
+            Container.Bind<SkinRuntimeProvider>().AsSingle();
 
             Container.Bind<AnalyticsPlayerContext>().AsSingle();
             Container.BindInstance(_analyticsSettings).AsSingle();
@@ -65,7 +67,7 @@ namespace Core.Installers
             Container.BindInterfacesAndSelfTo<AudioService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<VibrationService>().AsSingle();
             
-            Container.Bind<SkinsService>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<SkinsService>().AsSingle().NonLazy();
             Container.Bind<GameAnalyticsPayloadFactory>().AsSingle();
             Container.Bind<GameAnalyticsReporter>().AsSingle();
             Container.Bind<BoosterAnalyticsReporter>().AsSingle();

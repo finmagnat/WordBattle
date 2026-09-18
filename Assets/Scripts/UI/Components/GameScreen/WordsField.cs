@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Core.Data;
-using Core.Services;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -15,8 +14,7 @@ namespace UI.Components
         [SerializeField] private GameObject _selectebleLetterPrefab;
         [SerializeField] private Image _mainBackground;
      
-        [Inject] private SkinsService _skinsService;
-        [Inject] private ISpriteService _spritesService;
+        //[Inject] private ISkinsService _skinsService;
         [Inject] private DiContainer _container;
         
         private const int COLS = 5;
@@ -66,7 +64,7 @@ namespace UI.Components
                 _items.ForEach(item => item.Reset());
             }
 
-            UpdateSkin();
+            ApplyPreparedSkin();
             
             return _items;
         }
@@ -182,18 +180,10 @@ namespace UI.Components
                 EndDragSelection();
         }
         
-        public async UniTask UpdateSkin()
+        private void ApplyPreparedSkin()
         {
-            var skin = _skinsService.SkinCurrent;
-            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.FrameBackgroundAlias);
-            
-            SkinCellData skinData;
-            skinData.cellBackgroundDefault = await _spritesService.GetSpriteAsync(skin.CellBackgroundDefaultAlias);
-            skinData.cellBackgroundFilled = await _spritesService.GetSpriteAsync(skin.CellBackgroundFilledAlias);
-            skinData.selectedCell = await _spritesService.GetSpriteAsync(skin.CellSelectedAlias);
-            skinData.selectedLetter = await _spritesService.GetSpriteAsync(skin.LettersSelectedAlias);
-            skinData.letterTextColor = skin.LettersFieldColor;
-            _items.ForEach(item => item.SetSkin(skinData));
+            //_mainBackground.sprite = _skinsService.GetSprite(SkinSpriteKey.FrameBackgroundAlias);
+            _items.ForEach(item => item.ApplyCurrentSkin());
         }
         
         internal void SetModeEraser(bool value)
@@ -254,12 +244,4 @@ namespace UI.Components
         }
     }
 
-    public struct SkinCellData
-    {
-        public Sprite cellBackgroundDefault; // Фон пустой ячейки по умолчанию (skined)
-        public Sprite cellBackgroundFilled; // Фон с установленной буквой (skined)
-        public Sprite selectedCell; // Выделение выбранной ячейки (пустой или с только что установленной буквой) (оранжевый)
-        public Sprite selectedLetter; // Выделение буквы (при выделении слова - желтый)
-        public Color letterTextColor; // Цвет буквы на ячейке
-    }
 }
