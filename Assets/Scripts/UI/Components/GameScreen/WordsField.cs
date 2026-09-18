@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Core.Data;
-using Core.Services;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -15,7 +14,7 @@ namespace UI.Components
         [SerializeField] private GameObject _selectebleLetterPrefab;
         [SerializeField] private Image _mainBackground;
      
-        [Inject] private ISkinsService _skinsService;
+        //[Inject] private ISkinsService _skinsService;
         [Inject] private DiContainer _container;
         
         private const int COLS = 5;
@@ -181,15 +180,9 @@ namespace UI.Components
                 EndDragSelection();
         }
         
-        public async UniTask UpdateSkin()
-        {
-            await _skinsService.EnsureCurrentRuntimeAsync(this.GetCancellationTokenOnDestroy());
-            ApplyPreparedSkin();
-        }
-
         private void ApplyPreparedSkin()
         {
-            _mainBackground.sprite = _skinsService.GetSprite(SkinSpriteKey.FrameBackgroundAlias);
+            //_mainBackground.sprite = _skinsService.GetSprite(SkinSpriteKey.FrameBackgroundAlias);
             _items.ForEach(item => item.ApplyCurrentSkin());
         }
         

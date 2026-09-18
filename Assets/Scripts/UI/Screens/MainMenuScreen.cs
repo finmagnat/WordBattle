@@ -25,7 +25,6 @@ namespace UI.Screens
         [SerializeField] private Button _skinsButton;
         [SerializeField] private Button _shopButton;
         [SerializeField] private Button _dailyBonusButton;
-        //[SerializeField] private RectTransform _mainScreenBackgroung;
         [SerializeField] private SkinBindingGroup _skinBindings;
         
         [Inject] private IUIManager _ui;

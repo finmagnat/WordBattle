@@ -58,7 +58,7 @@ namespace UI.Popups
             {
                 foreach (var skinItem in _skinsService.Config.Skins)
                 {
-                    var spritePreview = await _spritesService.GetSpriteAsync(skinItem.MainBackgroundAlias);
+                    var spritePreview = await _spritesService.GetSpriteAsync(skinItem.SkinPreviewAlias);
                     SkinButton skinButton = _container.InstantiatePrefabForComponent<SkinButton>(_buttonPrefab, _scrollListContent);
                     skinButton.SetSkinData(spritePreview, skinItem.SkinType);
                     skinButton.button.onClick.AddListener(() =>

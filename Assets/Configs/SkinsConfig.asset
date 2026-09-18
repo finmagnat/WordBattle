@@ -15,34 +15,7 @@ MonoBehaviour:
   SkinByDefault: 1
   _skins:
   - SkinType: 1
-    MainBackgroundAlias: MainBackground_Blue
-    PlayerPanelBackgroundAlias: PlayerPanel_Blue
-    FrameBackgroundAlias: Frame_Blue
-    HandleBackgroundAlias: Handle_Blue
-    ProgressBackgroundAlias: ProgressBkg_Blue
-    CellBackgroundDefaultAlias: CellBackgroundDefault_Blue
-    CellBackgroundFilledAlias: CellBackgroundFilled_Blue
-    CellSelectedAlias: CellSelected
-    LettersSelectedAlias: LetterSelected
-    LettersFieldColor: {r: 0.23642753, g: 0.3400565, b: 0.6509434, a: 1}
-    KeyboardTileAlias: KeybourdTile
-    KeyboardLetterColor: {r: 0.23921569, g: 0.34117648, b: 0.6509804, a: 1}
-    HomeButtonAlias: ButtonHome_Blue
-    OptionsButtonAlias: ButtonTools_Blue
-    PauseButtonAlias: ButtonPause_Blue
-    CancelButtonAlias: ButtonCancel_Blue
-    GoButtonAlias: ButtonGo_Blue
-    PassButtonAlias: ButtonPass_Blue
-    RepeatGameButtonAlias: ButtonGo_Blue
-    StatisticButtonAlias: ButtonStatistic_Blue
-    DefaultButtonAlias: Button_Blue
-    MainScreenTheme:
-      HomeBackgroundAlias: ParalaxBackground_Blue
-      ButtonsBkgAlias: IconBg_Blue
-      SettingsButtonAlias: IconSettings_Blue
-      SkinButtonAlias: IconSkin_Blue
-      InfoButtonAlias: IconInfo_Blue
-      ShopButtonAlias: IconShop_Blue
+    SkinPreviewAlias: MainBackground_Blue
     Sprites:
     - Key: 1
       Alias: MainBackground_Blue
@@ -99,34 +72,7 @@ MonoBehaviour:
     - Key: 2
       Value: {r: 0.23921569, g: 0.34117648, b: 0.6509804, a: 1}
   - SkinType: 2
-    MainBackgroundAlias: MainBackground_Pink
-    PlayerPanelBackgroundAlias: PlayerPanel_Pink
-    FrameBackgroundAlias: Frame_Pink
-    HandleBackgroundAlias: Handle_Pink
-    ProgressBackgroundAlias: ProgressBkg_Pink
-    CellBackgroundDefaultAlias: CellBackgroundDefault_Pink
-    CellBackgroundFilledAlias: CellBackgroundFilled_Pink
-    CellSelectedAlias: CellSelected
-    LettersSelectedAlias: LetterSelected
-    LettersFieldColor: {r: 0.4433962, g: 0.018823417, b: 0.4433962, a: 1}
-    KeyboardTileAlias: KeybourdTile
-    KeyboardLetterColor: {r: 0.44313726, g: 0.019607844, b: 0.44313726, a: 1}
-    HomeButtonAlias: ButtonHome_Pink
-    OptionsButtonAlias: ButtonTools_Pink
-    PauseButtonAlias: ButtonPause_Pink
-    CancelButtonAlias: ButtonCancel_Pink
-    GoButtonAlias: ButtonGo_Pink
-    PassButtonAlias: ButtonPass_Pink
-    RepeatGameButtonAlias: ButtonGo_Pink
-    StatisticButtonAlias: ButtonStatistic_Pink
-    DefaultButtonAlias: Button_Pink
-    MainScreenTheme:
-      HomeBackgroundAlias: ParalaxBackground_Pink
-      ButtonsBkgAlias: IconBg_Pink
-      SettingsButtonAlias: IconSettings_Pink
-      SkinButtonAlias: IconSkin_Pink
-      InfoButtonAlias: IconInfo_Pink
-      ShopButtonAlias: IconShop_Pink
+    SkinPreviewAlias: MainBackground_Pink
     Sprites:
     - Key: 1
       Alias: MainBackground_Pink

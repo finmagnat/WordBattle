@@ -7,6 +7,7 @@ using Cysharp.Threading.Tasks;
 using TMPro;
 using UI.Components;
 using UI.Popups;
+using UI.SkinBindings;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -24,16 +25,12 @@ namespace UI.Screens
         [SerializeField] protected Image _wordInfoIcon;
         [SerializeField] protected TimerProgressBar _progressBar;
 
-        [SerializeField] protected Button _homeButton;
-        [SerializeField] protected Button _optionsButton;
         [SerializeField] protected Button _pauseButton;
         [SerializeField] protected Button _cancelButton;
         [SerializeField] protected Button _goButton;
         [SerializeField] protected Button _repeatGame;
         [SerializeField] protected Button _passButton;
-        [SerializeField] protected Button _statisticButton;
 
-        [SerializeField] protected Image _mainBackground;
         [SerializeField] protected PlayerPanel _playerPanelOwner;
         [SerializeField] protected PlayerPanel _playerPanelOpponent;
         [SerializeField] protected WordsField _wordsField;
@@ -45,7 +42,8 @@ namespace UI.Screens
         [SerializeField] protected FocusHoleOverlay _holeOverlay;
         [SerializeField] protected FloatingBubblePopup _eraseBubblePopup;
         [SerializeField] protected FloatingPausePopup _pausePopup;
-
+        [SerializeField] private SkinBindingGroup _skinBindings;
+        
         internal TimerProgressBar TimerBar => _progressBar;
         internal PlayerPanel PlayerPanelOwner => _playerPanelOwner;
         internal PlayerPanel PlayerPanelOpponent => _playerPanelOpponent;
@@ -62,8 +60,6 @@ namespace UI.Screens
         internal GameObject RepeatGame => _repeatGame.gameObject;
 
         [Inject] protected LocalizationService _localization;
-        [Inject] protected SkinsService _skinsService;
-        [Inject] protected ISpriteService _spritesService;
         [Inject] protected IUIManager _ui;
         [Inject] protected ILoadingUI _loadingUI;
         [Inject] protected ISaveService _saveService;
@@ -272,27 +268,9 @@ namespace UI.Screens
             _isProcessing = false;
         }
 
-        protected async UniTask UpdateSkinAsync()
+        protected UniTask UpdateSkinAsync()
         {
-            var skin = _skinsService.SkinCurrent;
-
-            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.MainBackgroundAlias);
-            _homeButton.image.sprite = await _spritesService.GetSpriteAsync(skin.HomeButtonAlias);
-            _optionsButton.image.sprite = await _spritesService.GetSpriteAsync(skin.OptionsButtonAlias);
-            _pauseButton.image.sprite = await _spritesService.GetSpriteAsync(skin.PauseButtonAlias);
-            _cancelButton.image.sprite = await _spritesService.GetSpriteAsync(skin.CancelButtonAlias);
-            _goButton.image.sprite = await _spritesService.GetSpriteAsync(skin.GoButtonAlias);
-            _repeatGame.image.sprite = await _spritesService.GetSpriteAsync(skin.RepeatGameButtonAlias);
-            _passButton.image.sprite = await _spritesService.GetSpriteAsync(skin.PassButtonAlias);
-            _statisticButton.image.sprite = await _spritesService.GetSpriteAsync(skin.StatisticButtonAlias);
-
-            await _progressBar.UpdateSkin();
-            await _playerPanelOwner.UpdateSkin();
-            await _playerPanelOpponent.UpdateSkin();
-            await _wordsField.UpdateSkin();
-            await _statisticsPanel.UpdateSkin();
-            await _keyboardPanel.UpdateSkin();
-            await _pausePopup.UpdateSkin();
+            return _skinBindings.PrepareAsync();
         }
 
         protected virtual async UniTask PrepareCommonAsync()

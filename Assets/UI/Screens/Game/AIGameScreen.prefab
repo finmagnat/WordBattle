@@ -1066,7 +1066,6 @@ MonoBehaviour:
   _scaleDuration: 0.3
   _scalePunch: 0.05
   _scaleTransform: {fileID: 1416382209582507180}
-  _mainBackground: {fileID: 8008834578615683437}
 --- !u!1 &1904639588643313539
 GameObject:
   m_ObjectHideFlags: 0
@@ -1118,7 +1117,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1904639588643313539}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -1231,7 +1230,6 @@ MonoBehaviour:
   _scalePunch: 0.05
   _scaleTransform: {fileID: 6894393391925787511}
   _pauseButtonAnimator: {fileID: 5288879235226524462}
-  _pauseImage: {fileID: 4142163477092799278}
 --- !u!114 &6465553291677982826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3751,7 +3749,6 @@ MonoBehaviour:
   _scalePunch: 0.05
   _scaleTransform: {fileID: 6324813212890612094}
   _closeButton: {fileID: 5212689114948856682}
-  _mainBackground: {fileID: 4927016041967995712}
   _startWordText: {fileID: 8978751078301748931}
   _statisticPlayerPlayerPanelOwner: {fileID: 8983983293109427010}
   _statisticPlayerPlayerPanelOpponent: {fileID: 6425763777899718953}
@@ -7525,6 +7522,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6461008793082353388, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6701924706715342086}
+    - targetCorrespondingSourceObject: {fileID: 6461008793082353388, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7418958458293773873}
     - targetCorrespondingSourceObject: {fileID: 3628317633631062399, guid: 4a6897af94451294898de8812c12fcb9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6466277184828439116}
@@ -7587,15 +7587,11 @@ MonoBehaviour:
   _wordInfoIconRect: {fileID: 7706007196172725173}
   _wordInfoIcon: {fileID: 7424069955656196124}
   _progressBar: {fileID: 6580441538550110275}
-  _homeButton: {fileID: 939743396283217504}
-  _optionsButton: {fileID: 2458355809360450116}
   _pauseButton: {fileID: 1882456887132103752}
   _cancelButton: {fileID: 3387780538634914120}
   _goButton: {fileID: 6626517079380670935}
   _repeatGame: {fileID: 3404322222310117209}
   _passButton: {fileID: 4696974156665089600}
-  _statisticButton: {fileID: 8922178149204596851}
-  _mainBackground: {fileID: 6701924706715342086}
   _playerPanelOwner: {fileID: 1804453536542516080}
   _playerPanelOpponent: {fileID: 7112144571270252615}
   _wordsField: {fileID: 6212051450170019999}
@@ -7607,6 +7603,7 @@ MonoBehaviour:
   _holeOverlay: {fileID: 441991318237677251}
   _eraseBubblePopup: {fileID: 4543654959007652336}
   _pausePopup: {fileID: 5289673975630271292}
+  _skinBindings: {fileID: 633293665724061443}
 --- !u!114 &633293665724061443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7667,6 +7664,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7418958458293773873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7162788095947514930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 1
+  _image: {fileID: 6701924706715342086}
 --- !u!1001 &4544754363819483706
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
-using Core.Services.DataDictionary;
+using Core.Data;
 using Core.Services;
+using Core.Services.DataDictionary;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -12,10 +13,8 @@ namespace UI.Components
         [SerializeField] private KeyboardLetter _keyboardLetterPrefab;
         [SerializeField] private AdaptiveKeyboardGrid _adaptiveKeyboardGrid;
 
-        [Inject] private SkinsService _skinsService;
-        [Inject] private ISpriteService _spriteService;
-        [Inject] private LocalizationService _localization;
         [Inject] private DictionaryService _dictionaryService;
+        [Inject] private ISkinsService _skinsService;
         
         private List<KeyboardLetter> _items;
       
@@ -55,10 +54,11 @@ namespace UI.Components
         
         private async UniTask SetSkin()
         {
-            var skin = _skinsService.SkinCurrent;
-            var keyboardTile = await _spriteService.GetSpriteAsync(skin.KeyboardTileAlias);
+            Color letterColor = _skinsService.GetColor(SkinColorKey.KeyboardLetterColor);
+            Sprite keyboardTile = _skinsService.GetSprite(SkinSpriteKey.KeyboardTileAlias);
+            
             _items.ForEach(item =>
-                item.SetSkin(keyboardTile, skin.KeyboardLetterColor)
+                item.SetSkin(keyboardTile, letterColor)
             );
         }
     }
