@@ -24,111 +24,111 @@ MonoBehaviour:
   _sounds:
   - Description: "\u0421\u0442\u0430\u0440\u0442 \u0438\u0433\u0440\u044B"
     Id: start_new_game
-    AddressKey: 61
+    AddressKey: sfx_start_new_game
     Clip: {fileID: 8300000, guid: e152c697de162cf4f8cfe26fb1bccfbe, type: 3}
   - Description: "\u0411\u0443\u043A\u0432\u0430 \u0443\u0441\u0442\u0430\u043D\u043E\u0432\u043B\u0435\u043D\u0430
       \u043D\u0430 \u043F\u043E\u043B\u0435"
     Id: letter_put_success
-    AddressKey: 62
+    AddressKey: sfx_letter_put_success
     Clip: {fileID: 8300000, guid: eb6f5248225e6aa4cadaf89675bcd30b, type: 3}
   - Description: "\u0411\u0443\u043A\u0432\u0430 \u0432\u044B\u0434\u0435\u043B\u0435\u043D\u0430
       \u043D\u0430 \u043F\u043E\u043B\u0435"
     Id: letter_selected
-    AddressKey: 45
+    AddressKey: sfx_letter_selected
     Clip: {fileID: 8300000, guid: 0489bc1495e01e5409053822b29dd4c2, type: 3}
   - Description: "\u0411\u0443\u043A\u0432\u0430 \u043D\u0430 \u043F\u043E\u043B\u0435
       \u043C\u0438\u0433\u0430\u0435\u0442 (\u043D\u0435\u043F\u043E\u0434\u0441\u0432\u0435\u0447\u0435\u043D\u0430)"
     Id: letter_unblinking
-    AddressKey: 52
+    AddressKey: sfx_letter_unblinking
     Clip: {fileID: 8300000, guid: 6ae950121e544884783babaf1ebf71e3, type: 3}
   - Description: "\u0411\u0443\u043A\u0432\u0430 \u043D\u0430 \u043F\u043E\u043B\u0435
       \u043C\u0438\u0433\u0430\u0435\u0442 (\u043F\u043E\u0434\u0441\u0432\u0435\u0447\u0435\u043D\u0430)"
     Id: letter_blinking
-    AddressKey: 57
+    AddressKey: sfx_letter_blinking
     Clip: {fileID: 8300000, guid: ab3d6c9225c651942b3c726060d3331b, type: 3}
   - Description: "\u0418\u0433\u0440\u043E\u043A \u0441\u0434\u0435\u043B\u0430\u043B
       \u0445\u043E\u0434"
     Id: i_made_move
-    AddressKey: 59
+    AddressKey: sfx_i_made_move
     Clip: {fileID: 8300000, guid: b61badd820bd69f449e810e2bd07bf61, type: 3}
   - Description: "\u041E\u043F\u043F\u043E\u043D\u0435\u043D\u0442 \u0441\u0434\u0435\u043B\u0430\u043B
       \u0445\u043E\u0434"
     Id: opponent_made_move
-    AddressKey: 48
+    AddressKey: sfx_opponent_made_move
     Clip: {fileID: 8300000, guid: 2f62a4f275683d14daa39b0da6c50eb2, type: 3}
   - Description: "\u0412\u044B\u0438\u0433\u0440\u0430\u043B \u043E\u043F\u043F\u043E\u043D\u0435\u043D\u0442"
     Id: opponent_won
-    AddressKey: 53
+    AddressKey: sfx_opponent_won
     Clip: {fileID: 8300000, guid: 77429401c82594640856532ad60960b8, type: 3}
   - Description: "\u041E\u043F\u043F\u043E\u043D\u0435\u043D\u0442 \u043F\u0440\u043E\u043F\u0443\u0441\u0442\u0438\u043B
       \u0445\u043E\u0434"
     Id: opponent_find_word_fail
-    AddressKey: 46
+    AddressKey: sfx_opponent_find_word_fail
     Clip: {fileID: 8300000, guid: 178e3b7f7e43cf2488ef87c5b9e2cc22, type: 3}
   - Description: "\u041F\u0430\u0443\u0437\u0430 (\u043A\u0432\u043B/\u0432\u044B\u043A\u043B)"
     Id: pause
-    AddressKey: 49
+    AddressKey: sfx_pause
     Clip: {fileID: 8300000, guid: 600d9a9da8735544eaa94c396fe20cde, type: 3}
   - Description: "\u0418\u0433\u0440\u043E\u043A \u043F\u0440\u043E\u043F\u0443\u0441\u0442\u0438\u043B
       \u0445\u043E\u0434"
     Id: pass
-    AddressKey: 67
+    AddressKey: sfx_pass
     Clip: {fileID: 8300000, guid: e82ff3ed8dd768a4a9dd36cbdbe9261e, type: 3}
   - Description: "\u041D\u0438\u0447\u044C\u044F"
     Id: draw
-    AddressKey: 65
+    AddressKey: sfx_draw
     Clip: {fileID: 8300000, guid: 73978a4ab2ccf194e8d4cb3622739891, type: 3}
   - Description: "\u0412\u044B\u0438\u0433\u0440\u0430\u043B \u0438\u0433\u0440\u043E\u043A"
     Id: i_won
-    AddressKey: 66
+    AddressKey: sfx_i_won
     Clip: {fileID: 8300000, guid: c54eca2db53ba984e9190d4c94ee3687, type: 3}
   - Description: "\u0421\u043A\u0438\u043D \u0438\u0437\u043C\u0435\u043D\u0438\u043B\u0441\u044F"
     Id: skin_changed
-    AddressKey: 68
+    AddressKey: sfx_skin_changed
     Clip: {fileID: 8300000, guid: 90eb115198eb5df4cad6e9d1835dd9f2, type: 3}
   - Description: "\u041A\u043B\u0438\u043A \u043F\u043E \u043A\u043D\u043E\u043F\u043A\u0435"
     Id: button_click
-    AddressKey: 47
+    AddressKey: sfx_button_click
     Clip: {fileID: 8300000, guid: 2f477d87899c014489a2c9e5e588053f, type: 3}
   - Description: "\u041F\u043E\u043F\u0430\u043F '\u041D\u0430\u0433\u0440\u0430\u0434\u0430'"
     Id: popup_reward
-    AddressKey: 54
+    AddressKey: sfx_popup_reward
     Clip: {fileID: 8300000, guid: 8001e8f08081d1848aa86775c4a8e673, type: 3}
   - Description: "\u041F\u043E\u043F\u0430\u043F '\u0412\u043E\u043F\u0440\u043E\u0441'"
     Id: popup_question
-    AddressKey: 51
+    AddressKey: sfx_popup_question
     Clip: {fileID: 8300000, guid: 67881ffdb1cb57448a6889b5d0360ffa, type: 3}
   - Description: "\u041F\u043E\u043F\u0430\u043F '\u0421\u043E\u0432\u0435\u0442'"
     Id: popup_warning
-    AddressKey: 58
+    AddressKey: sfx_popup_warning
     Clip: {fileID: 8300000, guid: b07edfb59eefc94449cea50a336906f2, type: 3}
   - Description: "\u0411\u0443\u0441\u0442\u0435\u0440 '\u0411\u0443\u043A\u043E\u0432\u043A\u0430'
       \u043D\u0430\u0448\u0435\u043B \u0441\u043B\u043E\u0432\u043E"
     Id: booster_found_word
-    AddressKey: 60
+    AddressKey: sfx_booster_found_word
     Clip: {fileID: 8300000, guid: b72e4fd600b61974faa88bfc5f27bfc0, type: 3}
   - Description: "\u0411\u0443\u0441\u0442\u0435\u0440 '\u0411\u0443\u043A\u043E\u0432\u043A\u0430'
       \u043D\u0435 \u043D\u0430\u0448\u0435\u043B \u0441\u043B\u043E\u0432\u043E"
     Id: booster_not_found_word
-    AddressKey: 56
+    AddressKey: sfx_booster_not_found_word
     Clip: {fileID: 8300000, guid: 949551e6efe768f498b574764f323710, type: 3}
   - Description: "\u0417\u0430\u043F\u0443\u0441\u043A \u0431\u0443\u0441\u0442\u0435\u0440\u0430
       '\u0417\u0430\u043C\u0435\u0434\u043B\u0435\u043D\u0438\u0435'"
     Id: booster_slowdown_launch
-    AddressKey: 55
+    AddressKey: sfx_booster_slowdown_launch
     Clip: {fileID: 8300000, guid: 93bd243f3ad9cf84f83724effb8eaf41, type: 3}
   - Description: "\u0417\u0430\u043F\u0443\u0441\u043A \u0431\u0443\u0441\u0442\u0435\u0440\u0430
       '\u041C\u0438\u043A\u0441\u0435\u0440'"
     Id: booster_mixer_launch
-    AddressKey: 50
+    AddressKey: sfx_booster_mixer_launch
     Clip: {fileID: 8300000, guid: 6059adb87c7d0434ca7de2691962f707, type: 3}
   - Description: "\u0417\u0430\u043F\u0443\u0441\u043A \u0431\u0443\u0441\u0442\u0435\u0440\u0430
       '\u041C\u0435\u043D\u044F\u043B\u043A\u0430'"
     Id: booster_swap_launch
-    AddressKey: 64
+    AddressKey: sfx_booster_swap_launch
     Clip: {fileID: 8300000, guid: 5294b869189f7ea4182d518d79636cfa, type: 3}
   - Description: "\u0417\u0430\u043F\u0443\u0441\u043A \u0431\u0443\u0441\u0442\u0435\u0440\u0430
       '\u041B\u0430\u0441\u0442\u0438\u043A'"
     Id: booster_eraser_launch
-    AddressKey: 63
+    AddressKey: sfx_booster_eraser_launch
     Clip: {fileID: 8300000, guid: e9f764b85265f4d4a80414fd3090f708, type: 3}
