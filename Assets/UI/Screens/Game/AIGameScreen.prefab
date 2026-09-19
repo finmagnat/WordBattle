@@ -7074,7 +7074,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: SwapBooster
       objectReference: {fileID: 0}
-    - target: {fileID: 1942989822721114571, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
+    - target: {fileID: 1710795083082738816, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -7705041413723772166, guid: d5bfb4267c9803542873cff3e025351f, type: 3}
@@ -7162,10 +7162,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8813898260889858214, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
-      propertyPath: Type
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7199,7 +7195,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: EraserBooster
       objectReference: {fileID: 0}
-    - target: {fileID: 1942989822721114571, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
+    - target: {fileID: 1710795083082738816, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -7522842387785124704, guid: 33f11c9f5f4a4e24ea3c7e6e06a159a8, type: 3}
@@ -7286,10 +7282,6 @@ PrefabInstance:
     - target: {fileID: 7177033595194083885, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8813898260889858214, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
-      propertyPath: Type
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7690,7 +7682,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: MixerBooster
       objectReference: {fileID: 0}
-    - target: {fileID: 1942989822721114571, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
+    - target: {fileID: 1710795083082738816, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -2579884233798903349, guid: df96d0b1d28059a4298eba575e3bd64c, type: 3}
@@ -7777,10 +7769,6 @@ PrefabInstance:
     - target: {fileID: 7177033595194083885, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8813898260889858214, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
-      propertyPath: Type
-      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8044,10 +8032,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LetterBooster
       objectReference: {fileID: 0}
-    - target: {fileID: 1942989822721114571, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 6511328444101842867, guid: e6099a093ace1c247857c73a2ad38c72, type: 3}
     - target: {fileID: 4147938874324506398, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
       propertyPath: m_fontSize
       value: 38
@@ -8131,10 +8115,6 @@ PrefabInstance:
     - target: {fileID: 7177033595194083885, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8813898260889858214, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
-      propertyPath: Type
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

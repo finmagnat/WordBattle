@@ -15,6 +15,12 @@ MonoBehaviour:
   m_GroupName: Skins
   m_GUID: 2a8a01c8bc9622e4db02cb977cb1e9ea
   m_SerializeEntries:
+  - m_GUID: 01d9d4cbb3601194295d2ff80c7f0296
+    m_Address: BoosterBg_Blue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0484227f28714b848bec5d7799745f15
     m_Address: ButtonTools_Pink
     m_ReadOnly: 0
@@ -179,6 +185,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 850c50c64d4a8d24cb41b3b987cc2281
     m_Address: ButtonStatistic_Pink
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8542b544a9aebf1488ce6ce443c11e84
+    m_Address: BoosterBg_Pink
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin

@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
-  _sfxKey: sfx_button_click
+  _uniqueSfxKey: 
 --- !u!1 &3751327684624850806
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,6 +755,30 @@ PrefabInstance:
     - target: {fileID: 3451378463448509486, guid: 3359230f239f3814796fd9f5b60b0324, type: 3}
       propertyPath: m_Name
       value: DailyBonusItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 4353946508965648871, guid: 3359230f239f3814796fd9f5b60b0324, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4353946508965648871, guid: 3359230f239f3814796fd9f5b60b0324, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4353946508965648871, guid: 3359230f239f3814796fd9f5b60b0324, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4353946508965648871, guid: 3359230f239f3814796fd9f5b60b0324, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4353946508965648871, guid: 3359230f239f3814796fd9f5b60b0324, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4353946508965648871, guid: 3359230f239f3814796fd9f5b60b0324, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4932780153288306451, guid: 3359230f239f3814796fd9f5b60b0324, type: 3}
       propertyPath: m_AnchorMax.y

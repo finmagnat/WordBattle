@@ -16,6 +16,7 @@ namespace Core.Data
         FrameBackgroundAlias = 3, // Фон рамки панелей/полей
         HandleBackgroundAlias = 4, // Фон ползунка на скролах
         ProgressBackgroundAlias = 5, // Фон прогресбара
+        BoosterBackgroundAlias = 6, // Фон бустера
         
         //"Кнопки меню домашнего экрана"
         SettingsButtonAlias = 8,

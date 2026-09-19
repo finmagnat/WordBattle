@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d5bfb4267c9803542873cff3e025351f
+guid: 8542b544a9aebf1488ce6ce443c11e84
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7705041413723772166
-    second: BoosterSwap_0
+      213: -6532391163916634620
+    second: BoosterBg_Pink_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,53 +109,27 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: 50
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 1
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BoosterSwap_0
+      name: BoosterBg_Pink_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 530
-        height: 454
+        width: 576
+        height: 560
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: afa225348a1321590800000000000000
-      internalID: -7705041413723772166
+      spriteID: 40639d4b8d84855a0800000000000000
+      internalID: -6532391163916634620
       vertices: []
       indices: 
       edges: []
@@ -164,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 7c9b1a1baea374f4bb9c7a069a584e0a
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BoosterSwap_0: -7705041413723772166
+      BoosterBg_Pink_0: -6532391163916634620
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

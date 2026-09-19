@@ -27,6 +27,8 @@ MonoBehaviour:
       Alias: Handle_Blue
     - Key: 5
       Alias: ProgressBkg_Blue
+    - Key: 6
+      Alias: BoosterBg_Blue
     - Key: 8
       Alias: ButtonSettings_Blue
     - Key: 9
@@ -84,6 +86,8 @@ MonoBehaviour:
       Alias: Handle_Pink
     - Key: 5
       Alias: ProgressBkg_Pink
+    - Key: 6
+      Alias: BoosterBg_Pink
     - Key: 8
       Alias: ButtonSettings_Pink
     - Key: 9
