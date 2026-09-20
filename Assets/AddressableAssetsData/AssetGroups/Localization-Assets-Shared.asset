@@ -25,6 +25,11 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5f517afd7da224b45b04f20e3ad900c1
+    m_Address: Assets/Localization/MainScreen_Logo Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8c1b72ee1ea77804c86ea6aa2d8c3b1e
     m_Address: Assets/Localization/AdsReward_Texts Shared Data.asset
     m_ReadOnly: 1
