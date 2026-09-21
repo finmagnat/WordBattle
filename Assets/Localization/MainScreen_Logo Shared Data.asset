@@ -16,7 +16,11 @@ MonoBehaviour:
   m_TableCollectionNameGuidString: 5f517afd7da224b45b04f20e3ad900c1
   m_Entries:
   - m_Id: 17296670720
-    m_Key: MAIN_SCREEN_HERO_LETTERS
+    m_Key: MAIN_SCREEN_LOGO_BLUE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 319424447266816
+    m_Key: MAIN_SCREEN_LOGO_WOOD
     m_Metadata:
       m_Items: []
   m_Metadata:
@@ -36,6 +40,11 @@ MonoBehaviour:
       data:
         m_Entries:
         - m_KeyId: 17296670720
+          m_TableCodes:
+          - en-US
+          - ru
+          - uk
+        - m_KeyId: 319424447266816
           m_TableCodes:
           - en-US
           - ru

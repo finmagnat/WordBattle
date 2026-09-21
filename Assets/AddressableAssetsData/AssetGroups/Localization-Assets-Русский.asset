@@ -15,6 +15,12 @@ MonoBehaviour:
   m_GroupName: "Localization-Assets-\u0420\u0443\u0441\u0441\u043A\u0438\u0439"
   m_GUID: 5d2819ff8260af34697b37989d739028
   m_SerializeEntries:
+  - m_GUID: 1615926fb15fb1c45af3d97e47b22d36
+    m_Address: HeroLetters_RU_Wood
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ru
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7a23eb448a1df3646ae62cdadec10d89
     m_Address: HeroLetters_RU
     m_ReadOnly: 1

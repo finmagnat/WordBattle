@@ -51,7 +51,8 @@ namespace Core.Data
     {
         None = 0,
         
-        HomeBackgroundAlias = 1, //"Главный фон для домашнего экрана"
+        HomeBackgroundAlias = 1, // Главный фон для домашнего экрана
+        MainLogoAlias = 2, // Логотип на главном экране
     }
 
     public enum SkinColorKey

@@ -38,7 +38,7 @@ namespace Core.Config
     public enum SkinType
     {
         Blue = 1,       
-        Pink
+        Wood
     }
     
     public enum BannerType

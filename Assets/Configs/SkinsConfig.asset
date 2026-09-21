@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dc2f3fc80dc49c78c027712d2ef53e2, type: 3}
   m_Name: SkinsConfig
   m_EditorClassIdentifier: 
-  SkinByDefault: 1
+  SkinByDefault: 2
   _skins:
   - SkinType: 1
     SkinPreviewAlias: MainBackground_Blue
@@ -24,7 +24,7 @@ MonoBehaviour:
     - Key: 3
       Alias: Frame_Blue
     - Key: 4
-      Alias: Handle_Blue
+      Alias: BoosterBg_Blue
     - Key: 5
       Alias: ProgressBkg_Blue
     - Key: 6
@@ -46,7 +46,7 @@ MonoBehaviour:
     - Key: 15
       Alias: LetterSelected
     - Key: 16
-      Alias: KeybourdTile
+      Alias: KeybourdTile_Wood
     - Key: 17
       Alias: ButtonHome_Blue
     - Key: 18
@@ -68,67 +68,71 @@ MonoBehaviour:
     Prefabs:
     - Key: 1
       Alias: ParalaxBackground_Blue
+    - Key: 2
+      Alias: Logo_Blue
     Colors:
     - Key: 1
       Value: {r: 0.23529412, g: 0.34117648, b: 0.6509804, a: 1}
     - Key: 2
       Value: {r: 0.23921569, g: 0.34117648, b: 0.6509804, a: 1}
   - SkinType: 2
-    SkinPreviewAlias: MainBackground_Pink
+    SkinPreviewAlias: MainBackground_Wood
     Sprites:
     - Key: 1
-      Alias: MainBackground_Pink
+      Alias: MainBackground_Wood
     - Key: 2
-      Alias: PlayerPanel_Pink
+      Alias: PlayerPanel_Wood
     - Key: 3
-      Alias: Frame_Pink
+      Alias: Frame_Wood
     - Key: 4
-      Alias: Handle_Pink
+      Alias: BoosterBg_Wood
     - Key: 5
-      Alias: ProgressBkg_Pink
+      Alias: ProgressBkg_Wood
     - Key: 6
-      Alias: BoosterBg_Pink
+      Alias: BoosterBg_Wood
     - Key: 8
-      Alias: ButtonSettings_Pink
+      Alias: ButtonSettings_Wood
     - Key: 9
-      Alias: ButtonSkin_Pink
+      Alias: ButtonSkin_Wood
     - Key: 10
-      Alias: ButtonInfo_Pink
+      Alias: ButtonInfo_Wood
     - Key: 11
-      Alias: ButtonShop_Pink
+      Alias: ButtonShop_Wood
     - Key: 12
-      Alias: CellBackgroundDefault_Pink
+      Alias: CellBackgroundDefault_Wood
     - Key: 13
-      Alias: CellBackgroundFilled_Pink
+      Alias: CellBackgroundFilled_Wood
     - Key: 14
-      Alias: CellSelected
+      Alias: CellSelected_Wood
     - Key: 15
-      Alias: LetterSelected
+      Alias: LetterSelected_Wood
     - Key: 16
-      Alias: KeybourdTile
+      Alias: KeybourdTile_Wood
     - Key: 17
-      Alias: ButtonHome_Pink
+      Alias: ButtonHome_Wood
     - Key: 18
-      Alias: ButtonTools_Pink
+      Alias: ButtonTools_Wood
     - Key: 19
-      Alias: ButtonPause_Pink
+      Alias: ButtonPause_Wood
     - Key: 20
-      Alias: ButtonCancel_Pink
+      Alias: ButtonCancel_Wood
     - Key: 21
-      Alias: ButtonGo_Pink
+      Alias: ButtonGo_Wood
     - Key: 22
-      Alias: ButtonPass_Pink
+      Alias: ButtonPass_Wood
     - Key: 23
-      Alias: ButtonGo_Pink
+      Alias: Button_Wood
     - Key: 25
-      Alias: ButtonStatistic_Pink
+      Alias: ButtonStatistic_Wood
     - Key: 26
-      Alias: Button_Pink
+      Alias: Button_Wood
     Prefabs:
     - Key: 1
-      Alias: ParalaxBackground_Pink
+      Alias: ScreenBackground_Wood
+    - Key: 2
+      Alias: Logo_Wood
     Colors:
     - Key: 1
-      Value: {r: 0.44313726, g: 0.019607844, b: 0.44313726, a: 1}
+      Value: {r: 0.4245283, g: 0.18125585, b: 0, a: 1}
     - Key: 2
-      Value: {r: 0.44313726, g: 0.019607844, b: 0.44313726, a: 1}
+      Value: {r: 0.42352942, g: 0.18039216, b: 0, a: 1}
