@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Core.Config;
-using Core.Data;
 using Core.Generated;
 using Core.Services;
 using Core.UI;
@@ -15,8 +14,8 @@ namespace UI.Popups
 {
     public class SkinsPopup : UIPopup
     {
-        [SerializeField] private SkinButton _buttonPrefab;
-        [SerializeField] private Transform _scrollListContent;
+        public List<SkinButton> SkinButtons = new();
+        
         [SerializeField] private Button _closeButton;
         [SerializeField] private Button _applyButton;
         [SerializeField] private Toggle _toggleRandom;
@@ -28,10 +27,9 @@ namespace UI.Popups
         [Inject] private AnalyticsService _analytics;
         [Inject] private ILoadingUI _loadingUI;
         
-        private readonly List<SkinButton> _buttons = new();
-
         private SkinType _newSkin;
         private SkinType _oldSkin;
+        private bool _isInitialised;
         private bool _isApplying;
 
         private void Start()
@@ -48,19 +46,14 @@ namespace UI.Popups
         public override async UniTask ShowAsync()
         {
             _oldSkin = _skinsService.SkinCurrent.SkinType;
-            if (_buttons == null || _buttons.Count == 0)
+            if (!_isInitialised)
             {
-                foreach (var skinItem in _skinsService.Config.Skins)
+                foreach (var skinButton in SkinButtons)
                 {
-                    var spritePreview = await _spritesService.GetSpriteAsync(skinItem.SkinPreviewAlias);
-                    SkinButton skinButton = _container.InstantiatePrefabForComponent<SkinButton>(_buttonPrefab, _scrollListContent);
-                    skinButton.SetSkinData(spritePreview, skinItem.SkinType);
                     skinButton.button.onClick.AddListener(() =>
                     {
-                        SelectSkin(skinItem.SkinType);
+                        SelectSkin(skinButton.SkinType);
                     });
-
-                    _buttons.Add(skinButton);
                 }
             }
 
@@ -76,7 +69,7 @@ namespace UI.Popups
         {
             _newSkin = skinType;
 
-            foreach (var button in _buttons)
+            foreach (var button in SkinButtons)
                 button.SetActiveStatus(button.SkinType == skinType);
         }
 
@@ -160,7 +153,7 @@ namespace UI.Popups
             _applyButton.interactable = interactable;
             _toggleRandom.interactable = interactable;
 
-            foreach (SkinButton button in _buttons)
+            foreach (SkinButton button in SkinButtons)
                 button.button.interactable = interactable;
         }
         

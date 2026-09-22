@@ -15,7 +15,6 @@ MonoBehaviour:
   SkinByDefault: 2
   _skins:
   - SkinType: 1
-    SkinPreviewAlias: MainBackground_Blue
     Sprites:
     - Key: 1
       Alias: MainBackground_Blue
@@ -46,7 +45,7 @@ MonoBehaviour:
     - Key: 15
       Alias: LetterSelected
     - Key: 16
-      Alias: KeybourdTile_Wood
+      Alias: KeybourdTile_Blue
     - Key: 17
       Alias: ButtonHome_Blue
     - Key: 18
@@ -76,7 +75,6 @@ MonoBehaviour:
     - Key: 2
       Value: {r: 0.23921569, g: 0.34117648, b: 0.6509804, a: 1}
   - SkinType: 2
-    SkinPreviewAlias: MainBackground_Wood
     Sprites:
     - Key: 1
       Alias: MainBackground_Wood

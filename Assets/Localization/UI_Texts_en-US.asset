@@ -657,6 +657,18 @@ MonoBehaviour:
     m_Localized: Update
     m_Metadata:
       m_Items: []
+  - m_Id: 114125151988498432
+    m_Localized: Heaven
+    m_Metadata:
+      m_Items: []
+  - m_Id: 114125551735029760
+    m_Localized: Wood
+    m_Metadata:
+      m_Items: []
+  - m_Id: 114125791653412864
+    m_Localized: Paper
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

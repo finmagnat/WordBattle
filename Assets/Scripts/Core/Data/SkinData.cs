@@ -43,7 +43,7 @@ namespace Core.Data
         RepeatGameButtonAlias = 23, // Играть снова
         StatisticButtonAlias = 25, // Статистика
         
-        //"Кнопки и фон домашнего экрана и попапов"
+        // Кнопки и фон домашнего экрана и попапов
         DefaultButtonAlias = 26,
     }
 
@@ -68,8 +68,6 @@ namespace Core.Data
     {
         public SkinType SkinType;
 
-        public string SkinPreviewAlias; // Кнопки превьюшек скинов в SkinsPopup
-        
         public List<SkinSpriteEntry> Sprites;
         public List<SkinPrefabEntry> Prefabs;
         public List<SkinColorEntry> Colors;

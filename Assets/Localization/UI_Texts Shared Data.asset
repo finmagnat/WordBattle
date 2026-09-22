@@ -595,6 +595,18 @@ MonoBehaviour:
     m_Key: FORCE_UPDATE_BUTTON
     m_Metadata:
       m_Items: []
+  - m_Id: 114125151988498432
+    m_Key: SKIN_NAME_SKY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 114125551735029760
+    m_Key: SKIN_NAME_WOOD
+    m_Metadata:
+      m_Items: []
+  - m_Id: 114125791653412864
+    m_Key: SKIN_NAME_PAPER
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
