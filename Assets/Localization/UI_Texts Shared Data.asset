@@ -551,10 +551,6 @@ MonoBehaviour:
     m_Key: STARTER_BONUS_POPUP_GET
     m_Metadata:
       m_Items: []
-  - m_Id: 69204997894979584
-    m_Key: DAILY_BONUS_ICON_LABEL
-    m_Metadata:
-      m_Items: []
   - m_Id: 69208840519172096
     m_Key: DAILY_BONUS_POPUP_TITLE
     m_Metadata:

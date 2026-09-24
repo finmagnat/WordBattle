@@ -64,6 +64,10 @@ MonoBehaviour:
       Alias: ButtonStatistic_Blue
     - Key: 26
       Alias: Button_Blue
+    - Key: 27
+      Alias: DailyBonus_Blue
+    - Key: 28
+      Alias: Button_Blue
     Prefabs:
     - Key: 1
       Alias: ParalaxBackground_Blue
@@ -124,6 +128,10 @@ MonoBehaviour:
       Alias: ButtonStatistic_Wood
     - Key: 26
       Alias: Button_Wood
+    - Key: 27
+      Alias: DailyBonus_Wood
+    - Key: 28
+      Alias: DailyBonus_Wood
     Prefabs:
     - Key: 1
       Alias: ScreenBackground_Wood

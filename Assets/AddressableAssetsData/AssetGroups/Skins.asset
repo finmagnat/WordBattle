@@ -69,6 +69,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3156f0e1df839bb48b027751e97023c4
+    m_Address: DailyBonus_Blue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 316f45d58af72274dbf23b461a2c4b09
     m_Address: ProgressBkg_Blue
     m_ReadOnly: 0
@@ -251,6 +257,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c893467cd0acc104dae9032121959746
     m_Address: ProgressBkg_Wood
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c9b5278d97c8de64cbc3ca8cb567d13d
+    m_Address: DailyBonus_Wood
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin

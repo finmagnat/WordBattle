@@ -10,7 +10,7 @@ namespace Core.Data
     {
         None = 0,
         
-        //"Фоны, панели, рамки, скролы"
+        // Фоны, панели, рамки, скролы
         MainBackgroundAlias = 1, // Главный фон для экранов/попапов
         PlayerPanelBackgroundAlias = 2, // Фон панели игрока
         FrameBackgroundAlias = 3, // Фон рамки панелей/полей
@@ -18,22 +18,22 @@ namespace Core.Data
         ProgressBackgroundAlias = 5, // Фон прогресбара
         BoosterBackgroundAlias = 6, // Фон бустера
         
-        //"Кнопки меню домашнего экрана"
+        // Кнопки меню домашнего экрана
         SettingsButtonAlias = 8,
         SkinButtonAlias = 9,
         InfoButtonAlias = 10,
         ShopButtonAlias = 11,
         
-        //"Игровое поле"
+        // Игровое поле
         CellBackgroundDefaultAlias = 12, // Фон ячейки поля по умолчанию (темный)
         CellBackgroundFilledAlias = 13, // Фон ячейки поля с установленной буквой (светлый) 
         CellSelectedAlias = 14, // Фон выбранной ячейки поля (оранжевый)
         LettersSelectedAlias = 15, // Фон выделенных букв на поле (желтый)
         
-        //"Клавиатура"
+        // Клавиатура
         KeyboardTileAlias = 16, // Фон кнопки на клавиатуре
         
-        //"Кнопки игрового экрана"
+        // Кнопки игрового экрана
         HomeButtonAlias = 17, // Домой
         OptionsButtonAlias = 18, // Опции
         PauseButtonAlias = 19, // Пауза 
@@ -45,6 +45,9 @@ namespace Core.Data
         
         // Кнопки и фон домашнего экрана и попапов
         DefaultButtonAlias = 26,
+        
+        // Daily Bonus
+        DailyBonusIconAlias = 27,
     }
 
     public enum SkinPrefabKey

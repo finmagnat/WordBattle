@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 01d9d4cbb3601194295d2ff80c7f0296
+guid: 3156f0e1df839bb48b027751e97023c4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8717685427719700474
-    second: BoosterBg_Blue_0
+      213: 2856045624060262863
+    second: DailyBonus_Blue_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BoosterBg_Blue_0
+      name: DailyBonus_Blue_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 576
-        height: 560
+        x: 19
+        y: 21
+        width: 263
+        height: 253
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 253, y: 307, z: 266, w: 202}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: afff4de45b07bf870800000000000000
-      internalID: 8717685427719700474
+      spriteID: fc9bb64fc56b2a720800000000000000
+      internalID: 2856045624060262863
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: c7050080c15cd0a41869d5933f6056a2
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BoosterBg_Blue_0: 8717685427719700474
+      DailyBonus_Blue_0: 2856045624060262863
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

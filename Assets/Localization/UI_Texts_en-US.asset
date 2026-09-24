@@ -607,12 +607,6 @@ MonoBehaviour:
     m_Localized: GET!
     m_Metadata:
       m_Items: []
-  - m_Id: 69204997894979584
-    m_Localized: 'Daily
-
-      bonus'
-    m_Metadata:
-      m_Items: []
   - m_Id: 69208840519172096
     m_Localized: Daily bonus
     m_Metadata:
