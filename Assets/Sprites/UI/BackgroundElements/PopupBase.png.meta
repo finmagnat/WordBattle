@@ -169,7 +169,7 @@ TextureImporter:
         height: 1387
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 427, y: 605, z: 405, w: 714}
+      border: {x: 400, y: 619, z: 400, w: 714}
       customData: 
       outline: []
       physicsShape: []
@@ -177,28 +177,6 @@ TextureImporter:
       bones: []
       spriteID: e38376e2069acb020800000000000000
       internalID: 2358946535395768382
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PopupBase_5
-      rect:
-        serializedVersion: 2
-        x: 918
-        y: 136
-        width: 1
-        height: 6
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 499925f9b15136690800000000000000
-      internalID: -7610215736944715372
       vertices: []
       indices: 
       edges: []

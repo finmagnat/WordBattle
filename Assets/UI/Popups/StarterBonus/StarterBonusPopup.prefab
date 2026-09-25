@@ -530,7 +530,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 452}
-  m_SizeDelta: {x: -100, y: 0}
+  m_SizeDelta: {x: -120, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5289068623868377420
 CanvasRenderer:
@@ -656,15 +656,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u041D\u0430\u0431\u043E\u0440 \u043D\u043E\u0432\u0438\u0447\u043A\u0430"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: e267c7bb8545f934495be64e2e355471, type: 2}
-  m_sharedMaterial: {fileID: 6759850235318348288, guid: e267c7bb8545f934495be64e2e355471, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 55cd03c8d50f6984086822e934d554cc, type: 2}
+  m_sharedMaterial: {fileID: -1684329211193947470, guid: 55cd03c8d50f6984086822e934d554cc, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278984346
+  m_fontColor: {r: 0.6039216, g: 0.11764706, b: 0.047058824, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -681,7 +681,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50.25
+  m_fontSize: 51.9
   m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1128,7 +1128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
-  _sfxKey: sfx_button_click
+  _uniqueSfxKey: 
 --- !u!1 &7969346783443461199
 GameObject:
   m_ObjectHideFlags: 0
@@ -1310,7 +1310,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3377983538567178423
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1424,7 +1424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
-  _sfxKey: sfx_button_click
+  _uniqueSfxKey: 
 --- !u!1001 &1069326954817388184
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1759,15 +1759,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 983200655399433924, guid: af0aa0cf1ff57bb41ba5dd8788cc0a67, type: 3}
       propertyPath: m_text
-      value: \u221E
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 983200655399433924, guid: af0aa0cf1ff57bb41ba5dd8788cc0a67, type: 3}
       propertyPath: m_fontSize
-      value: 80
+      value: 48.45
       objectReference: {fileID: 0}
     - target: {fileID: 983200655399433924, guid: af0aa0cf1ff57bb41ba5dd8788cc0a67, type: 3}
       propertyPath: m_margin.y
-      value: -20
+      value: 0.9191284
       objectReference: {fileID: 0}
     - target: {fileID: 983200655399433924, guid: af0aa0cf1ff57bb41ba5dd8788cc0a67, type: 3}
       propertyPath: m_fontSizeBase
@@ -1775,7 +1775,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 983200655399433924, guid: af0aa0cf1ff57bb41ba5dd8788cc0a67, type: 3}
       propertyPath: m_enableAutoSizing
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 983200655399433924, guid: af0aa0cf1ff57bb41ba5dd8788cc0a67, type: 3}
       propertyPath: m_VerticalAlignment
