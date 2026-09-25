@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using Core.Data;
 using Core.Services;
 using Core.Services.DataDictionary;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -48,18 +46,6 @@ namespace UI.Components
             }
             
             _adaptiveKeyboardGrid.RefreshLayout(alphabet.Length);
-
-            SetSkin();
-        }
-        
-        private async UniTask SetSkin()
-        {
-            Color letterColor = _skinsService.GetColor(SkinColorKey.KeyboardLetterColor);
-            Sprite keyboardTile = _skinsService.GetSprite(SkinSpriteKey.KeyboardTileAlias);
-            
-            _items.ForEach(item =>
-                item.SetSkin(keyboardTile, letterColor)
-            );
         }
     }
 }

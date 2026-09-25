@@ -43,11 +43,9 @@ namespace Core.Data
         RepeatGameButtonAlias = 23, // Играть снова
         StatisticButtonAlias = 25, // Статистика
         
-        // Кнопки и фон домашнего экрана и попапов
-        DefaultButtonAlias = 26,
-        
-        // Daily Bonus
-        DailyBonusIconAlias = 27,
+        DefaultButtonAlias = 26, // Кнопка по умолчанию
+        DailyBonusIconAlias = 27, // Иконка Daily Bonus
+        CloudPopupAlias = 28, // Всплывающая подсказка в виде облака
     }
 
     public enum SkinPrefabKey
@@ -64,6 +62,8 @@ namespace Core.Data
         
         LettersFieldColor = 1, // Цвет букв на поле 
         KeyboardLetterColor = 2, // Цвет кнопки на клавиатуре
+        CloudPopupColor = 3, // Цвет текста на всплывающей подсказке в виде облака
+        DefaultFontColor = 4, // Цвет текстов в UI по умолчанию
     }
     
     [Serializable]

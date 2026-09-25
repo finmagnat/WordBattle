@@ -10,6 +10,7 @@ namespace UI.SkinBindings
     public sealed class SkinBindingGroup : MonoBehaviour
     {
         private readonly List<ISkinBinding> _bindings = new();
+        private readonly HashSet<ISkinBinding> _appliedBindings = new();
         private ISkinsService _skinsService;
         private SkinRuntime _appliedRuntime;
         private IDisposable _runtimeRetention;
@@ -47,6 +48,47 @@ namespace UI.SkinBindings
 
         public void RefreshBindings() => CacheBindings();
 
+        internal bool TryApplyNewBinding(ISkinBinding binding)
+        {
+            if (binding == null || _appliedRuntime == null || _appliedRuntime.IsDisposed)
+                return false;
+
+            // Start can run after PrepareAsync for bindings that were already part of the group.
+            if (_appliedBindings.Contains(binding))
+                return true;
+
+            try
+            {
+                if (!binding.CanApply(_appliedRuntime))
+                {
+                    Debug.LogError(
+                        $"[{nameof(SkinBindingGroup)}] A dynamically added binding on '{name}' " +
+                        $"cannot apply runtime '{_appliedRuntime.SkinType}'.",
+                        this);
+                    return false;
+                }
+
+                binding.Apply(_appliedRuntime);
+                _appliedBindings.Add(binding);
+
+                if (!_bindings.Contains(binding))
+                    _bindings.Add(binding);
+
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Debug.LogException(exception, this);
+                return false;
+            }
+        }
+
+        internal void UnregisterBinding(ISkinBinding binding)
+        {
+            _bindings.Remove(binding);
+            _appliedBindings.Remove(binding);
+        }
+
         private void OnDestroy()
         {
             if (_skinsService != null)
@@ -55,6 +97,7 @@ namespace UI.SkinBindings
             _runtimeRetention?.Dispose();
             _runtimeRetention = null;
             _appliedRuntime = null;
+            _appliedBindings.Clear();
         }
 
         private void OnRuntimeChanged(SkinRuntime runtime)
@@ -104,6 +147,9 @@ namespace UI.SkinBindings
             IDisposable previousRetention = _runtimeRetention;
             _runtimeRetention = newRetention;
             _appliedRuntime = runtime;
+            _appliedBindings.Clear();
+            foreach (ISkinBinding binding in _bindings)
+                _appliedBindings.Add(binding);
             previousRetention?.Dispose();
 
             return true;
@@ -116,10 +162,14 @@ namespace UI.SkinBindings
 
             try
             {
+                _appliedBindings.Clear();
                 foreach (ISkinBinding binding in _bindings)
                 {
                     if (binding.CanApply(_appliedRuntime))
+                    {
                         binding.Apply(_appliedRuntime);
+                        _appliedBindings.Add(binding);
+                    }
                 }
             }
             catch (Exception exception)

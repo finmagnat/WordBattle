@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 278bec269380d9a4d84aede7e1fa4fd3
+guid: 443fc16306adfea44b0df6859020c224
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1271636372566056706
-    second: PlayerPanel_Blue_0
+      213: -4981653138442639453
+    second: CloudPopup_Wood_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,19 +100,6 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 50
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 1
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -122,40 +109,27 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: 50
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 1
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlayerPanel_Blue_0
+      name: CloudPopup_Wood_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 1
-        width: 932
-        height: 347
+        y: 0
+        width: 512
+        height: 336
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 440, y: 120, z: 440, w: 210}
+      border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ef0ebb1e47d3a5ee0800000000000000
-      internalID: -1271636372566056706
+      spriteID: 3a7aae05ddc9ddab0800000000000000
+      internalID: -4981653138442639453
       vertices: []
       indices: 
       edges: []
@@ -164,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 8fd9995ef3433aa42a4a603fddf3bd44
+    spriteID: 7bf0fd9d9ad2f1d438a13b1b4e32bfa8
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      PlayerPanel_Blue_0: -1271636372566056706
+      CloudPopup_Wood_0: -4981653138442639453
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

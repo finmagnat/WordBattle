@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 463577067698597770}
   - component: {fileID: 461079149228713972}
   - component: {fileID: 7275816158971572331}
+  - component: {fileID: 5344243829203287441}
   m_Layer: 5
   m_Name: LetterText
   m_TagString: Untagged
@@ -194,8 +195,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4288832569
-  m_fontColor: {r: 0.22352943, g: 0.3921569, b: 0.63529414, a: 1}
+    rgba: 4278201964
+  m_fontColor: {r: 0.42352942, g: 0.18039216, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -257,6 +258,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5344243829203287441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393959519315753028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3544969b6ea1db941914be67be88e4c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinTMPColor
+  _key: 1
+  _text: {fileID: 7275816158971572331}
 --- !u!1 &6293983620884837654
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,7 +337,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -3793331831421068527, guid: 78ae07fb8f9480b4f89ad9ce1910393e, type: 3}
+  m_Sprite: {fileID: -3793331831421068527, guid: ef4d87d1db10bef44aa637ec75d07001, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

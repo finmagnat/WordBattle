@@ -7,6 +7,7 @@ namespace UI.SkinBindings
     public abstract class SkinBindingBase : MonoBehaviour, ISkinBinding
     {
         private ISkinsService _skinsService;
+        private SkinBindingGroup _group;
 
         [Inject]
         public void Construct(ISkinsService skinsService)
@@ -16,6 +17,16 @@ namespace UI.SkinBindings
 
         public abstract bool CanApply(SkinRuntime runtime);
         public abstract void Apply(SkinRuntime runtime);
+
+        protected virtual void Start()
+        {
+            // A binding can be instantiated after its parent group has already been prepared.
+            // Registering here lets the group apply the same runtime it currently owns.
+            _group = GetComponentInParent<SkinBindingGroup>();
+            _group?.TryApplyNewBinding(this);
+        }
+
+        protected virtual void OnDestroy() => _group?.UnregisterBinding(this);
 
         protected bool TryGetCurrentRuntime(out SkinRuntime runtime)
         {

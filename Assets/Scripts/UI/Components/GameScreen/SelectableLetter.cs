@@ -143,18 +143,6 @@ namespace UI.Components
 
         internal void ApplyCurrentSkin()
         {
-            if (_skinsService.TryGetColor(SkinColorKey.LettersFieldColor, out Color color))
-            {
-                _letterText.color = color;
-            }
-            else
-            {
-                Debug.LogWarning(
-                    $"[{nameof(SelectableLetter)}] Color key '{SkinColorKey.LettersFieldColor}' " +
-                    "is absent in the current skin runtime.",
-                    this);
-            }
-
             SetHighlightState(HighlightState.None);
         }
 

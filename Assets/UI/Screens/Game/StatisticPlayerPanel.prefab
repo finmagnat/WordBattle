@@ -365,8 +365,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6759573914571525507}
   m_HandleRect: {fileID: 6865671534205956101}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -648,6 +648,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6865101208918700581}
     m_Modifications:
+    - target: {fileID: 721814710800370769, guid: 2a2407ae96393fb41ac0ce17bd9c7f8e, type: 3}
+      propertyPath: m_fontSize
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 2701634397093355419, guid: 2a2407ae96393fb41ac0ce17bd9c7f8e, type: 3}
       propertyPath: m_Name
       value: WordListItem
@@ -682,7 +686,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6425982125443119279, guid: 2a2407ae96393fb41ac0ce17bd9c7f8e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 80
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 6425982125443119279, guid: 2a2407ae96393fb41ac0ce17bd9c7f8e, type: 3}
       propertyPath: m_LocalPosition.x

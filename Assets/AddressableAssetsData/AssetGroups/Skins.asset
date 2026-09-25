@@ -93,6 +93,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Skin
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 443fc16306adfea44b0df6859020c224
+    m_Address: CloudPopup_Wood
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4562e80a1a541c84aaae3e376da27588
     m_Address: Frame_Wood
     m_ReadOnly: 0
@@ -233,6 +239,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9fb5239c6c767214db240f8f3732f7ef
     m_Address: ButtonSettings_Blue
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skin
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a52ca0ad0abb0d44085ccbbed0908968
+    m_Address: CloudPopup_Blue
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skin
