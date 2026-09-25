@@ -38,7 +38,7 @@ namespace UI.Components
         internal void SetStartWord(string value)
         {
             _startWord = value;
-            _startWordText.text = $"{value}   <size=100%><voffset=20><sprite name=\"info\"></voffset></size>";
+            _startWordText.text = $"{value}   <size=100%><voffset=20><sprite name=\"question\"></voffset></size>";
         }
         
         public override async UniTask ShowAsync()

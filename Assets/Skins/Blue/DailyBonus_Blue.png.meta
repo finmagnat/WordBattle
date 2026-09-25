@@ -116,12 +116,12 @@ TextureImporter:
       name: DailyBonus_Blue_0
       rect:
         serializedVersion: 2
-        x: 19
-        y: 21
-        width: 263
-        height: 253
+        x: 0
+        y: 0
+        width: 300
+        height: 274
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 3587280ee739310428c55e31e5354726
     internalID: 0
     vertices: []
     indices: 

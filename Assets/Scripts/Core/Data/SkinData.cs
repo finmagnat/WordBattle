@@ -64,6 +64,7 @@ namespace Core.Data
         KeyboardLetterColor = 2, // Цвет кнопки на клавиатуре
         CloudPopupColor = 3, // Цвет текста на всплывающей подсказке в виде облака
         DefaultFontColor = 4, // Цвет текстов в UI по умолчанию
+        StatusFontColor = 5, // Цвет текста в статусе на игровом экране
     }
     
     [Serializable]

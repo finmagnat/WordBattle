@@ -67,7 +67,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\u0421\u041B\u041E\u0412\u041E\u0421\u041B\u041E\u0412\u041E   <size=100%><voffset=20><sprite
-    name=\"info\"></voffset></size>"
+    name=\"question\"></voffset></size>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 55cd03c8d50f6984086822e934d554cc, type: 2}
   m_sharedMaterial: {fileID: -1684329211193947470, guid: 55cd03c8d50f6984086822e934d554cc, type: 2}
@@ -255,7 +255,7 @@ MonoBehaviour:
   _mainBackground: {fileID: 3073041249955341081}
   _progressText: {fileID: 7728592968394486674}
   _timeExpire: 10
-  _timeColor: {r: 1, g: 0.9607843, b: 0.88235295, a: 1}
+  _timeColor: {r: 1, g: 0.9607843, b: 0.64705884, a: 1}
   _timeColorExpire: {r: 1, g: 0.4980392, b: 0.3137255, a: 1}
 --- !u!114 &3852221670517318501
 MonoBehaviour:
@@ -1697,8 +1697,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4292998655
-  m_fontColor: {r: 1, g: 0.95971525, b: 0.8820755, a: 1}
+    rgba: 4289066495
+  m_fontColor: {r: 1, g: 0.958997, b: 0.64705884, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2565,7 +2565,6 @@ GameObject:
   - component: {fileID: 7706007196172725173}
   - component: {fileID: 1325081794121304295}
   - component: {fileID: 7424069955656196124}
-  - component: {fileID: 6231803735830845327}
   m_Layer: 5
   m_Name: WordInfoIcon
   m_TagString: Untagged
@@ -2620,7 +2619,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5036013996843325049, guid: 5da83763a967c6a4e98999a13d24a79b, type: 3}
+  m_Sprite: {fileID: 3789460877503523107, guid: 9e61fda3b745637478295595a43fb99f, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -2630,20 +2629,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6231803735830845327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3529645168333415769}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
-  _key: 10
-  _image: {fileID: 7424069955656196124}
 --- !u!1 &3985699514760359786
 GameObject:
   m_ObjectHideFlags: 0
@@ -3893,8 +3878,8 @@ MonoBehaviour:
   m_text: "<line-height=100%>\r\n<size=200%><voffset=30><sprite name=\"letter\"></voffset></size><size=100%><voffset=10>\u0411\u0443\u043A\u043E\u0432\u043A\u0430
     \u043D\u0430\u0448\u043B\u0430 \u0441\u043B\u043E\u0432\u043E!</size></voffset>\r\n</line-height>"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 55cd03c8d50f6984086822e934d554cc, type: 2}
-  m_sharedMaterial: {fileID: -1684329211193947470, guid: 55cd03c8d50f6984086822e934d554cc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3d017dc552f75fe4182e7071b94a1bf1, type: 2}
+  m_sharedMaterial: {fileID: -5294004385266028584, guid: 3d017dc552f75fe4182e7071b94a1bf1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3918,7 +3903,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 37.15
+  m_fontSize: 30.75
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3995,7 +3980,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3544969b6ea1db941914be67be88e4c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinTMPColor
-  _key: 4
+  _key: 5
   _text: {fileID: 4233852849794394991}
 --- !u!1 &5251257311562842436
 GameObject:
@@ -7209,7 +7194,7 @@ PrefabInstance:
       objectReference: {fileID: -7705041413723772166, guid: d5bfb4267c9803542873cff3e025351f, type: 3}
     - target: {fileID: 4147938874324506398, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
       propertyPath: m_fontSize
-      value: 38
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 7177033595194083885, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
       propertyPath: m_Pivot.x
@@ -7334,7 +7319,7 @@ PrefabInstance:
       objectReference: {fileID: -7522842387785124704, guid: 33f11c9f5f4a4e24ea3c7e6e06a159a8, type: 3}
     - target: {fileID: 4147938874324506398, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
       propertyPath: m_fontSize
-      value: 38
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 7177033595194083885, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
       propertyPath: m_Pivot.x
@@ -7828,7 +7813,7 @@ PrefabInstance:
       objectReference: {fileID: -2579884233798903349, guid: df96d0b1d28059a4298eba575e3bd64c, type: 3}
     - target: {fileID: 4147938874324506398, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
       propertyPath: m_fontSize
-      value: 38
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 7177033595194083885, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
       propertyPath: m_Pivot.x
@@ -8178,7 +8163,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4147938874324506398, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
       propertyPath: m_fontSize
-      value: 38
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 7177033595194083885, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
       propertyPath: m_Pivot.x
@@ -8375,7 +8360,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8428842554653302461, guid: f04fe94803648314c8a570a80febd603, type: 3}
       propertyPath: m_fontSize
-      value: 38
+      value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -82,6 +82,8 @@ MonoBehaviour:
       Value: {r: 0.39215687, g: 0.61960787, b: 1, a: 1}
     - Key: 4
       Value: {r: 0.39215687, g: 0.61960787, b: 1, a: 1}
+    - Key: 5
+      Value: {r: 0.23529412, g: 0.34117648, b: 0.6509804, a: 1}
   - SkinType: 2
     Sprites:
     - Key: 1
@@ -149,4 +151,6 @@ MonoBehaviour:
     - Key: 3
       Value: {r: 0.42352942, g: 0.18039216, b: 0, a: 1}
     - Key: 4
+      Value: {r: 1, g: 0.80784315, b: 0.64705884, a: 1}
+    - Key: 5
       Value: {r: 1, g: 0.80784315, b: 0.64705884, a: 1}

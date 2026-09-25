@@ -117,8 +117,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<line-height=100%>\r\n<size=100%><voffset=18>8 \u0421\u041B\u041E\u0412\u041E\u041E\u041E</size></voffset>   
-    <size=120%><voffset=30><sprite name=\"info\"></voffset></size>\r\n</line-height>"
+  m_text: "<line-height=100%>\r\n<size=100%><voffset=18>8 \u0421\u041B\u041E\u0412\u041E\u041E\u041E</size></voffset>  
+    <size=120%><voffset=32><sprite name=\"question\"></voffset></size>\r\n</line-height>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 55cd03c8d50f6984086822e934d554cc, type: 2}
   m_sharedMaterial: {fileID: -1684329211193947470, guid: 55cd03c8d50f6984086822e934d554cc, type: 2}
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36.15
+  m_fontSize: 34.4
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

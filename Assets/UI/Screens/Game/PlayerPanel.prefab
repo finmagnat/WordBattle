@@ -156,6 +156,7 @@ GameObject:
   - component: {fileID: 832907214597498847}
   - component: {fileID: 2236149797207636438}
   - component: {fileID: 7533753676117982286}
+  - component: {fileID: 8023191293791292993}
   m_Layer: 5
   m_Name: ScoreText
   m_TagString: Untagged
@@ -212,15 +213,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u0421\u0427\u0415\u0422: 0"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 55cd03c8d50f6984086822e934d554cc, type: 2}
-  m_sharedMaterial: {fileID: -1684329211193947470, guid: 55cd03c8d50f6984086822e934d554cc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3d017dc552f75fe4182e7071b94a1bf1, type: 2}
+  m_sharedMaterial: {fileID: -5294004385266028584, guid: 3d017dc552f75fe4182e7071b94a1bf1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4289056511
+  m_fontColor: {r: 1, g: 0.80784315, b: 0.64705884, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -237,7 +238,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34.45
+  m_fontSize: 30
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -282,6 +283,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8023191293791292993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6225281694194845960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3544969b6ea1db941914be67be88e4c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinTMPColor
+  _key: 5
+  _text: {fileID: 7533753676117982286}
 --- !u!1 &6512996895202097066
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,6 +445,7 @@ GameObject:
   - component: {fileID: 6275963121395764360}
   - component: {fileID: 8244302274672775070}
   - component: {fileID: 578949378321950067}
+  - component: {fileID: 4554174127285859987}
   m_Layer: 5
   m_Name: PlayerName
   m_TagString: Untagged
@@ -486,15 +502,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u0418\u0413\u0420\u041E\u041A 1"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 55cd03c8d50f6984086822e934d554cc, type: 2}
-  m_sharedMaterial: {fileID: -1684329211193947470, guid: 55cd03c8d50f6984086822e934d554cc, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3d017dc552f75fe4182e7071b94a1bf1, type: 2}
+  m_sharedMaterial: {fileID: -5294004385266028584, guid: 3d017dc552f75fe4182e7071b94a1bf1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4289056511
+  m_fontColor: {r: 1, g: 0.80784315, b: 0.64705884, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -556,3 +572,17 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4554174127285859987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7034810837200788255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3544969b6ea1db941914be67be88e4c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinTMPColor
+  _key: 5
+  _text: {fileID: 578949378321950067}
