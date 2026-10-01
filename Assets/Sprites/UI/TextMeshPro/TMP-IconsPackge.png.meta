@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9e61fda3b745637478295595a43fb99f
+guid: e6bab6816520f9545b3c6f14a1ff2c06
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -29,6 +29,12 @@ TextureImporter:
   - first:
       213: 4089807839224065556
     second: TMP-IconsPackge_8
+  - first:
+      213: 3922833565055029856
+    second: TMP-IconsPackge_9
+  - first:
+      213: -2648668489172415069
+    second: TMP-IconsPackge_10
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -124,12 +130,12 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 50
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -141,9 +147,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 409
+        y: 522
         width: 129
-        height: 127
+        height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -163,7 +169,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 137
-        y: 413
+        y: 526
         width: 130
         height: 121
       alignment: 0
@@ -185,7 +191,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 275
-        y: 425
+        y: 538
         width: 129
         height: 95
       alignment: 0
@@ -207,7 +213,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 10
-        y: 270
+        y: 383
         width: 109
         height: 130
       alignment: 0
@@ -229,7 +235,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 138
-        y: 271
+        y: 384
         width: 130
         height: 127
       alignment: 0
@@ -251,7 +257,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 275
-        y: 274
+        y: 387
         width: 129
         height: 121
       alignment: 0
@@ -269,13 +275,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: eraser
+      name: mixer
       rect:
         serializedVersion: 2
         x: 0
-        y: 145
-        width: 129
-        height: 117
+        y: 123
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -295,9 +301,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 137
-        y: 138
-        width: 130
-        height: 124
+        y: 250
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -313,13 +319,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: slowdown
+      name: shop
       rect:
         serializedVersion: 2
         x: 275
-        y: 140
+        y: 126
         width: 129
-        height: 123
+        height: 125
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -335,11 +341,55 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mixer
+      name: info
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 125
+        width: 130
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0629516e754b07630800000000000000
+      internalID: 3922833565055029856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: question_2
       rect:
         serializedVersion: 2
         x: 0
-        y: 14
+        y: 5
+        width: 129
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ad8b17da0a0e3bd0800000000000000
+      internalID: -2648668489172415069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: eraser
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 250
         width: 128
         height: 128
       alignment: 0
@@ -350,41 +400,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 090be7d09c1f238478b7e19b8cb02ba2
-      internalID: -1688436974
+      spriteID: a6038001094ddc94aa4946a79a1c90f9
+      internalID: 1088873417
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: info
+      name: slowdown
       rect:
         serializedVersion: 2
-        x: 136
-        y: 11
-        width: 131
-        height: 127
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a4dcf754947186843a55f319efbd069f
-      internalID: 1874340290
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: shop
-      rect:
-        serializedVersion: 2
-        x: 274
-        y: 10
-        width: 130
+        x: 275
+        y: 250
+        width: 128
         height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -394,8 +422,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 49777f1842d77ad4e8d5c14cdb002cbb
-      internalID: 981686635
+      spriteID: 6d2d2af09308d644885ef3835d1b1528
+      internalID: 689909314
       vertices: []
       indices: 
       edges: []
@@ -404,7 +432,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: fd8c98599ec86404880ae6fdcfe0febe
+    spriteID: 554d37097b97ebe46a30b9b170e2a668
     internalID: 0
     vertices: []
     indices: 
@@ -415,15 +443,16 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       book: 1266159015998010006
-      eraser: -1434259609053306990
+      eraser: 1088873417
       finish: 7685756496879133100
       gear: -6047551232761366684
-      info: 1874340290
+      info: 3922833565055029856
       letter: -3766586387527474658
-      mixer: -1688436974
+      mixer: -1434259609053306990
       question: 3789460877503523107
-      shop: 981686635
-      slowdown: 4089807839224065556
+      question_2: -2648668489172415069
+      shop: 4089807839224065556
+      slowdown: 689909314
       swap: 8190908487205143286
       time: 5932524499996336505
   mipmapLimitGroupName: 

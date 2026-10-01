@@ -649,9 +649,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 6865101208918700581}
     m_Modifications:
     - target: {fileID: 721814710800370769, guid: 2a2407ae96393fb41ac0ce17bd9c7f8e, type: 3}
+      propertyPath: m_text
+      value: "<line-height=100%>\r\n<size=100%><voffset=18>8 \u0421\u041B\u041E\u0412\u041E\u041E\u041E</size></voffset>  
+        <size=120%><voffset=32><sprite name=\"question_2\"></voffset></size>\r\n</line-height>"
+      objectReference: {fileID: 0}
+    - target: {fileID: 721814710800370769, guid: 2a2407ae96393fb41ac0ce17bd9c7f8e, type: 3}
       propertyPath: m_fontSize
       value: 16
       objectReference: {fileID: 0}
+    - target: {fileID: 721814710800370769, guid: 2a2407ae96393fb41ac0ce17bd9c7f8e, type: 3}
+      propertyPath: m_spriteAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: bcb57ebf3f1e3f94fa877b4a945423cb, type: 2}
     - target: {fileID: 2701634397093355419, guid: 2a2407ae96393fb41ac0ce17bd9c7f8e, type: 3}
       propertyPath: m_Name
       value: WordListItem
