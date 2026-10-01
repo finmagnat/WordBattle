@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: c9b5278d97c8de64cbc3ca8cb567d13d
+guid: 8ae4f4b98518f0c48ba29431eceaf91c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4190594458744079353
-    second: DailyBonus_Wood_0
+      213: -5030086425721371800
+    second: ProgressbarScale_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 50
+    textureFormat: 48
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DailyBonus_Wood_0
+      name: ProgressbarScale_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 227
-        height: 256
+        width: 192
+        height: 94
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 44, y: 44, z: 44, w: 44}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 70cb6d0ea8408d5c0800000000000000
-      internalID: -4190594458744079353
+      spriteID: 8630d5ddb0b813ab0800000000000000
+      internalID: -5030086425721371800
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 6a63a21a03f2eb441ad938ce907ad76d
+    spriteID: fd5849b83111d3b46b82f8d832d3b202
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      DailyBonus_Wood_0: -4190594458744079353
+      ProgressbarScale_0: -5030086425721371800
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
