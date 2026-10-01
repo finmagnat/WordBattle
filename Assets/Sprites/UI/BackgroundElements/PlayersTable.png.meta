@@ -147,11 +147,11 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 808
-        height: 499
+        width: 819
+        height: 371
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 300, y: 162, z: 300, w: 322}
+      border: {x: 270, y: 110, z: 190, w: 254}
       customData: 
       outline: []
       physicsShape: []
@@ -167,13 +167,13 @@ TextureImporter:
       name: PlayersTable_1
       rect:
         serializedVersion: 2
-        x: 807
+        x: 819
         y: 0
-        width: 805
-        height: 499
+        width: 817
+        height: 371
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 300, y: 162, z: 300, w: 322}
+      border: {x: 270, y: 110, z: 190, w: 254}
       customData: 
       outline: []
       physicsShape: []

@@ -145,7 +145,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 864, y: 1900}
+  m_SizeDelta: {x: 1080, y: 1900}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4336293126006663031
 CanvasRenderer:
@@ -1511,7 +1511,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8882471195550630128, guid: 0d80e7383d27cc94799808cc74594109, type: 3}
       propertyPath: m_fontSize
-      value: 33.85
+      value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
