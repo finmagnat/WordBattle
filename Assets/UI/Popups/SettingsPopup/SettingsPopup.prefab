@@ -4949,6 +4949,7 @@ GameObject:
   - component: {fileID: 6306036015961478113}
   - component: {fileID: 6306036015961478118}
   - component: {fileID: 1265940358153872694}
+  - component: {fileID: 1467058641249901177}
   m_Layer: 5
   m_Name: SettingsPopup
   m_TagString: Untagged
@@ -5010,6 +5011,18 @@ MonoBehaviour:
   _vibrationOn: {fileID: 2308340627330329073}
   _giroParallaxOn: {fileID: 6033511436827949862}
   _closeButton: {fileID: 4381528645447988267}
+--- !u!114 &1467058641249901177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6306036015961478139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c78ded6aa4aa7db4991fff703f2c88ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinBindingGroup
 --- !u!1 &6306036017273270223
 GameObject:
   m_ObjectHideFlags: 0
@@ -5414,6 +5427,7 @@ GameObject:
   - component: {fileID: 8212835953103400343}
   - component: {fileID: 8029457520715296013}
   - component: {fileID: 9014007529621529009}
+  - component: {fileID: 8825413284762856334}
   m_Layer: 5
   m_Name: HeaderText
   m_TagString: Untagged
@@ -5564,6 +5578,20 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!114 &8825413284762856334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7452282097938099895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3544969b6ea1db941914be67be88e4c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinTMPColor
+  _key: 7
+  _text: {fileID: 8029457520715296013}
 --- !u!1 &7554659404539919514
 GameObject:
   m_ObjectHideFlags: 0

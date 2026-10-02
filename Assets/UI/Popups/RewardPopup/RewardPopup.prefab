@@ -421,7 +421,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1000, y: 1200}
+  m_SizeDelta: {x: 864, y: 1200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5376912881985843321
 CanvasRenderer:
@@ -491,6 +491,7 @@ GameObject:
   - component: {fileID: 1425557808171162765}
   - component: {fileID: 7861423745376228728}
   - component: {fileID: 8983885108885649156}
+  - component: {fileID: 4441898783086811630}
   m_Layer: 5
   m_Name: HeaderText
   m_TagString: Untagged
@@ -572,7 +573,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 53.05
+  m_fontSize: 50.6
   m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -641,6 +642,20 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!114 &4441898783086811630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1850839359594413495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3544969b6ea1db941914be67be88e4c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinTMPColor
+  _key: 7
+  _text: {fileID: 7861423745376228728}
 --- !u!1 &2707842576484866932
 GameObject:
   m_ObjectHideFlags: 0
@@ -1150,6 +1165,7 @@ GameObject:
   - component: {fileID: 6204864532673501979}
   - component: {fileID: 6204864532673501980}
   - component: {fileID: 8599082732245117501}
+  - component: {fileID: 4044913341831175223}
   m_Layer: 5
   m_Name: RewardPopup
   m_TagString: Untagged
@@ -1207,6 +1223,18 @@ MonoBehaviour:
   _scaleTransform: {fileID: 6008122542947315378}
   _itemPrefab: {fileID: 2512670948320122007, guid: af0aa0cf1ff57bb41ba5dd8788cc0a67, type: 3}
   _contentRoot: {fileID: 3809653447290609562}
+--- !u!114 &4044913341831175223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6204864532673501953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c78ded6aa4aa7db4991fff703f2c88ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinBindingGroup
 --- !u!1 &7360425255529135600
 GameObject:
   m_ObjectHideFlags: 0

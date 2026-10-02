@@ -356,6 +356,7 @@ GameObject:
   - component: {fileID: 5444283492634086728}
   - component: {fileID: 1148509329300952072}
   - component: {fileID: 5065090122028565805}
+  - component: {fileID: 9121026127895574097}
   m_Layer: 5
   m_Name: HeaderText
   m_TagString: Untagged
@@ -482,6 +483,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &9121026127895574097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4561094612568016687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3544969b6ea1db941914be67be88e4c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinTMPColor
+  _key: 7
+  _text: {fileID: 5065090122028565805}
 --- !u!1 &5457878634925395480
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,6 +649,7 @@ GameObject:
   - component: {fileID: 6439911616974276692}
   - component: {fileID: 762292868347251762}
   - component: {fileID: 1157996304894105279}
+  - component: {fileID: 3536941153591290818}
   m_Layer: 5
   m_Name: ForceUpdatePopup
   m_TagString: Untagged
@@ -694,6 +710,18 @@ MonoBehaviour:
   _updateButton: {fileID: 6598954900449979577}
   _updateButtonText: {fileID: 5750000491833065292}
   _closeButton: {fileID: 3734859174539950296}
+--- !u!114 &3536941153591290818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7996074451736127683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c78ded6aa4aa7db4991fff703f2c88ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinBindingGroup
 --- !u!1 &8990595487527172339
 GameObject:
   m_ObjectHideFlags: 0

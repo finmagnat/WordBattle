@@ -721,6 +721,7 @@ GameObject:
   - component: {fileID: 3860403148247475638}
   - component: {fileID: 8632143087728265054}
   - component: {fileID: 3046411193880961945}
+  - component: {fileID: 2500978096707605800}
   m_Layer: 5
   m_Name: HeaderText
   m_TagString: Untagged
@@ -803,7 +804,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 49.2
+  m_fontSize: 46.95
   m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -872,6 +873,20 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!114 &2500978096707605800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5684261625633293967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3544969b6ea1db941914be67be88e4c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinTMPColor
+  _key: 7
+  _text: {fileID: 8632143087728265054}
 --- !u!1 &6204864532673501953
 GameObject:
   m_ObjectHideFlags: 0
@@ -883,6 +898,7 @@ GameObject:
   - component: {fileID: 6204864532673501979}
   - component: {fileID: 6204864532673501980}
   - component: {fileID: 2230056854807814658}
+  - component: {fileID: 4561101284978425584}
   m_Layer: 5
   m_Name: MissingWordPopup
   m_TagString: Untagged
@@ -945,6 +961,18 @@ MonoBehaviour:
   _newWordText: {fileID: 2325287460982896944}
   _cooldownText: {fileID: 4105455757744161170}
   _yesButton: {fileID: 1033582430263748554}
+--- !u!114 &4561101284978425584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6204864532673501953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c78ded6aa4aa7db4991fff703f2c88ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinBindingGroup
 --- !u!1 &6470189469255776355
 GameObject:
   m_ObjectHideFlags: 0
@@ -1149,7 +1177,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 900, y: 1000}
+  m_SizeDelta: {x: 864, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3810997998270498954
 CanvasRenderer:
@@ -1444,7 +1472,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
+  m_fontSize: 39.6
   m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 1

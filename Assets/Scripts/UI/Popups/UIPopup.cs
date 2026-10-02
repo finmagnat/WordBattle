@@ -2,6 +2,7 @@ using System;
 using Core.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using UI.SkinBindings;
 using UnityEngine;
 
 namespace UI.Popups
@@ -64,6 +65,7 @@ namespace UI.Popups
         public virtual async UniTask ShowAsync()
         {
             Initialize();
+            await PrepareSkinBindingsAsync();
 
             OnShowStarted?.Invoke();
             gameObject.SetActive(true);
@@ -101,6 +103,13 @@ namespace UI.Popups
         protected virtual UniTask BeforeShowAnimationAsync()
         {
             return UniTask.CompletedTask;
+        }
+
+        private async UniTask PrepareSkinBindingsAsync()
+        {
+            SkinBindingGroup[] groups = GetComponentsInChildren<SkinBindingGroup>(true);
+            foreach (SkinBindingGroup group in groups)
+                await group.PrepareAsync();
         }
     }
 

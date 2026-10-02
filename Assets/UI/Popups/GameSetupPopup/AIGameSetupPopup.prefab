@@ -600,6 +600,7 @@ GameObject:
   - component: {fileID: 1425557808171162765}
   - component: {fileID: 7861423745376228728}
   - component: {fileID: 8983885108885649156}
+  - component: {fileID: 5361494169193247064}
   m_Layer: 5
   m_Name: HeaderText
   m_TagString: Untagged
@@ -750,6 +751,20 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!114 &5361494169193247064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1850839359594413495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3544969b6ea1db941914be67be88e4c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinTMPColor
+  _key: 7
+  _text: {fileID: 7861423745376228728}
 --- !u!1 &3362728615955021629
 GameObject:
   m_ObjectHideFlags: 0
@@ -1173,6 +1188,7 @@ GameObject:
   - component: {fileID: 6204864532673501979}
   - component: {fileID: 6204864532673501980}
   - component: {fileID: 4577367270596166494}
+  - component: {fileID: 4229491330019643990}
   m_Layer: 5
   m_Name: AIGameSetupPopup
   m_TagString: Untagged
@@ -1232,6 +1248,18 @@ MonoBehaviour:
   _startButton: {fileID: 2185012241161707539}
   _closeButton: {fileID: 4971403538658942245}
   _boosterPanel: {fileID: 7154556929389041041}
+--- !u!114 &4229491330019643990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6204864532673501953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c78ded6aa4aa7db4991fff703f2c88ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinBindingGroup
 --- !u!1 &6603937799046994578
 GameObject:
   m_ObjectHideFlags: 0
