@@ -32,19 +32,19 @@ MonoBehaviour:
       <size=150%><voffset=20><sprite name=\"gear\"></voffset></size><size=130%><color=#FF9A00><b>Rules</b></color></size>\r\n\r\n\u2022
       Words cannot be repeated within a round  \r\n\u2022 Words can be formed <b>horizontally
       or vertically</b>  \r\n  <size=85%><color=#AAAAAA>(no diagonals)</color></size> 
-      \r\n\u2022 The same cell cannot be used twice  \r\n\u2022 <b>1 letter = 1 point</b>\r\n\u2022
-      Time for a move is limited\r\n</line-height>\r\n<line-height=100%>\r\n  <size=150%><voffset=20><sprite
-      name=\"time\"></voffset></size><size=130%><color=#FF9A00><b>Out of time</b></color></size>\r\n\r\n\u2022
-      The move is skipped  \r\n\u2022 Reaching the maximum number of skips results
-      in <b>defeat</b> \r\n</line-height>\r\n<line-height=100%>\r\n  <size=150%><voffset=20><sprite
-      name=\"finish\"></voffset></size><size=130%><color=#FF9A00><b>End of the round</b></color></size>\r\n\r\n\u2022
-      The round ends when the board is full  \r\n\u2022 The player with the most
-      points wins  \r\n\u2022 If scores are equal \u2014 <b>draw</b>\r\n</line-height>"
+      \r\n\u2022 You cannot select the same tile twice when forming a word\r\n\u2022
+      <b>1 letter = 1 point</b>\r\n\u2022 Time for a move is limited\r\n</line-height>\r\n<line-height=100%>\r\n 
+      <size=150%><voffset=20><sprite name=\"time\"></voffset></size><size=130%><color=#FF9A00><b>Out
+      of time</b></color></size>\r\n\r\n\u2022 The move is skipped  \r\n</line-height>\r\n<line-height=100%>\r\n 
+      <size=150%><voffset=20><sprite name=\"finish\"></voffset></size><size=130%><color=#FF9A00><b>End
+      of the round</b></color></size>\r\n\r\n\u2022 The round ends when the board
+      is full  \r\n\u2022 The player with the most points wins  \r\n\u2022 If scores
+      are equal \u2014 <b>draw</b>\r\n</line-height>"
     m_Metadata:
       m_Items: []
   - m_Id: 20447734677504
-    m_Localized: ' <size=150%><voffset=20><sprite name="question"></voffset></size>
-      Questions and Answers'
+    m_Localized: ' <size=150%><voffset=20><sprite name="question"></voffset></size>Questions
+      and Answers'
     m_Metadata:
       m_Items: []
   - m_Id: 20937088319488
@@ -58,14 +58,11 @@ MonoBehaviour:
       saved game can be loaded later and continued from the same point. \r\n\r\n 
       <size=150%><voffset=20><sprite name=\"shop\"></voffset></size><b>How to get
       boosters?</b>  \r\n\u2014 Boosters can be purchased in the in-game store for
-      real money.  \r\n\u2014 They can also be obtained by watching ads.\r\n\r\n 
-      <size=150%><voffset=20><sprite name=\"shop\"></voffset></size><b>How to disable
-      ads?</b>  \r\n\u2014 Ads between screens can be disabled in the in-game shop.
-      \r\n\u2014 Watching ads to receive boosters will still be available.\r\n</line-height>"
+      real money.  \r\n\u2014 They can also be obtained by watching ads.\r\n</line-height>"
     m_Metadata:
       m_Items: []
   - m_Id: 50729208740462592
-    m_Localized: ' <size=150%><voffset=20><sprite name="info"></voffset></size> Boosters'
+    m_Localized: ' <size=150%><voffset=20><sprite name="info"></voffset></size>Boosters'
     m_Metadata:
       m_Items: []
   - m_Id: 50729394833342464
