@@ -913,10 +913,28 @@ namespace Game.Logic
 
         private async void OnShowWordInfoEvent(ShowWordInfoEvent eventData)
         {
-            _analyticsReporter.TrackWordInfoClicked(eventData.word);
-            await _wordInfoPresenter.ShowAsync(
-                eventData.word,
-                _dictionaryService.DictionaryConfig.languageCode);
+            var isClosed = false;
+            void OnClosed()
+            {
+                if (isClosed)
+                    return;
+
+                isClosed = true;
+                eventData.onClosed?.Invoke();
+            }
+
+            try
+            {
+                _analyticsReporter.TrackWordInfoClicked(eventData.word);
+                await _wordInfoPresenter.ShowAsync(
+                    eventData.word,
+                    _dictionaryService.DictionaryConfig.languageCode,
+                    OnClosed);
+            }
+            finally
+            {
+                OnClosed();
+            }
         }
 
         private async void OnActivateBooster(UseBoosterEvent eventData)

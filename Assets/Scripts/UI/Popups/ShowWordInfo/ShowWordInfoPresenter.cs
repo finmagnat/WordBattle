@@ -72,36 +72,44 @@ namespace UI.Popups
             _dictionaryService = dictionaryService;
         }
 
-        public async UniTask<ReportWordPopupFlowResult> ShowAsync(string word, string language)
+        public async UniTask<ReportWordPopupFlowResult> ShowAsync(string word, string language, Action onClosed = null)
         {
-            var popup = await _ui.ShowPopupAsync<ShowWordInfoPopup, ShowWordInfoWindowEventData>(AssetKey.ShowWordInfoPopup, 
-                new ShowWordInfoWindowEventData
-                {
-                    word = word,
-                    definition = _dictionaryService.GetDefinition(word)
-                });
-
-            using var timerCts = new System.Threading.CancellationTokenSource();
-
-            _cooldownText = _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyLimitReportWordSentText);
-            var timerTask = RunTimerLoopAsync(popup, timerCts.Token);
-
+            ShowWordInfoPopup popup;
             PopupExitData popupResult;
             try
             {
-                popupResult = await popup.WaitForResultAsync();
+                popup = await _ui.ShowPopupAsync<ShowWordInfoPopup, ShowWordInfoWindowEventData>(AssetKey.ShowWordInfoPopup,
+                    new ShowWordInfoWindowEventData
+                    {
+                        word = word,
+                        definition = _dictionaryService.GetDefinition(word)
+                    });
+
+                using var timerCts = new System.Threading.CancellationTokenSource();
+
+                _cooldownText = _localization.Get(LocalizationConst.TableUI, LocalizationConst.KeyLimitReportWordSentText);
+                var timerTask = RunTimerLoopAsync(popup, timerCts.Token);
+
+                try
+                {
+                    popupResult = await popup.WaitForResultAsync();
+                }
+                finally
+                {
+                    timerCts.Cancel();
+                    try
+                    {
+                        await timerTask;
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        // Нормально, таймер остановили.
+                    }
+                }
             }
             finally
             {
-                timerCts.Cancel();
-                try
-                {
-                    await timerTask;
-                }
-                catch (OperationCanceledException)
-                {
-                    // Нормально, таймер остановили.
-                }
+                onClosed?.Invoke();
             }
 
             if (popupResult.Result != PopupResult.SaveAndExit)

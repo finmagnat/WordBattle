@@ -30,6 +30,7 @@ namespace UI.Screens
         [SerializeField] protected Button _goButton;
         [SerializeField] protected Button _repeatGame;
         [SerializeField] protected Button _passButton;
+        [SerializeField] protected Button _wordInfoButton;
 
         [SerializeField] protected PlayerPanel _playerPanelOwner;
         [SerializeField] protected PlayerPanel _playerPanelOpponent;
@@ -42,7 +43,7 @@ namespace UI.Screens
         [SerializeField] protected FocusHoleOverlay _holeOverlay;
         [SerializeField] protected FloatingBubblePopup _eraseBubblePopup;
         [SerializeField] protected FloatingPausePopup _pausePopup;
-        [SerializeField] private SkinBindingGroup _skinBindings;
+        [SerializeField] protected SkinBindingGroup _skinBindings;
         
         internal TimerProgressBar TimerBar => _progressBar;
         internal PlayerPanel PlayerPanelOwner => _playerPanelOwner;
@@ -68,12 +69,12 @@ namespace UI.Screens
 
         protected bool _isProcessing;
         protected bool _isPaused;
-
-        private Button _wordInfoButton;
+        
         private string _wordInfoWord;
         private bool _isWordInfoVisible;
         private float _wordInfoIconAnchoredY;
         private bool _wordInfoButtonInitialized;
+        private bool _isWordInfoOpen;
 
         protected virtual void Start()
         {
@@ -84,9 +85,6 @@ namespace UI.Screens
 
         protected virtual void OnDestroy()
         {
-            if (_wordInfoButton)
-                _wordInfoButton.onClick.RemoveListener(OnWordInfoPressed);
-
             EventBus.Unsubscribe<GoToHomeEvent>(OnGoToHome);
             EventBus.Unsubscribe<GameEndEvent>(OnGameEnd);
         }
@@ -113,21 +111,19 @@ namespace UI.Screens
             EventBus.Raise(new GameSkipEvent());
         }
         
+        public void OnPressedWordInfo()
+        {
+            if (string.IsNullOrWhiteSpace(_wordInfoWord))
+                return;
+
+            OpenWordInfoAsync();
+        }
+        
         public void OnOpenStatistic()
         {
             OnStatisticOpened();
 
             OpenStatisticAsync();
-        }
-        
-        public async UniTask OpenStatisticAsync()
-        {
-            SetPause(true);
-            
-            _statisticsPanel.ShowAsync();
-            await _statisticsPanel.WaitForResultAsync();
-            
-            SetPause(false);
         }
 
         public override async UniTask ShowAsync()
@@ -247,7 +243,40 @@ namespace UI.Screens
             await _loadingUI.HideLoadingAsync();
         }
         
+        protected async UniTask OpenWordInfoAsync()
+        {
+            if (_isWordInfoOpen)
+                return;
+
+            _isWordInfoOpen = true;
+            var wasPaused = _isPaused;
+            var closed = new UniTaskCompletionSource();
+            try
+            {
+                SetPause(true);
+                EventBus.Raise(new ShowWordInfoEvent
+                {
+                    word = _wordInfoWord,
+                    onClosed = () => closed.TrySetResult()
+                });
+                await closed.Task;
+            }
+            finally
+            {
+                _isWordInfoOpen = false;
+                SetPause(wasPaused);
+            }
+        }
         
+        protected async UniTask OpenStatisticAsync()
+        {
+            SetPause(true);
+            
+            _statisticsPanel.ShowAsync();
+            await _statisticsPanel.WaitForResultAsync();
+            
+            SetPause(false);
+        }
         
         protected void SetPause(bool isPaused)
         {
@@ -284,15 +313,8 @@ namespace UI.Screens
             if (_wordInfoButtonInitialized || !_wordText)
                 return;
 
-            _wordInfoButton = _wordText.GetComponent<Button>();
-
-            if (!_wordInfoButton)
-                _wordInfoButton = _wordText.gameObject.AddComponent<Button>();
-
             _wordInfoButton.transition = Selectable.Transition.None;
             _wordInfoButton.targetGraphic = _wordText;
-            _wordInfoButton.onClick.RemoveListener(OnWordInfoPressed);
-            _wordInfoButton.onClick.AddListener(OnWordInfoPressed);
             _wordInfoButton.interactable = false;
             _wordText.raycastTarget = false;
 
@@ -323,15 +345,6 @@ namespace UI.Screens
 
             if (_wordInfoIcon)
                 _wordInfoIcon.raycastTarget = value;
-        }
-
-        private void OnWordInfoPressed()
-        {
-            if (string.IsNullOrWhiteSpace(_wordInfoWord))
-                return;
-
-            SetPause(true);
-            EventBus.Raise(new ShowWordInfoEvent { word = _wordInfoWord });
         }
 
         private void UpdateWordInfoIconPosition()
