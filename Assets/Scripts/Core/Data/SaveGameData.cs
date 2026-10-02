@@ -24,6 +24,7 @@ namespace Core.Data
         public uint opponentPasses;         // пропуски оппонента
 
         public string firstWord;                   // исходное слово
+        public string lastWord;                    // последнее добавленное слово
         public List<string> playerWords = new();   // слова игрока
         public List<string> opponentWords = new(); // слова оппонента
     }

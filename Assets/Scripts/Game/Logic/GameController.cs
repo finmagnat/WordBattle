@@ -62,6 +62,7 @@ namespace Game.Logic
         private ComplexityAISettings _complexityAISettings;
         private int _durationGame;
         private string _firstWord;
+        private string _lastWord;
         private string _lastAcceptedWord;
         private SaveGameData _saveGameData;
         private bool _isSavedGame;
@@ -164,6 +165,7 @@ namespace Game.Logic
                 opponentPasses = _gameScreen.PlayerPanelOpponent.Pass,
 
                 firstWord = _firstWord,
+                lastWord = _lastWord,
                 playerWords = _gameScreen.StatisticsPanel.StatisticPlayerPlayerPanelOwner.Words,
                 opponentWords = _gameScreen.StatisticsPanel.StatisticPlayerPlayerPanelOpponent.Words
             };
@@ -236,6 +238,10 @@ namespace Game.Logic
             if (savedGameData != null)
             {
                 _firstWord = savedGameData.firstWord;
+                _lastWord = savedGameData.lastWord;
+                
+                _gameScreen.SetTextWordWithInfoIcon(_lastWord);
+                
                 _wordsFieldManager.WordsFieldData.SetSaveGameData(savedGameData);
 
                 _gameScreen.StatisticsPanel.SetStartWord(_firstWord);
@@ -252,6 +258,7 @@ namespace Game.Logic
             }
             else
             {
+                _lastWord = "";
                 _firstWord = _dictionaryService.GetRandomWord(_configService.Game.defaultBoardSize);
                 _wordsFieldManager.SetFirstWord(_firstWord);
 
@@ -504,7 +511,7 @@ namespace Game.Logic
                 return;
 
             _isSavingWord = true;
-
+            
             try
             {
                 _boosterController.StopSlowdown();
@@ -527,6 +534,7 @@ namespace Game.Logic
                 _gameScreen.PassButton.interactable = false;
                 _lastAcceptedWord = word;
                 _gameScreen.SetTextWordWithInfoIcon(word);
+                _lastWord = word;
 
                 var selectedIndexes = _wordsFieldManager.WordsFieldData.GetSelectedIndexesSnapshot();
                 var wordsField = _gameScreen.WordsField;
