@@ -157,7 +157,7 @@ MonoBehaviour:
   - m_Id: 6207590239928320
     m_Localized: 'Your move.
 
-      Select a cell on the field next to another letter.'
+      Select the cell next to the other letter.'
     m_Metadata:
       m_Items: []
   - m_Id: 6207742686101504
