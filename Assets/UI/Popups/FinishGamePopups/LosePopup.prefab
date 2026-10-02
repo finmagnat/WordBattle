@@ -542,7 +542,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 864, y: 1300}
+  m_SizeDelta: {x: 900, y: 1300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6611225760778412600
 CanvasRenderer:
@@ -613,6 +613,7 @@ GameObject:
   - component: {fileID: 2230619620769014556}
   - component: {fileID: 698267247290849715}
   - component: {fileID: 3142347869546330548}
+  - component: {fileID: 3769433152234934145}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -668,7 +669,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 923a6125b2db0f1438295d4c0f5cea8e, type: 3}
+  m_Sprite: {fileID: 3756998092801499127, guid: 5e3761c6d19fc23479955a193fbc48f3, type: 3}
   m_Type: 1
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -735,6 +736,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
   _uniqueSfxKey: 
+--- !u!114 &3769433152234934145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6657032911393799274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 26
+  _image: {fileID: 2230619620769014556}
 --- !u!1 &7969346783443461199
 GameObject:
   m_ObjectHideFlags: 0
@@ -1075,7 +1090,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9086570579694546400, guid: 7c4285f5c868ba247ac5c02055a7e811, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 300
+      value: 320
       objectReference: {fileID: 0}
     - target: {fileID: 9086570579694546400, guid: 7c4285f5c868ba247ac5c02055a7e811, type: 3}
       propertyPath: m_LocalPosition.x

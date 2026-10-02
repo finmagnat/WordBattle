@@ -1027,8 +1027,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.HorizontalLayoutGroup
   m_Padding:
-    m_Left: 30
-    m_Right: 46
+    m_Left: 34
+    m_Right: 50
     m_Top: 60
     m_Bottom: 80
   m_ChildAlignment: 4
@@ -1322,7 +1322,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 56.1
+  m_fontSize: 60
   m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1503,6 +1503,7 @@ GameObject:
   - component: {fileID: 1136257687735582383}
   - component: {fileID: 9050177374130184180}
   - component: {fileID: 1891850257289861736}
+  - component: {fileID: 785921714971496308}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -1557,7 +1558,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 6971002814352479672, guid: 0ea65a05ba67bb744891d784032e78f1, type: 3}
+  m_Sprite: {fileID: 7480971022334341769, guid: 4562e80a1a541c84aaae3e376da27588, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1567,6 +1568,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 2
+--- !u!114 &785921714971496308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6263435435848607792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 3
+  _image: {fileID: 1891850257289861736}
 --- !u!1 &6328534323371152903
 GameObject:
   m_ObjectHideFlags: 0
@@ -1578,6 +1593,7 @@ GameObject:
   - component: {fileID: 5469343976913053571}
   - component: {fileID: 5624758053913053134}
   - component: {fileID: 7246093353622378414}
+  - component: {fileID: 8364120108833893304}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -1632,7 +1648,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 6971002814352479672, guid: 0ea65a05ba67bb744891d784032e78f1, type: 3}
+  m_Sprite: {fileID: 7480971022334341769, guid: 4562e80a1a541c84aaae3e376da27588, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1642,6 +1658,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 2
+--- !u!114 &8364120108833893304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6328534323371152903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 3
+  _image: {fileID: 7246093353622378414}
 --- !u!1 &6531961703379879549
 GameObject:
   m_ObjectHideFlags: 0
@@ -1686,7 +1716,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 864, y: 1800}
+  m_SizeDelta: {x: 900, y: 1800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3976874918069368486
 CanvasRenderer:
@@ -1757,6 +1787,7 @@ GameObject:
   - component: {fileID: 2230619620769014556}
   - component: {fileID: 698267247290849715}
   - component: {fileID: 6761160945674047686}
+  - component: {fileID: 2225886003560184351}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -1812,7 +1843,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 923a6125b2db0f1438295d4c0f5cea8e, type: 3}
+  m_Sprite: {fileID: 3756998092801499127, guid: 5e3761c6d19fc23479955a193fbc48f3, type: 3}
   m_Type: 1
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -1879,6 +1910,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
   _uniqueSfxKey: 
+--- !u!114 &2225886003560184351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6657032911393799274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 26
+  _image: {fileID: 2230619620769014556}
 --- !u!1 &7655958532767716920
 GameObject:
   m_ObjectHideFlags: 0
@@ -2418,8 +2463,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278220799
-  m_fontColor: {r: 1, g: 0.4666193, b: 0, a: 1}
+    rgba: 4278255604
+  m_fontColor: {r: 0.95692325, g: 1, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2442,7 +2487,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -3000,7 +3045,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9086570579694546400, guid: 7c4285f5c868ba247ac5c02055a7e811, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 300
+      value: 320
       objectReference: {fileID: 0}
     - target: {fileID: 9086570579694546400, guid: 7c4285f5c868ba247ac5c02055a7e811, type: 3}
       propertyPath: m_LocalPosition.x

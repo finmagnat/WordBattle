@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4248085165408796650}
   - component: {fileID: 3455548095698269437}
   - component: {fileID: 6298279850170821198}
+  - component: {fileID: 5728917302353815855}
   m_Layer: 5
   m_Name: ApplyButton
   m_TagString: Untagged
@@ -67,7 +68,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 923a6125b2db0f1438295d4c0f5cea8e, type: 3}
+  m_Sprite: {fileID: 3756998092801499127, guid: 5e3761c6d19fc23479955a193fbc48f3, type: 3}
   m_Type: 1
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -121,6 +122,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5728917302353815855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196883803950918540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 26
+  _image: {fileID: 3455548095698269437}
 --- !u!1 &927793549901921600
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4932780153288306451}
   - component: {fileID: 7366394986726413638}
   - component: {fileID: 3083841715179829569}
+  - component: {fileID: 7843235948389764877}
   m_Layer: 5
   m_Name: Icon
   m_TagString: Untagged
@@ -66,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8717685427719700474, guid: 01d9d4cbb3601194295d2ff80c7f0296, type: 3}
+  m_Sprite: {fileID: -3250311082205667806, guid: 57cc800486094454c91d379578415f8c, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -76,6 +77,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7843235948389764877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640436077920656379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 6
+  _image: {fileID: 3083841715179829569}
 --- !u!1 &650402519967201710
 GameObject:
   m_ObjectHideFlags: 0

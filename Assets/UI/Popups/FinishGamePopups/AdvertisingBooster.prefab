@@ -412,8 +412,8 @@ MonoBehaviour:
   m_text: "\u0411\u0443\u043A\u043E\u0432\u043A\u0430 \u043F\u043E\u043B\u044C\u0437\u0443\u0435\u0442\u0441\u044F
     \u0441\u043F\u0440\u043E\u0441\u043E\u043C \u0443 83% \u0438\u0433\u0440\u043E\u043A\u043E\u0432"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 09ec8219fb22d4a02bce3b0842b007d6, type: 2}
-  m_sharedMaterial: {fileID: -341224886665433701, guid: 09ec8219fb22d4a02bce3b0842b007d6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 55cd03c8d50f6984086822e934d554cc, type: 2}
+  m_sharedMaterial: {fileID: -1684329211193947470, guid: 55cd03c8d50f6984086822e934d554cc, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -437,7 +437,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 43.95
+  m_fontSize: 45
   m_fontSizeBase: 45
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -632,7 +632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54edeee9d3724c0986318c692bbaee0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
-  _sfxKey: sfx_button_click
+  _uniqueSfxKey: 
 --- !u!114 &3593852152453975321
 MonoBehaviour:
   m_ObjectHideFlags: 0

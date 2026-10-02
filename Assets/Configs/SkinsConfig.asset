@@ -133,7 +133,7 @@ MonoBehaviour:
     - Key: 22
       Alias: ButtonPass_Wood
     - Key: 23
-      Alias: Button_Wood
+      Alias: ButtonGo_Wood
     - Key: 25
       Alias: ButtonStatistic_Wood
     - Key: 26
