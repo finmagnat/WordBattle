@@ -672,7 +672,7 @@ namespace Game.Logic
 
             if (MaxPassesReached(_gameScreen.PlayerPanelOwner.Pass) ||
                 MaxPassesReached(_gameScreen.PlayerPanelOpponent.Pass) ||
-                _wordsFieldManager.Filled())
+                _wordsFieldManager.FilledOrEmpty())
             {
                 FinishGame();
             }

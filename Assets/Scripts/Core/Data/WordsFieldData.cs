@@ -138,6 +138,24 @@ namespace Core.Data
             return true;
         }
         
+        /// <summary>
+        /// Поле заполнено или пустое (стерто ластиком).
+        /// </summary>
+        /// <returns>Успех</returns>
+        internal bool FilledOrEmpty()
+        {
+            int countEmpty = 0, countNotEmpty = 0;
+            foreach (var item in _items)
+            {
+                if (item.Empty())
+                    ++countEmpty;
+                else
+                    ++countNotEmpty;
+            }
+
+            return countEmpty == AMOUNT_LETTERS || countNotEmpty == AMOUNT_LETTERS;
+        }
+        
 
         /// <summary>
         /// Проверка попытки игрока установить новую букву в желаемую позицию.
@@ -306,5 +324,6 @@ namespace Core.Data
             if (right < AMOUNT_LETTERS && (right / BOARD_WIDTH) == (index / BOARD_WIDTH))
                 yield return right;
         }
+        
     }
 }

@@ -111,6 +111,11 @@ namespace Game.Logic
         {
             return _wordsFildData.Filled();
         }
+        
+        internal bool FilledOrEmpty()
+        {
+            return _wordsFildData.FilledOrEmpty();
+        }
 
         internal bool WordExist(string word)
         {
@@ -330,5 +335,6 @@ namespace Game.Logic
         {
             _isPause = eventData.IsPaused;
         }
+        
     }
 }
