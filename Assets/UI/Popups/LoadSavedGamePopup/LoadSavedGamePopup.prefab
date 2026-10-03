@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 20.5}
-  m_SizeDelta: {x: -51.999996, y: -69}
+  m_AnchoredPosition: {x: 0, y: 10}
+  m_SizeDelta: {x: -51.999996, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5718192501913037268
 CanvasRenderer:
@@ -711,7 +711,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 49.2
+  m_fontSize: 46.5
   m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -933,6 +933,7 @@ GameObject:
   - component: {fileID: 9117337505116735182}
   - component: {fileID: 2588957990152335401}
   - component: {fileID: 5145171365688515989}
+  - component: {fileID: 5689406982464401349}
   m_Layer: 5
   m_Name: RemoveAndExitButton
   m_TagString: Untagged
@@ -988,7 +989,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 96369ca43c654f64e95902e52e7c9285, type: 3}
+  m_Sprite: {fileID: 5851812232500700377, guid: b5d8e67cb8f036b438f644fe838eb761, type: 3}
   m_Type: 1
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -1055,6 +1056,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
   _uniqueSfxKey: 
+--- !u!114 &5689406982464401349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5914807271830532087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 20
+  _image: {fileID: 9117337505116735182}
 --- !u!1 &6204864532673501953
 GameObject:
   m_ObjectHideFlags: 0
@@ -1180,7 +1195,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1000, y: 1600}
+  m_SizeDelta: {x: 864, y: 1600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2602391206361252958
 CanvasRenderer:
@@ -1251,6 +1266,7 @@ GameObject:
   - component: {fileID: 2230619620769014556}
   - component: {fileID: 698267247290849715}
   - component: {fileID: 6652844399424778180}
+  - component: {fileID: 5578711630780754102}
   m_Layer: 5
   m_Name: StartButton
   m_TagString: Untagged
@@ -1306,7 +1322,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 923a6125b2db0f1438295d4c0f5cea8e, type: 3}
+  m_Sprite: {fileID: 2786540909945230268, guid: 7b6673cb2d257654baabe83e23ef875b, type: 3}
   m_Type: 1
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -1373,6 +1389,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.UI.Components.SoundButton
   _uniqueSfxKey: 
+--- !u!114 &5578711630780754102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6657032911393799274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8193c6cba21cb499e860e5abb59dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinImage
+  _key: 21
+  _image: {fileID: 2230619620769014556}
 --- !u!1 &7034682040977236281
 GameObject:
   m_ObjectHideFlags: 0
@@ -1803,8 +1833,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 20.5}
-  m_SizeDelta: {x: -51.999996, y: -69}
+  m_AnchoredPosition: {x: 0, y: 10}
+  m_SizeDelta: {x: -51.999996, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9150153104129930165
 CanvasRenderer:
