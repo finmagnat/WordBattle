@@ -351,13 +351,22 @@ namespace Game.Logic
             {
                 if (!_dictionaryService.Contains(word))
                 {
+                    Cancel();
+                    await BlockUIAsync(true);
+                    try
+                    {
+                        await _boosterController.RollbackEraserAsync();
+                    }
+                    finally
+                    {
+                        await BlockUIAsync(false);
+                    }
+
                     _audioService?.PlaySfxAsync(SoundsConfig.PopupQuestion);
 
                     await _missingWordPopupPresenter.ShowAsync(
                         word,
                         _dictionaryService.DictionaryConfig.languageCode);
-
-                    Cancel();
 
                     if (!string.IsNullOrEmpty(_lastAcceptedWord))
                         _gameScreen.SetTextWordWithInfoIcon(_lastAcceptedWord);

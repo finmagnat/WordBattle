@@ -13,6 +13,7 @@ using Core.Services.Common;
 using Game.Logic.Mixer;
 using UI.Popups;
 using UI.Screens;
+using UI.Components;
 using UnityEngine;
 using Zenject;
 
@@ -56,6 +57,8 @@ namespace Game.Logic
         private bool _bModeEraser;
         private bool _bModeSwap;
         private bool _bLetterRemoved;
+        private SelectableLetter _erasedCell;
+        private string _erasedLetter;
         private bool _boosterProcessing;
         private bool _shopOpen;
 
@@ -81,6 +84,7 @@ namespace Game.Logic
             _bModeEraser = false;
             _bModeSwap = false;
             _bLetterRemoved = false;
+            ClearErasedLetter();
             _boosterProcessing = false;
             _activeEraserHost = null;
             _activeSwapHost = null;
@@ -91,6 +95,7 @@ namespace Game.Logic
         public void ResetForOpponentTurn()
         {
             _bLetterRemoved = false;
+            ClearErasedLetter();
         }
 
         public void OnGameFinished()
@@ -99,6 +104,7 @@ namespace Game.Logic
             CancelEraserMode();
             CancelSwapMode();
             _bLetterRemoved = false;
+            ClearErasedLetter();
             _boosterProcessing = false;
             _activeEraserHost = null;
             _activeSwapHost = null;
@@ -136,6 +142,8 @@ namespace Game.Logic
 
             if (_bModeEraser)
             {
+                _erasedCell = eventData.letter;
+                _erasedLetter = eventData.erasedLetter;
                 TrackEraserBoosterSuccess(_activeEraserHost, eventData);
                 CancelEraserMode();
                 _bLetterRemoved = true;
@@ -152,6 +160,29 @@ namespace Game.Logic
         public void StopSlowdown()
         {
             EndSlowdown(restartTimer: false);
+        }
+
+        // The current move must be cancelled first so its replacement letter is removed.
+        public async UniTask RollbackEraserAsync()
+        {
+            if (!_bLetterRemoved || _erasedCell == null || string.IsNullOrEmpty(_erasedLetter))
+                return;
+
+            _erasedCell.SetLetter(_erasedLetter);
+            _erasedCell.UnHighlight();
+            ClearErasedLetter();
+            _bLetterRemoved = false;
+
+            if (!await _inventorySync.GrantBoosterAsync(BoosterType.Eraser, 1))
+                Debug.LogError("[BOOSTER ERASER] Failed to refund eraser after a missing word.");
+
+            _gameScreen?.BoosterPanel.Refresh();
+        }
+
+        private void ClearErasedLetter()
+        {
+            _erasedCell = null;
+            _erasedLetter = null;
         }
 
         public async UniTask HandleUseAsync(UseBoosterEvent eventData, IGameBoosterHost host)
