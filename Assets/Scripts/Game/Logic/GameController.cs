@@ -663,6 +663,9 @@ namespace Game.Logic
         {
             bool shouldAutoMix = !_bModePlayOwner && wasPass && _ownerPassedLastTurn;
             _ownerPassedLastTurn = _bModePlayOwner && wasPass;
+            
+            if (_gameScreen.KeyboardPanel.IsVisible)
+                _gameScreen.KeyboardPanel.HideAsync().Forget();
 
             if (GameDebug.IsAutoWin)
             {
