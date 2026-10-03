@@ -63,6 +63,7 @@ namespace Game.Logic
 
         public void Attach(GameScreenBase gameScreen, WordsFieldManager wordsFieldManager, AIGameController ai)
         {
+            _gameScreen?.CancelLetterThinking();
             if (_gameScreen?.HoleOverlay != null)
                 _gameScreen.HoleOverlay.CloseButtonClicked -= OnHoleOverlayCloseButtonClicked;
 
@@ -76,6 +77,7 @@ namespace Game.Logic
 
         public void ResetForNewGame()
         {
+            _gameScreen?.CancelLetterThinking();
             _bModeEraser = false;
             _bModeSwap = false;
             _bLetterRemoved = false;
@@ -93,6 +95,7 @@ namespace Game.Logic
 
         public void OnGameFinished()
         {
+            _gameScreen?.CancelLetterThinking();
             CancelEraserMode();
             CancelSwapMode();
             _bLetterRemoved = false;
@@ -177,43 +180,51 @@ namespace Game.Logic
             }
 
             _boosterProcessing = true;
-            await host.BlockUIAsync(true);
-
-            bool ok = await _inventorySync.TryUseBoosterAsync(eventData.boosterType);
-            _gameScreen.BoosterPanel.Refresh();
-
-            if (!ok)
+            try
             {
-                await host.BlockUIAsync(false);
-                _boosterProcessing = false;
-                return;
-            }
+                await host.BlockUIAsync(true);
+                bool ok = await _inventorySync.TryUseBoosterAsync(eventData.boosterType);
+                _gameScreen.BoosterPanel.Refresh();
 
-            switch (eventData.boosterType)
+                if (!ok)
+                {
+                    return;
+                }
+
+                switch (eventData.boosterType)
+                {
+                    case BoosterType.Letter:
+                        await ActivateBoosterLetterAsync(host);
+                        break;
+
+                    case BoosterType.Slowdown:
+                        ActivateBoosterSlowdownAsync(host).Forget();
+                        break;
+
+                    case BoosterType.Eraser:
+                        await ActivateBoosterEraserAsync(host);
+                        break;
+
+                    case BoosterType.Mixer:
+                        await ActivateBoosterMixerAsync(host);
+                        break;
+
+                    case BoosterType.Swap:
+                        await ActivateBoosterSwapAsync(host);
+                        break;
+                }
+            }
+            finally
             {
-                case BoosterType.Letter:
-                    await ActivateBoosterLetterAsync(host);
-                    break;
-
-                case BoosterType.Slowdown:
-                    ActivateBoosterSlowdownAsync(host).Forget();
-                    break;
-
-                case BoosterType.Eraser:
-                    await ActivateBoosterEraserAsync(host);
-                    break;
-                
-                case BoosterType.Mixer:
-                    await ActivateBoosterMixerAsync(host);
-                    break;
-                
-                case BoosterType.Swap:
-                    await ActivateBoosterSwapAsync(host);
-                    break;
+                try
+                {
+                    await host.BlockUIAsync(false);
+                }
+                finally
+                {
+                    _boosterProcessing = false;
+                }
             }
-
-            await host.BlockUIAsync(false);
-            _boosterProcessing = false;
         }
 
         private async UniTask ShowShopAsync(IGameBoosterHost host)
@@ -307,10 +318,43 @@ namespace Game.Logic
 
         private async UniTask ActivateBoosterLetterAsync(IGameBoosterHost host)
         {
+            // Validation has finished. Keep input blocked, but remove the technical spinner.
+            await host.BlockUIAsync(true, BlockUIScreenMode.NoSpinner);
+            if (!host.IsGameStarted || !host.IsOwnerTurn || !_gameScreen.isActiveAndEnabled)
+                return;
+
             _gameScreen.TimerBar.StopTimer();
             host.CancelCurrentMove();
 
-            var res = await _ai.FindWordAsync(_configService.Game.boosterLetterAiSettings);
+            var screen = _gameScreen;
+            var ai = _ai;
+            var token = screen.BeginLetterThinking();
+            AIWordResult res;
+            try
+            {
+                using (token.Register(ai.AbortSearch))
+                {
+                    token.ThrowIfCancellationRequested();
+                    res = await ai.FindWordAsync(_configService.Game.boosterLetterAiSettings);
+                    token.ThrowIfCancellationRequested();
+                    if (!host.IsGameStarted || !host.IsOwnerTurn || !screen.isActiveAndEnabled)
+                        return;
+                }
+            }
+            catch (OperationCanceledException) when (token.IsCancellationRequested)
+            {
+                return;
+            }
+            catch
+            {
+                if (host.IsGameStarted && host.IsOwnerTurn && !host.IsPaused && screen.isActiveAndEnabled)
+                    screen.TimerBar.StartTimer();
+                throw;
+            }
+            finally
+            {
+                screen.EndLetterThinking(token);
+            }
             
             if (res.Success)
             {

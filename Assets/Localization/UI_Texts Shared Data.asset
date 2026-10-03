@@ -603,6 +603,10 @@ MonoBehaviour:
     m_Key: SKIN_NAME_PAPER
     m_Metadata:
       m_Items: []
+  - m_Id: 118107412391936000
+    m_Key: THINKING_TEXT
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

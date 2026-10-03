@@ -687,6 +687,10 @@ MonoBehaviour:
     m_Localized: "\u0411\u0443\u043C\u0430\u0433\u0430"
     m_Metadata:
       m_Items: []
+  - m_Id: 118107412391936000
+    m_Localized: "<line-height=100%>\n<size=200%><voffset=30><sprite name=\"letter\"></voffset></size><size=100%><voffset=15>\u0414\u0443\u043C\u0430\u044E...</size></voffset>\n</line-height>"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -12,6 +12,7 @@ namespace Core.Services
         public const string KeyTableTextScore = "TABLE_TEXT_SCORE";
         public const string KeyTableTextPasses = "TABLE_TEXT_PASSES";
         public const string KeyLabelLoading = "LOADING_TEXT";
+        public const string KeyLabelThinking = "THINKING_TEXT";
         public const string KeyPopupSavedGameText = "POPUP_SAVED_GAME_TEXT";
         public const string KeyTextYes = "TEXT_YES";
         public const string KeyTextNo = "TEXT_NO";

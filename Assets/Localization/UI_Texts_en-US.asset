@@ -663,6 +663,14 @@ MonoBehaviour:
     m_Localized: Paper
     m_Metadata:
       m_Items: []
+  - m_Id: 118107412391936000
+    m_Localized: '<line-height=100%>
+
+      <size=200%><voffset=30><sprite name="letter"></voffset></size><size=100%><voffset=15>Thinking...</size></voffset>
+
+      </line-height>'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
