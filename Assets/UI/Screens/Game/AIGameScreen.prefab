@@ -8414,7 +8414,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1244095384994431345, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4207373559896013265}
   m_SourcePrefab: {fileID: 100100000, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
 --- !u!224 &3348069113421635550 stripped
 RectTransform:
@@ -8426,12 +8429,32 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8813898260889858214, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
   m_PrefabInstance: {fileID: 5615787635606984179}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 6677891776506320002}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2415c84cfc2f414488ece859effacf26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.Components.BoosterUI
+--- !u!1 &6677891776506320002 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1244095384994431345, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
+  m_PrefabInstance: {fileID: 5615787635606984179}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4207373559896013265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6677891776506320002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46b79b157b6dddc49a465f358647f5d9, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::UI.Components.TimerWarningReaction
+  _timer: {fileID: 6580441538550110275}
+  _target: {fileID: 3348069113421635550}
+  _scale: 1.12
 --- !u!1001 &7515723094279135580
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8563,7 +8586,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 461037352920189671, guid: f04fe94803648314c8a570a80febd603, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1027221322410826530}
   m_SourcePrefab: {fileID: 100100000, guid: f04fe94803648314c8a570a80febd603, type: 3}
 --- !u!224 &1915691881276509818 stripped
 RectTransform:
@@ -8575,12 +8601,32 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5619080730081470739, guid: f04fe94803648314c8a570a80febd603, type: 3}
   m_PrefabInstance: {fileID: 7515723094279135580}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 7937833290261310395}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 424e1216f9ea4cb388f833f883712dd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.Components.SlowdownBoosterUI
+--- !u!1 &7937833290261310395 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 461037352920189671, guid: f04fe94803648314c8a570a80febd603, type: 3}
+  m_PrefabInstance: {fileID: 7515723094279135580}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1027221322410826530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7937833290261310395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46b79b157b6dddc49a465f358647f5d9, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::UI.Components.TimerWarningReaction
+  _timer: {fileID: 6580441538550110275}
+  _target: {fileID: 1915691881276509818}
+  _scale: 1.12
 --- !u!1001 &7899844393668895450
 PrefabInstance:
   m_ObjectHideFlags: 0

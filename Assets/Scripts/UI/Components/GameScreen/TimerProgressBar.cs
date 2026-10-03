@@ -47,6 +47,11 @@ namespace UI.Components
                         StopTimer();
                         EventBus.Raise(new TimeExpiredEvent()); 
                     }
+                    else if (_slider.maxValue - _slider.value <= _timeExpire)
+                    {
+                        _vibrationService.Play(VibrationType.Warning);
+                        EventBus.Raise(new TimerWarningEvent(this, true));
+                    }
                 }
             }
         }
@@ -65,11 +70,17 @@ namespace UI.Components
                 
         public void StartTimer() => _bRun = true;
 
-        public void StopTimer() => _bRun = false;
+        public void StopTimer()
+        {
+            _bRun = false;
+            EventBus.Raise(new TimerWarningEvent(this, false));
+        }
+
+        private void OnDisable() => StopTimer();
 
         public void ResetTimer()
         {
-            _bRun = false;
+            StopTimer();
             _dtTimer = 0;
             _slider.value = 0;
             _progressText.text = "";
@@ -90,11 +101,9 @@ namespace UI.Components
             int m = seconds / 60;
             int s = seconds % 60;
             _progressText.text = $"{m:00}:{s:00}";
-            if (seconds <= _timeExpire)
-            {
-                _progressText.color = _timeColorExpire;
-                _vibrationService.Play(VibrationType.Warning);
-            }
+            _progressText.color = seconds <= _timeExpire ? _timeColorExpire : _timeColor;
+            if (seconds > _timeExpire)
+                EventBus.Raise(new TimerWarningEvent(this, false));
         }
     }
 }
