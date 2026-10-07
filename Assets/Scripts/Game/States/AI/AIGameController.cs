@@ -22,11 +22,11 @@ namespace Game.AI
 
         /// <summary>
         /// Универсальный поиск слова (для хода ИИ, подсказок, бустеров).
-        /// Важно: применяет найденный ход к полю (SetLetter/Highlight) внутри алгоритма.
+        /// Применяет найденный ход к полю; clueOnly ставит только новую букву без выбора слова.
         /// </summary>
-        internal UniTask<AIWordResult> FindWordAsync(ComplexityAISettings settings)
+        internal UniTask<AIWordResult> FindWordAsync(ComplexityAISettings settings, bool clueOnly = false)
         {
-            return _algorithm.GetWordAsync(settings, _wordsFieldManager, _dictionaryService);
+            return _algorithm.GetWordAsync(settings, _wordsFieldManager, _dictionaryService, clueOnly);
         }
 
         /// <summary>

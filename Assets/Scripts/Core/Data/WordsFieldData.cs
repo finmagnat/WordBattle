@@ -219,7 +219,7 @@ namespace Core.Data
         /// </summary>
         internal void Clear()
         {
-            _items?.ForEach(item => item.UnHighlight());
+            _items?.ForEach(item => item.SetClueHighlight(false));
             _selectedIndex.Clear();
             _selectedItem = null;
             _setItem = null;

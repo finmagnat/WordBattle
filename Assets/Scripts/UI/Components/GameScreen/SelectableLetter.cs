@@ -34,6 +34,7 @@ namespace UI.Components
         private bool _bModeBlink; // Режим мигания
         private bool _isIlluminated; // Состояние подсветки в Режиме мигания
         private string _letter;
+        private bool _isClue;
         
         private HighlightState _highlightState = HighlightState.None; // Режим подсветки (выделена буква или ячейка)
         enum HighlightState { None, SelectedCell, Highlighted };
@@ -137,13 +138,20 @@ namespace UI.Components
 
         public void Reset()
         {
+            _isClue = false;
             SetLetter("");
             UnHighlight();
         }
 
         internal void ApplyCurrentSkin()
         {
-            SetHighlightState(HighlightState.None);
+            SetHighlightState(_isClue ? _highlightState : HighlightState.None);
+        }
+
+        internal void SetClueHighlight(bool value)
+        {
+            _isClue = value;
+            UnHighlight();
         }
 
         public bool ApplyBackgroundSkin(SkinSpriteKey key)
@@ -201,7 +209,7 @@ namespace UI.Components
         internal void UnHighlight()
         {
             ModeBlinkClear();
-            SetHighlightState(HighlightState.None);
+            SetHighlightState(_isClue ? HighlightState.SelectedCell : HighlightState.None);
         }
 
         /// <summary>

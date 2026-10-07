@@ -19,10 +19,17 @@ namespace Game.AI
 
         public void Cancel() => _bCancel = true;
 
-        public async UniTask<AIWordResult> GetWordAsync(
+        public UniTask<AIWordResult> GetWordAsync(
             ComplexityAISettings settings,
             WordsFieldManager wordsFieldManager,
             DictionaryService dictionaryService)
+            => GetWordAsync(settings, wordsFieldManager, dictionaryService, clueOnly: false);
+
+        public async UniTask<AIWordResult> GetWordAsync(
+            ComplexityAISettings settings,
+            WordsFieldManager wordsFieldManager,
+            DictionaryService dictionaryService,
+            bool clueOnly)
         {
             _bCancel = false;
 
@@ -54,10 +61,19 @@ namespace Game.AI
             // Меняем реальное поле только после успешного поиска
             items[result.InsertIndex].SetLetter(result.InsertChar.ToString());
 
-            foreach (int idx in result.PathIndexes)
-                items[idx].Highlight();
+            if (clueOnly)
+            {
+                // The word is only a hint: leave its path entirely for the player to select.
+                items[result.InsertIndex].SetClueHighlight(true);
+                wordsFieldManager.WordsFieldData.SetSelectedIndexes(new List<int>());
+            }
+            else
+            {
+                foreach (int idx in result.PathIndexes)
+                    items[idx].Highlight();
 
-            wordsFieldManager.WordsFieldData.SetSelectedIndexes(result.PathIndexes);
+                wordsFieldManager.WordsFieldData.SetSelectedIndexes(result.PathIndexes);
+            }
             wordsFieldManager.WordsFieldData.SetLetterItem(items[result.InsertIndex]);
 
             Debug.Log($"[SmartWordAlgorithmAsync][GetWordAsync] start = {start}, Word [{result.Word.Length}] = {result.Word}");

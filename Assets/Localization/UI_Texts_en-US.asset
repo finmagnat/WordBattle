@@ -671,6 +671,14 @@ MonoBehaviour:
       </line-height>'
     m_Metadata:
       m_Items: []
+  - m_Id: 119563404753387520
+    m_Localized: This letter is part of a word. Find it!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 119563404795330560
+    m_Localized: No clue found. Booster refunded.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
