@@ -29,12 +29,12 @@ MonoBehaviour:
     - ItemId: 3
       Amount: 5
       SpriteIcon: {fileID: -7522842387785124704, guid: 33f11c9f5f4a4e24ea3c7e6e06a159a8, type: 3}
-    - ItemId: 4
-      Amount: 5
-      SpriteIcon: {fileID: -2579884233798903349, guid: df96d0b1d28059a4298eba575e3bd64c, type: 3}
     - ItemId: 5
       Amount: 5
       SpriteIcon: {fileID: -7705041413723772166, guid: d5bfb4267c9803542873cff3e025351f, type: 3}
+    - ItemId: 4
+      Amount: 5
+      SpriteIcon: {fileID: -2579884233798903349, guid: df96d0b1d28059a4298eba575e3bd64c, type: 3}
     ProductId: wordlet_pack_best
     DebugPriceText: 29.99
     DebugAvailable: 1
@@ -98,13 +98,13 @@ MonoBehaviour:
     Type: 1
     Title: STORE_TITLE_FREE
     SpriteHeader: {fileID: -6270924561285312550, guid: c8918636c83b7d34090e6abce6a0780f, type: 3}
-    Description:
+    Description: 
     Rewards:
     - ItemId: 4
       Amount: 1
       SpriteIcon: {fileID: -2579884233798903349, guid: df96d0b1d28059a4298eba575e3bd64c, type: 3}
-    ProductId:
-    DebugPriceText:
+    ProductId: 
+    DebugPriceText: 
     DebugAvailable: 1
     RewardType: 4
     DailyLimit: 3
@@ -183,7 +183,7 @@ MonoBehaviour:
     Type: 0
     Title: STORE_TITLE_MIXER
     SpriteHeader: {fileID: -1436280531840284944, guid: ace7fad1a2c5257409bdd30cb0e938e8, type: 3}
-    Description:
+    Description: 
     Rewards:
     - ItemId: 4
       Amount: 10
