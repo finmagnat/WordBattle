@@ -327,8 +327,8 @@ MonoBehaviour:
   - m_Id: 23577441229750272
     m_Localized: '<line-height=100%>
 
-      <size=200%><voffset=30><sprite name="letter"></voffset></size><size=100%><voffset=15>The
-      Letter found a word!</size></voffset>
+      <size=200%><voffset=-6><sprite name="letter"></voffset></size>
+      <size=100%><voffset=15>The Letter found a word!</size></voffset>
 
       </line-height>'
     m_Metadata:
@@ -571,8 +571,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 66287842819981312
-    m_Localized: '  <size=150%><voffset=20><sprite name="book"></voffset></size><size=130%><color=#FF9A00><b>Description
-      of the word</b></color></size>'
+    m_Localized: <size=150%><voffset=-10><sprite name="book"></voffset></size><size=130%><color=#FF9A00>
+      <b>Description of the word</b></color></size>
     m_Metadata:
       m_Items: []
   - m_Id: 67739486875172864

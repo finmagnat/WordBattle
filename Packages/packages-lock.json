@@ -1,5 +1,14 @@
 {
   "dependencies": {
+    "com.finmagnat.tmp-sprite-atlas-builder": {
+      "version": "file:D:/Projects/Personal/TMPSpriteAtlasBuilder/Packages/com.finmagnat.tmp-sprite-atlas-builder",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.unity.ugui": "2.0.0",
+        "com.unity.modules.imageconversion": "1.0.0"
+      }
+    },
     "com.unity.2d.animation": {
       "version": "13.0.5",
       "depth": 1,

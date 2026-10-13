@@ -23,74 +23,74 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 502774775808
-    m_Localized: "  <size=150%><voffset=20><sprite name=\"book\"></voffset></size><size=130%><color=#FF9A00><b>How
-      to play</b></color></size>\r\n<line-height=100%>\r\n1. There is already a word
-      in the center of the board.\r\nYour goal is to <b>add one letter</b> and form
-      a new word.\r\n\r\n2. Make a move:\r\n\u2022 select an empty cell next to existing
-      letters  \r\n\u2022 choose a letter  \r\n\u2022 form a word <i>(including the
-      new letter)</i>  \r\n\u2022 press <b>\u201CApply\u201D</b>\r\n</line-height>\r\n<line-height=100%>\r\n 
-      <size=150%><voffset=20><sprite name=\"gear\"></voffset></size><size=130%><color=#FF9A00><b>Rules</b></color></size>\r\n\r\n\u2022
-      Words cannot be repeated within a round  \r\n\u2022 Words can be formed <b>horizontally
-      or vertically</b>  \r\n  <size=85%><color=#AAAAAA>(no diagonals)</color></size> 
-      \r\n\u2022 You cannot select the same tile twice when forming a word\r\n\u2022
-      <b>1 letter = 1 point</b>\r\n\u2022 Time for a move is limited\r\n</line-height>\r\n<line-height=100%>\r\n 
-      <size=150%><voffset=20><sprite name=\"time\"></voffset></size><size=130%><color=#FF9A00><b>Out
-      of time</b></color></size>\r\n\r\n\u2022 The move is skipped  \r\n</line-height>\r\n<line-height=100%>\r\n 
-      <size=150%><voffset=20><sprite name=\"finish\"></voffset></size><size=130%><color=#FF9A00><b>End
-      of the round</b></color></size>\r\n\r\n\u2022 The round ends when the board
-      is full  \r\n\u2022 The player with the most points wins  \r\n\u2022 If scores
-      are equal \u2014 <b>draw</b>\r\n</line-height>"
+    m_Localized: "<size=150%><voffset=-10><sprite name=\"book\"></voffset></size>
+      <size=130%><color=#FF9A00><b>How to play</b></color></size>\n<line-height=100%>\n1.
+      There is already a word in the center of the board.\nYour goal is to <b>add
+      one letter</b> and form a new word.\n\n2. Make a move:\n\u2022 select an empty
+      cell next to existing letters  \n\u2022 choose a letter  \n\u2022 form a word
+      <i>(including the new letter)</i>  \n\u2022 press <b>\u201CApply\u201D</b>\n</line-height>\n<line-height=100%>\n<size=150%><voffset=-10><sprite
+      name=\"gear\"></voffset></size> <size=130%><color=#FF9A00><b>Rules</b></color></size>\n\n\u2022
+      Words cannot be repeated within a round  \n\u2022 Words can be formed <b>horizontally
+      or vertically</b>  \n  <size=85%><color=#AAAAAA>(no diagonals)</color></size> 
+      \n\u2022 You cannot select the same tile twice when forming a word\n\u2022
+      <b>1 letter = 1 point</b>\n\u2022 Time for a move is limited\n</line-height>\n<line-height=100%>\n<size=150%><voffset=-10><sprite
+      name=\"time\"></voffset></size> <size=130%><color=#FF9A00><b>Out of time</b></color></size>\n\n\u2022
+      The move is skipped  \n</line-height>\n<line-height=100%>\n<size=150%><voffset=-10><sprite
+      name=\"finish\"></voffset></size> <size=130%><color=#FF9A00><b>End of the round</b></color></size>\n\n\u2022
+      The round ends when the board is full  \n\u2022 The player with the most points
+      wins  \n\u2022 If scores are equal \u2014 <b>draw</b>\n</line-height>"
     m_Metadata:
       m_Items: []
   - m_Id: 20447734677504
-    m_Localized: ' <size=150%><voffset=20><sprite name="question"></voffset></size>Questions
-      and Answers'
+    m_Localized: <size=150%><voffset=-20><sprite name="question"></voffset></size>
+      Questions and Answers
     m_Metadata:
       m_Items: []
   - m_Id: 20937088319488
-    m_Localized: "<line-height=100%>\r\n<b>How to remove a placed letter or clear
-      selection?</b>  \r\n\u2014 Press the <b>\"Cancel\"</b> button.\r\n\r\n<b>How
-      to pause the game?</b>  \r\n\u2014 Press the <b>\"Pause\"</b> button. The timer
-      will stop, and the letters on the board will temporarily disappear.  \r\n\u2014
-      To resume the game, press <b>\"Pause\"</b> again.\r\n\r\n<b>How to exit an
-      unfinished game?</b>  \r\n\u2014 Press the <b>\"Home\"</b> button.  \r\n\u2014
-      In AI mode, a window will appear offering to save the game.  \r\n\u2014 The
-      saved game can be loaded later and continued from the same point. \r\n\r\n 
-      <size=150%><voffset=20><sprite name=\"shop\"></voffset></size><b>How to get
-      boosters?</b>  \r\n\u2014 Boosters can be purchased in the in-game store for
-      real money.  \r\n\u2014 They can also be obtained by watching ads.\r\n</line-height>"
+    m_Localized: "<line-height=100%>\n<b>How to remove a placed letter or clear selection?</b> 
+      \n\u2014 Press the <b>\"Cancel\"</b> button.\n\n<b>How to pause the game?</b> 
+      \n\u2014 Press the <b>\"Pause\"</b> button. The timer will stop, and the letters
+      on the board will temporarily disappear.  \n\u2014 To resume the game, press
+      <b>\"Pause\"</b> again.\n\n<b>How to exit an unfinished game?</b>  \n\u2014
+      Press the <b>\"Home\"</b> button.  \n\u2014 In AI mode, a window will appear
+      offering to save the game.  \n\u2014 The saved game can be loaded later and
+      continued from the same point. \n\n<size=150%><voffset=-10><sprite name=\"shop\"></voffset></size>
+      <b>How to get boosters?</b>  \n\u2014 Boosters can be purchased in the in-game
+      store for real money.  \n\u2014 They can also be obtained by watching ads.\n</line-height>"
     m_Metadata:
       m_Items: []
   - m_Id: 50729208740462592
-    m_Localized: ' <size=150%><voffset=20><sprite name="info"></voffset></size>Boosters'
+    m_Localized: <size=150%><voffset=-20><sprite name="info"></voffset></size> Boosters
     m_Metadata:
       m_Items: []
   - m_Id: 50729394833342464
-    m_Localized: "<line-height=100%>\r\n  <size=150%><voffset=20><sprite name=\"letter\"></voffset></size><b>\"Letter\"
-      \u2014 helps find a new word</b>\r\n\u2014 The booster will automatically find
-      a word <i>(preferably the longest one)</i>, place a letter on the board, and
-      highlight that word.  \r\n\u2014 If no word is found, the booster will return
-      to the inventory.\r\n\r\n  <size=150%><voffset=20><sprite name=\"slowdown\"></voffset></size><b>\"Slowdown\"
-      \u2014 gives more time to think</b>  \r\n\u2014 The booster will stop the timer
-      for a while <i>(30 seconds)</i>, giving more time to make a move.\r\n\r\n 
-      <size=150%><voffset=20><sprite name=\"eraser\"></voffset></size><b>\"Eraser\"
-      \u2014 lets you fix the board</b>   \r\n\u2014 The booster allows you to remove
-      <i>one letter per turn</i> from the board and place another one instead.\r\n\r\n 
-      <size=150%><voffset=20><sprite name=\"swap\"></voffset></size><b>\"Swap\" \u2014
-      helps customize the board</b>   \r\n\u2014 The booster allows you to swap 2
-      letters on the board.\r\n\r\n  <size=150%><voffset=20><sprite name=\"mixer\"></voffset></size><b>\"Mixer\"
-      \u2014 changes the board and creates new possibilities</b>   \r\n\u2014 The
-      booster will shuffle the letters and place them in an unusual order on the
-      board.\r\n</line-height>"
+    m_Localized: "<line-height=100%>\n<size=150%><voffset=-10><sprite name=\"letter\"></voffset></size>
+      <b>\"Letter\" \u2014 helps find a new word</b>\n\u2014 The booster will automatically
+      find a word <i>(preferably the longest one)</i>, place a letter on the board,
+      and highlight that word.  \n\u2014 If no word is found, the booster will return
+      to the inventory.\n\n<size=150%><voffset=-10><sprite name=\"slowdown\"></voffset></size>
+      <b>\"Slowdown\" \u2014 gives more time to think</b>  \n\u2014 The booster will
+      stop the timer for a while <i>(30 seconds)</i>, giving more time to make a
+      move.\n\n<size=150%><voffset=-10><sprite name=\"eraser\"></voffset></size>
+      <b>\"Eraser\" \u2014 lets you fix the board</b>   \n\u2014 The booster allows
+      you to remove <i>one letter per turn</i> from the board and place another one
+      instead.\n\n<size=150%><voffset=-10><sprite name=\"swap\"></voffset></size>
+      <b>\"Swap\" \u2014 helps customize the board</b>   \n\u2014 The booster allows
+      you to swap 2 letters on the board.\n\n<size=150%><voffset=-10><sprite name=\"mixer\"></voffset></size>
+      <b>\"Mixer\" \u2014 changes the board and creates new possibilities</b>   \n\u2014
+      The booster will shuffle the letters and place them in an unusual order on
+      the board.\n</line-height>"
     m_Metadata:
       m_Items: []
   - m_Id: 50754050877440000
-    m_Localized: "<line-height=100%>\r\n  <size=200%><voffset=20><sprite name=\"letter\"></voffset></size><b>\xABLetter\xBB</b>
-      \u2014 helps find a new word\r\n\r\n  <size=200%><voffset=20><sprite name=\"slowdown\"></voffset></size><b>\xABSlowdown\xBB</b>
-      \u2014 gives more time to think\r\n\r\n  <size=200%><voffset=20><sprite name=\"eraser\"></voffset></size><b>\xABEraser\xBB</b>
-      \u2014 lets you fix the board\r\n\r\n  <size=200%><voffset=20><sprite name=\"swap\"></voffset></size><b>\xABSwap\xBB</b>
-      \u2014 helps customize the board\r\n\r\n  <size=200%><voffset=20><sprite name=\"mixer\"></voffset></size><b>\xABMixer\xBB</b>
-      \u2014 changes the board and creates new possibilities\r\n</line-height>"
+    m_Localized: "<line-height=100%>\n<size=200%><voffset=-20><sprite name=\"letter\"></voffset></size>
+      <b>\xABLetter\xBB</b> \u2014 helps find a new word\n\n<size=200%><voffset=-20><sprite
+      name=\"slowdown\"></voffset></size> <b>\xABSlowdown\xBB</b> \u2014 gives more
+      time to think\n\n<size=200%><voffset=-20><sprite name=\"eraser\"></voffset></size>
+      <b>\xABEraser\xBB</b> \u2014 lets you fix the board\n\n<size=200%><voffset=-20><sprite
+      name=\"swap\"></voffset></size> <b>\xABSwap\xBB</b> \u2014 helps customize
+      the board\n\n<size=200%><voffset=-20><sprite name=\"mixer\"></voffset></size>
+      <b>\xABMixer\xBB</b> \u2014 changes the board and creates new possibilities\n</line-height>"
     m_Metadata:
       m_Items: []
   references:
