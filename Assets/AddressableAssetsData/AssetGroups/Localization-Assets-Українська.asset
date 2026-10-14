@@ -27,6 +27,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-uk
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 974bbbe4d0d6e1a408263b7df113a37b
+    m_Address: HeroLetters_UA_Paper
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-uk
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 6dce5b1d62bc7c4448f3589e4c3a789e, type: 2}
   m_SchemaSet:

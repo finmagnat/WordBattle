@@ -21,6 +21,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-en-US
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a9fc6495943092d4b885930ee21fa802
+    m_Address: HeroLetters_EN_Paper
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en-US
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: db6e71f4ae6880346b58d82a854bf7d3
     m_Address: HeroLetters_EN_Wood
     m_ReadOnly: 1

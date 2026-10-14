@@ -162,3 +162,77 @@ MonoBehaviour:
       Value: {r: 1, g: 0.80784315, b: 0.64705884, a: 1}
     - Key: 7
       Value: {r: 0.42352942, g: 0.18039216, b: 0, a: 1}
+  - SkinType: 3
+    Sprites:
+    - Key: 1
+      Alias: MainBackground_Paper
+    - Key: 2
+      Alias: PlayerPanel_Paper
+    - Key: 3
+      Alias: Frame_Paper
+    - Key: 4
+      Alias: BoosterBg_Paper
+    - Key: 5
+      Alias: ProgressBkg_Paper
+    - Key: 6
+      Alias: BoosterBg_Paper
+    - Key: 8
+      Alias: ButtonSettings_Paper
+    - Key: 9
+      Alias: ButtonSkin_Paper
+    - Key: 10
+      Alias: ButtonInfo_Paper
+    - Key: 11
+      Alias: ButtonShop_Paper
+    - Key: 12
+      Alias: CellBackgroundDefault_Paper
+    - Key: 13
+      Alias: CellBackgroundFilled_Paper
+    - Key: 14
+      Alias: CellSelected_Paper
+    - Key: 15
+      Alias: LetterSelected_Paper
+    - Key: 16
+      Alias: KeybourdTile_Paper
+    - Key: 17
+      Alias: ButtonHome_Paper
+    - Key: 18
+      Alias: ButtonTools_Paper
+    - Key: 19
+      Alias: ButtonPause_Paper
+    - Key: 20
+      Alias: ButtonCancel_Paper
+    - Key: 21
+      Alias: ButtonGo_Paper
+    - Key: 22
+      Alias: ButtonPass_Paper
+    - Key: 23
+      Alias: ButtonGo_Paper
+    - Key: 25
+      Alias: ButtonStatistic_Paper
+    - Key: 26
+      Alias: Button_Paper
+    - Key: 27
+      Alias: DailyBonus_Paper
+    - Key: 28
+      Alias: CloudPopup_Paper
+    Prefabs:
+    - Key: 1
+      Alias: ScreenBackground_Paper
+    - Key: 2
+      Alias: Logo_Paper
+    Colors:
+    - Key: 1
+      Value: {r: 0.4245283, g: 0.18125585, b: 0, a: 1}
+    - Key: 2
+      Value: {r: 0.42352942, g: 0.18039216, b: 0, a: 1}
+    - Key: 3
+      Value: {r: 0.42352942, g: 0.18039216, b: 0, a: 1}
+    - Key: 4
+      Value: {r: 0.42352942, g: 0.18039216, b: 0, a: 1}
+    - Key: 5
+      Value: {r: 1, g: 0.80784315, b: 0.64705884, a: 1}
+    - Key: 6
+      Value: {r: 1, g: 0.80784315, b: 0.64705884, a: 1}
+    - Key: 7
+      Value: {r: 0.42352942, g: 0.18039216, b: 0, a: 1}

@@ -23,6 +23,10 @@ MonoBehaviour:
     m_Key: MAIN_SCREEN_LOGO_WOOD
     m_Metadata:
       m_Items: []
+  - m_Id: 8671695350415360
+    m_Key: MAIN_SCREEN_LOGO_PAPER
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items:
     - rid: 4190669186131558535
@@ -45,6 +49,11 @@ MonoBehaviour:
           - ru
           - uk
         - m_KeyId: 319424447266816
+          m_TableCodes:
+          - en-US
+          - ru
+          - uk
+        - m_KeyId: 8671695350415360
           m_TableCodes:
           - en-US
           - ru
