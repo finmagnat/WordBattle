@@ -425,7 +425,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -984}
+  m_AnchoredPosition: {x: 0, y: -917}
   m_SizeDelta: {x: -120, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5871825238819002497
@@ -522,7 +522,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 240}
+  m_AnchoredPosition: {x: 0, y: 214}
   m_SizeDelta: {x: 0, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6224628841098857970
@@ -1079,7 +1079,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -984}
+  m_AnchoredPosition: {x: 0, y: -917}
   m_SizeDelta: {x: -120, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5289068623868377420
@@ -1304,8 +1304,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278201964
+  m_fontColor: {r: 0.42352942, g: 0.18039216, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2049,7 +2049,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 240}
+  m_AnchoredPosition: {x: 0, y: 214}
   m_SizeDelta: {x: 0, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4554173758161976220
@@ -2400,6 +2400,7 @@ GameObject:
   - component: {fileID: 3750999555166101034}
   - component: {fileID: 6041023900497736153}
   - component: {fileID: 5729757316742600267}
+  - component: {fileID: 3901088239156769533}
   m_Layer: 5
   m_Name: MessageText
   m_TagString: Untagged
@@ -2456,15 +2457,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u041F\u041E\u0411\u0415\u0414\u0410!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: e267c7bb8545f934495be64e2e355471, type: 2}
-  m_sharedMaterial: {fileID: 6759850235318348288, guid: e267c7bb8545f934495be64e2e355471, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3d017dc552f75fe4182e7071b94a1bf1, type: 2}
+  m_sharedMaterial: {fileID: -5294004385266028584, guid: 3d017dc552f75fe4182e7071b94a1bf1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278255604
-  m_fontColor: {r: 0.95692325, g: 1, b: 0, a: 1}
+    rgba: 4278201964
+  m_fontColor: {r: 0.42352942, g: 0.18039216, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2550,6 +2551,20 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!114 &3901088239156769533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7969346783443461199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3544969b6ea1db941914be67be88e4c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.SkinBindings.SkinTMPColor
+  _key: 4
+  _text: {fileID: 6041023900497736153}
 --- !u!1 &8130444198880009772
 GameObject:
   m_ObjectHideFlags: 0
@@ -2956,7 +2971,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4685602132836828412, guid: 1d360b66d94f2924489004f503865c34, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -520
+      value: -494
       objectReference: {fileID: 0}
     - target: {fileID: 4685602132836828412, guid: 1d360b66d94f2924489004f503865c34, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3081,7 +3096,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9086570579694546400, guid: 7c4285f5c868ba247ac5c02055a7e811, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -1354
+      value: -1329
       objectReference: {fileID: 0}
     - target: {fileID: 9086570579694546400, guid: 7c4285f5c868ba247ac5c02055a7e811, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
