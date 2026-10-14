@@ -90,6 +90,9 @@ namespace UI.Screens
         protected virtual void OnDestroy()
         {
             CancelLetterThinking();
+            if (_wordText && _wordInfoButtonInitialized)
+                _wordText.OnPreRenderText -= UpdateWordInfoIconPosition;
+
             EventBus.Unsubscribe<GoToHomeEvent>(OnGoToHome);
             EventBus.Unsubscribe<GameEndEvent>(OnGameEnd);
         }
@@ -185,7 +188,7 @@ namespace UI.Screens
             _isWordInfoVisible = true;
             _wordText.text = word;
             SetWordInfoClickEnabled(true);
-            UpdateWordInfoIconPosition();
+            _wordText.ForceMeshUpdate();
         }
 
         internal virtual string GetTextWord() => _wordText.text;
@@ -391,6 +394,9 @@ namespace UI.Screens
                 _wordInfoIconRect.gameObject.SetActive(false);
             }
 
+            // The first layout can finish after a saved word is restored.
+            // Position the icon using the geometry that will actually be rendered.
+            _wordText.OnPreRenderText += UpdateWordInfoIconPosition;
             _wordInfoButtonInitialized = true;
         }
 
@@ -414,12 +420,10 @@ namespace UI.Screens
                 _wordInfoIcon.raycastTarget = value;
         }
 
-        private void UpdateWordInfoIconPosition()
+        private void UpdateWordInfoIconPosition(TMP_TextInfo textInfo)
         {
-            if (!_wordText || !_wordInfoIconRect)
+            if (!_isWordInfoVisible || !_wordText || !_wordInfoIconRect)
                 return;
-
-            _wordText.ForceMeshUpdate();
 
             var textBounds = _wordText.textBounds;
             var iconRect = _wordInfoIconRect.rect;
