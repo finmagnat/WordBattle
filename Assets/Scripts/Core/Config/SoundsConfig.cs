@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Core.Generated;
 using UnityEngine;
 
 namespace Core.Config
@@ -34,7 +33,7 @@ namespace Core.Config
         public static string PopupReward => "popup_reward";
        
         
-        [TextArea]
+        [ReadOnly, TextArea]
         public string _ = "Перетащить аудиоклип в поле Clip. Запустить плеймод и проверить звук в игре. После завершения подбора звуков перенести аудио клипы в Addressables.SFX и отключить IsUseSoundsConfig";
         
         [Tooltip("Опция для настройки звуковой схемы (true = вместо Addressables используется SoundsConfig)")]
@@ -82,7 +81,7 @@ namespace Core.Config
         public string Description;
         [ReadOnly]
         public string Id;
-        public AssetKey AddressKey;
+        public string AddressKey;
         public AudioClip Clip;
     }
 }

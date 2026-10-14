@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using Core.Services;
 using Core.UI.Components;
 using Cysharp.Threading.Tasks;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -18,12 +16,7 @@ namespace UI.Components
         [SerializeField] private Transform _listContent;
         [Tooltip("Ссылка на префаб с элементом текстового поля")]
         [SerializeField] private WordListItem _wordListItemPrefab;
-        [SerializeField] private Image _mainBackground;
-        [SerializeField] private Image _handleBackground;
         
-        [Inject] private SkinsService _skinsService;
-        [Inject] private ISpriteService _spritesService;
-        [Inject] private LocalizationService _localization;
         [Inject] private DiContainer _container;
         
         /// <summary>
@@ -62,13 +55,6 @@ namespace UI.Components
                     Destroy(child.gameObject);
         }
         
-        public async UniTask UpdateSkin()
-        {
-            var skin = _skinsService.SkinCurrent;
-            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.FrameBackgroundAlias);
-            _handleBackground.sprite = await _spritesService.GetSpriteAsync(skin.HandleBackgroundAlias);
-        }
-
         private void CreateWordItem(string word)
         {
             WordListItem wordListItem = _container.InstantiatePrefabForComponent<WordListItem>(_wordListItemPrefab, _listContent);

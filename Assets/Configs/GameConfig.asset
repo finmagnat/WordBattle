@@ -20,6 +20,7 @@ MonoBehaviour:
   targetFps: 60
   enableAnalytics: 1
   enableAds: 1
+  enableChangeLocalization: 0
   useDebugLogs: 1
   firebaseRealtimeDbUrl: 
   unityAdsGameIdAndroid: 

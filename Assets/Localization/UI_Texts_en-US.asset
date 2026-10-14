@@ -157,7 +157,7 @@ MonoBehaviour:
   - m_Id: 6207590239928320
     m_Localized: 'Your move.
 
-      Select a cell on the field next to another letter.'
+      Select the cell next to the other letter.'
     m_Metadata:
       m_Items: []
   - m_Id: 6207742686101504
@@ -275,14 +275,14 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 18899516425388032
-    m_Localized: "<line-height=105%>\r\n<color=#FF9A00><b>General Information</b></color>\r\n\r\nMechanics
+    m_Localized: "<line-height=90%><color=#9A1E0C><b>General Information</b></color>\r\nMechanics
       version: <b>{0}</b>  \r\nSaved on: <b>{1}</b>  \r\nLocalization: <b>{2}</b> 
-      \r\n\r\n<color=#FF9A00><b>Game Mode</b></color>\r\n\r\nMode: <b>{3}</b>  \r\nDifficulty:
-      <b>{4}</b>  \r\n\r\n<color=#FF9A00><b>Turn</b></color>\r\n\r\nYour turn: <b>{5}</b> 
-      \r\nTurn time: <b>{6}</b>  \r\nTime left: <b>{7}</b>\r\n\r\n<color=#FF9A00><b>Score</b></color>\r\n\r\nYou:
-      <b>{8}</b>   (skips: {9})  \r\nOpponent: <b>{10}</b>   (skips: {11})  \r\n\r\n<color=#FF9A00><b>Words</b></color>\r\n\r\nInitial
+      \r\n\r\n<color=#9A1E0C><b>Game Mode</b></color>\r\nMode: <b>{3}</b>  \r\nDifficulty:
+      <b>{4}</b>  \r\n\r\n<color=#9A1E0C><b>Turn</b></color>\r\nYour turn: <b>{5}</b> 
+      \r\nTurn time: <b>{6}</b>  \r\nTime left: <b>{7}</b>\r\n\r\n<color=#9A1E0C><b>Score</b></color>\r\nYou:
+      <b>{8}</b>   (skips: {9})  \r\nOpponent: <b>{10}</b>   (skips: {11})  \r\n\r\n<color=#9A1E0C><b>Words</b></color>\r\nInitial
       word: <b>{12}</b>  \r\n\r\nYour words:  \r\n<size=90%>{13}</size>  \r\n\r\nOpponent\u2019s
-      words:  \r\n<size=90%>{14}</size>\r\n\r\n</line-height>"
+      words:  \r\n<size=90%>{14}</size>\r\n</line-height>"
     m_Metadata:
       m_Items: []
   - m_Id: 18909657128386560
@@ -327,8 +327,8 @@ MonoBehaviour:
   - m_Id: 23577441229750272
     m_Localized: '<line-height=100%>
 
-      <size=200%><voffset=30><sprite name="letter"></voffset></size><size=100%><voffset=15>The
-      Letter found a word!</size></voffset>
+      <size=200%><voffset=-6><sprite name="letter"></voffset></size>
+      <size=100%><voffset=15>The Letter found a word!</size></voffset>
 
       </line-height>'
     m_Metadata:
@@ -571,8 +571,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 66287842819981312
-    m_Localized: '  <size=150%><voffset=20><sprite name="book"></voffset></size><size=130%><color=#FF9A00><b>Description
-      of the word</b></color></size>'
+    m_Localized: <size=150%><voffset=-10><sprite name="book"></voffset></size><size=130%><color=#FF9A00>
+      <b>Description of the word</b></color></size>
     m_Metadata:
       m_Items: []
   - m_Id: 67739486875172864
@@ -605,12 +605,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 68854472561278976
     m_Localized: GET!
-    m_Metadata:
-      m_Items: []
-  - m_Id: 69204997894979584
-    m_Localized: 'Daily
-
-      bonus'
     m_Metadata:
       m_Items: []
   - m_Id: 69208840519172096
@@ -655,6 +649,34 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 110846098682560513
     m_Localized: Update
+    m_Metadata:
+      m_Items: []
+  - m_Id: 114125151988498432
+    m_Localized: Sky
+    m_Metadata:
+      m_Items: []
+  - m_Id: 114125551735029760
+    m_Localized: Wood
+    m_Metadata:
+      m_Items: []
+  - m_Id: 114125791653412864
+    m_Localized: Paper
+    m_Metadata:
+      m_Items: []
+  - m_Id: 118107412391936000
+    m_Localized: '<line-height=100%>
+
+      <size=200%><voffset=30><sprite name="letter"></voffset></size><size=100%><voffset=15>Thinking...</size></voffset>
+
+      </line-height>'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 119563404753387520
+    m_Localized: This letter is part of a word. Find it!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 119563404795330560
+    m_Localized: No clue found. Booster refunded.
     m_Metadata:
       m_Items: []
   references:

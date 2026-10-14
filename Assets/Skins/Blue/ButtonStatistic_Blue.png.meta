@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 673a883db8690d6489506e0c1bc1f0e1
+guid: e5869f0612ced0b4cb827671ab0e90e6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1897077771743037749
-    second: ButtonStatistic_Blue_0
+      213: -7778345876304216391
+    second: IconStatistic_Blue_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,43 +109,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: 50
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 1
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ButtonStatistic_Blue_0
+      name: IconStatistic_Blue_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 486
-        height: 443
+        width: 544
+        height: 490
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bc677f751d93ca5e0800000000000000
-      internalID: -1897077771743037749
+      spriteID: 9be33ce03a3cd0490800000000000000
+      internalID: -7778345876304216391
       vertices: []
       indices: 
       edges: []
@@ -164,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 24e73aab22928654f9362fa855c657d7
+    spriteID: 69dfd2f16b0cdb34a93b41f306041d04
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ButtonStatistic_Blue_0: -1897077771743037749
+      IconStatistic_Blue_0: -7778345876304216391
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

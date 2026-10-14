@@ -12,63 +12,153 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dc2f3fc80dc49c78c027712d2ef53e2, type: 3}
   m_Name: SkinsConfig
   m_EditorClassIdentifier: 
-  SkinByDefault: 1
+  SkinByDefault: 2
   _skins:
   - SkinType: 1
-    ColorPreviewTile: {r: 0.5294118, g: 0.8078432, b: 0.9803922, a: 1}
-    MainBackgroundAlias: MainBackgroundBlue
-    PlayerPanelBackgroundAlias: PlayerPanel_Blue
-    FrameBackgroundAlias: Frame_Blue
-    HandleBackgroundAlias: Handle_Blue
-    ProgressBackgroundAlias: ProgressBkg_Blue
-    CellBackgroundDefaultAlias: CellBackgroundDefaultBlue
-    CellBackgroundFilledAlias: CellBackgroundFilledBlue
-    CellSelectedAlias: CellSelected
-    LettersSelectedAlias: LetterSelected
-    LettersFieldColor: {r: 0.23642753, g: 0.3400565, b: 0.6509434, a: 1}
-    KeyboardTileAlias: KeybourdTile
-    KeyboardLetterColor: {r: 0.23921569, g: 0.34117648, b: 0.6509804, a: 1}
-    HomeButtonAlias: ButtonHome_Blue
-    OptionsButtonAlias: ButtonTools_Blue
-    PauseButtonAlias: ButtonPause_Blue
-    CancelButtonAlias: ButtonCancel_Blue
-    GoButtonAlias: ButtonGo_Blue
-    PassButtonAlias: ButtonPass_Blue
-    RepeatGameButtonAlias: ButtonGo_Blue
-    StatisticButtonAlias: ButtonStatistic_Blue
-    DefaultButtonAlias: ButtonBlue
-    MainScreenTheme:
-      HomeBackgroundAlias: ParalaxBackground_Blue
-      SettingsButtonAlias: SettingsButtonBlue
-      SkinButtonAlias: SkinButtonBlue
-      InfoButtonAlias: InfoButtonBlue
-      ShopButtonAlias: ShopButtonBlue
+    Sprites:
+    - Key: 1
+      Alias: MainBackground_Blue
+    - Key: 2
+      Alias: PlayerPanel_Blue
+    - Key: 3
+      Alias: Frame_Blue
+    - Key: 4
+      Alias: BoosterBg_Blue
+    - Key: 5
+      Alias: ProgressBkg_Blue
+    - Key: 6
+      Alias: BoosterBg_Blue
+    - Key: 8
+      Alias: ButtonSettings_Blue
+    - Key: 9
+      Alias: ButtonSkin_Blue
+    - Key: 10
+      Alias: ButtonInfo_Blue
+    - Key: 11
+      Alias: ButtonShop_Blue
+    - Key: 12
+      Alias: CellBackgroundDefault_Blue
+    - Key: 13
+      Alias: CellBackgroundFilled_Blue
+    - Key: 14
+      Alias: CellSelected
+    - Key: 15
+      Alias: LetterSelected
+    - Key: 16
+      Alias: KeybourdTile_Blue
+    - Key: 17
+      Alias: ButtonHome_Blue
+    - Key: 18
+      Alias: ButtonTools_Blue
+    - Key: 19
+      Alias: ButtonPause_Blue
+    - Key: 20
+      Alias: ButtonCancel_Blue
+    - Key: 21
+      Alias: ButtonGo_Blue
+    - Key: 22
+      Alias: ButtonPass_Blue
+    - Key: 23
+      Alias: ButtonGo_Blue
+    - Key: 25
+      Alias: ButtonStatistic_Blue
+    - Key: 26
+      Alias: Button_Blue
+    - Key: 27
+      Alias: DailyBonus_Blue
+    - Key: 28
+      Alias: CloudPopup_Blue
+    Prefabs:
+    - Key: 1
+      Alias: ParalaxBackground_Blue
+    - Key: 2
+      Alias: Logo_Blue
+    Colors:
+    - Key: 1
+      Value: {r: 0.23529412, g: 0.34117648, b: 0.6509804, a: 1}
+    - Key: 2
+      Value: {r: 0.23921569, g: 0.34117648, b: 0.6509804, a: 1}
+    - Key: 3
+      Value: {r: 0.39215687, g: 0.61960787, b: 1, a: 1}
+    - Key: 4
+      Value: {r: 0.9843137, g: 0.9843137, b: 0.9843137, a: 1}
+    - Key: 5
+      Value: {r: 0.15686275, g: 0.2901961, b: 0.59607846, a: 1}
+    - Key: 6
+      Value: {r: 0.9843137, g: 0.9843137, b: 0.9843137, a: 1}
+    - Key: 7
+      Value: {r: 0.07450981, g: 0.7058824, b: 0.99215686, a: 1}
   - SkinType: 2
-    ColorPreviewTile: {r: 1, g: 0.7529412, b: 0.79607844, a: 1}
-    MainBackgroundAlias: MainBackgroundPink
-    PlayerPanelBackgroundAlias: PlayerPanel_Pink
-    FrameBackgroundAlias: Frame_Pink
-    HandleBackgroundAlias: Handle_Pink
-    ProgressBackgroundAlias: ProgressBkg_Pink
-    CellBackgroundDefaultAlias: CellBackgroundDefaultPink
-    CellBackgroundFilledAlias: CellBackgroundFilledPink
-    CellSelectedAlias: CellSelected
-    LettersSelectedAlias: LetterSelected
-    LettersFieldColor: {r: 0.4433962, g: 0.018823417, b: 0.4433962, a: 1}
-    KeyboardTileAlias: KeybourdTile
-    KeyboardLetterColor: {r: 0.44313726, g: 0.019607844, b: 0.44313726, a: 1}
-    HomeButtonAlias: ButtonHome_Pink
-    OptionsButtonAlias: ButtonTools_Pink
-    PauseButtonAlias: ButtonPause_Pink
-    CancelButtonAlias: ButtonCancel_Pink
-    GoButtonAlias: ButtonGo_Pink
-    PassButtonAlias: ButtonPass_Pink
-    RepeatGameButtonAlias: ButtonGo_Pink
-    StatisticButtonAlias: ButtonStatistic_Pink
-    DefaultButtonAlias: ButtonPink
-    MainScreenTheme:
-      HomeBackgroundAlias: ParalaxBackground_Pink
-      SettingsButtonAlias: SettingsButtonPink
-      SkinButtonAlias: SkinButtonPink
-      InfoButtonAlias: InfoButtonPink
-      ShopButtonAlias: ShopButtonPink
+    Sprites:
+    - Key: 1
+      Alias: MainBackground_Wood
+    - Key: 2
+      Alias: PlayerPanel_Wood
+    - Key: 3
+      Alias: Frame_Wood
+    - Key: 4
+      Alias: BoosterBg_Wood
+    - Key: 5
+      Alias: ProgressBkg_Wood
+    - Key: 6
+      Alias: BoosterBg_Wood
+    - Key: 8
+      Alias: ButtonSettings_Wood
+    - Key: 9
+      Alias: ButtonSkin_Wood
+    - Key: 10
+      Alias: ButtonInfo_Wood
+    - Key: 11
+      Alias: ButtonShop_Wood
+    - Key: 12
+      Alias: CellBackgroundDefault_Wood
+    - Key: 13
+      Alias: CellBackgroundFilled_Wood
+    - Key: 14
+      Alias: CellSelected_Wood
+    - Key: 15
+      Alias: LetterSelected_Wood
+    - Key: 16
+      Alias: KeybourdTile_Wood
+    - Key: 17
+      Alias: ButtonHome_Wood
+    - Key: 18
+      Alias: ButtonTools_Wood
+    - Key: 19
+      Alias: ButtonPause_Wood
+    - Key: 20
+      Alias: ButtonCancel_Wood
+    - Key: 21
+      Alias: ButtonGo_Wood
+    - Key: 22
+      Alias: ButtonPass_Wood
+    - Key: 23
+      Alias: ButtonGo_Wood
+    - Key: 25
+      Alias: ButtonStatistic_Wood
+    - Key: 26
+      Alias: Button_Wood
+    - Key: 27
+      Alias: DailyBonus_Wood
+    - Key: 28
+      Alias: CloudPopup_Wood
+    Prefabs:
+    - Key: 1
+      Alias: ScreenBackground_Wood
+    - Key: 2
+      Alias: Logo_Wood
+    Colors:
+    - Key: 1
+      Value: {r: 0.4245283, g: 0.18125585, b: 0, a: 1}
+    - Key: 2
+      Value: {r: 0.42352942, g: 0.18039216, b: 0, a: 1}
+    - Key: 3
+      Value: {r: 0.42352942, g: 0.18039216, b: 0, a: 1}
+    - Key: 4
+      Value: {r: 1, g: 0.80784315, b: 0.64705884, a: 1}
+    - Key: 5
+      Value: {r: 1, g: 0.80784315, b: 0.64705884, a: 1}
+    - Key: 6
+      Value: {r: 1, g: 0.80784315, b: 0.64705884, a: 1}
+    - Key: 7
+      Value: {r: 0.99215686, g: 0.37743506, b: 0.0745098, a: 1}

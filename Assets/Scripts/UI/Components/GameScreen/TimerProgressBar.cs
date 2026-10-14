@@ -1,6 +1,5 @@
 using Core.Events;
 using Core.Services;
-using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,8 +18,6 @@ namespace UI.Components
         [SerializeField] private Color _timeColor = Color.white;
         [SerializeField] private Color _timeColorExpire = Color.coral;
 
-        [Inject] private SkinsService _skinsService;
-        [Inject] private ISpriteService _spritesService;
         [Inject] private IVibrationService _vibrationService;
         
         private float _dtTimer = 0.0f; // Инкрементный счетчик времени (дельтатайм) (при достижении DtDelay увеличивается _secondsCounter)
@@ -50,6 +47,11 @@ namespace UI.Components
                         StopTimer();
                         EventBus.Raise(new TimeExpiredEvent()); 
                     }
+                    else if (_slider.maxValue - _slider.value <= _timeExpire)
+                    {
+                        _vibrationService.Play(VibrationType.Warning);
+                        EventBus.Raise(new TimerWarningEvent(this, true));
+                    }
                 }
             }
         }
@@ -68,11 +70,17 @@ namespace UI.Components
                 
         public void StartTimer() => _bRun = true;
 
-        public void StopTimer() => _bRun = false;
+        public void StopTimer()
+        {
+            _bRun = false;
+            EventBus.Raise(new TimerWarningEvent(this, false));
+        }
+
+        private void OnDisable() => StopTimer();
 
         public void ResetTimer()
         {
-            _bRun = false;
+            StopTimer();
             _dtTimer = 0;
             _slider.value = 0;
             _progressText.text = "";
@@ -87,23 +95,15 @@ namespace UI.Components
 
         public float GetCurrentValue() => _slider.value;
         
-        public async UniTask UpdateSkin()
-        {
-            var skin = _skinsService.SkinCurrent;
-            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.ProgressBackgroundAlias);
-        }
-        
         private void SetFormatMMSS(int seconds)
         {
             if (seconds < 0) seconds = 0;
             int m = seconds / 60;
             int s = seconds % 60;
             _progressText.text = $"{m:00}:{s:00}";
-            if (seconds <= _timeExpire)
-            {
-                _progressText.color = _timeColorExpire;
-                _vibrationService.Play(VibrationType.Warning);
-            }
+            _progressText.color = seconds <= _timeExpire ? _timeColorExpire : _timeColor;
+            if (seconds > _timeExpire)
+                EventBus.Raise(new TimerWarningEvent(this, false));
         }
     }
 }

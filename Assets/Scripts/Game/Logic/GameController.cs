@@ -62,6 +62,7 @@ namespace Game.Logic
         private ComplexityAISettings _complexityAISettings;
         private int _durationGame;
         private string _firstWord;
+        private string _lastWord;
         private string _lastAcceptedWord;
         private SaveGameData _saveGameData;
         private bool _isSavedGame;
@@ -164,6 +165,7 @@ namespace Game.Logic
                 opponentPasses = _gameScreen.PlayerPanelOpponent.Pass,
 
                 firstWord = _firstWord,
+                lastWord = _lastWord,
                 playerWords = _gameScreen.StatisticsPanel.StatisticPlayerPlayerPanelOwner.Words,
                 opponentWords = _gameScreen.StatisticsPanel.StatisticPlayerPlayerPanelOpponent.Words
             };
@@ -236,6 +238,10 @@ namespace Game.Logic
             if (savedGameData != null)
             {
                 _firstWord = savedGameData.firstWord;
+                _lastWord = savedGameData.lastWord;
+                
+                _gameScreen.SetTextWordWithInfoIcon(_lastWord);
+                
                 _wordsFieldManager.WordsFieldData.SetSaveGameData(savedGameData);
 
                 _gameScreen.StatisticsPanel.SetStartWord(_firstWord);
@@ -252,6 +258,7 @@ namespace Game.Logic
             }
             else
             {
+                _lastWord = "";
                 _firstWord = _dictionaryService.GetRandomWord(_configService.Game.defaultBoardSize);
                 _wordsFieldManager.SetFirstWord(_firstWord);
 
@@ -344,13 +351,22 @@ namespace Game.Logic
             {
                 if (!_dictionaryService.Contains(word))
                 {
+                    Cancel();
+                    await BlockUIAsync(true);
+                    try
+                    {
+                        await _boosterController.RollbackEraserAsync();
+                    }
+                    finally
+                    {
+                        await BlockUIAsync(false);
+                    }
+
                     _audioService?.PlaySfxAsync(SoundsConfig.PopupQuestion);
 
                     await _missingWordPopupPresenter.ShowAsync(
                         word,
                         _dictionaryService.DictionaryConfig.languageCode);
-
-                    Cancel();
 
                     if (!string.IsNullOrEmpty(_lastAcceptedWord))
                         _gameScreen.SetTextWordWithInfoIcon(_lastAcceptedWord);
@@ -504,7 +520,7 @@ namespace Game.Logic
                 return;
 
             _isSavingWord = true;
-
+            
             try
             {
                 _boosterController.StopSlowdown();
@@ -527,6 +543,7 @@ namespace Game.Logic
                 _gameScreen.PassButton.interactable = false;
                 _lastAcceptedWord = word;
                 _gameScreen.SetTextWordWithInfoIcon(word);
+                _lastWord = word;
 
                 var selectedIndexes = _wordsFieldManager.WordsFieldData.GetSelectedIndexesSnapshot();
                 var wordsField = _gameScreen.WordsField;
@@ -655,6 +672,9 @@ namespace Game.Logic
         {
             bool shouldAutoMix = !_bModePlayOwner && wasPass && _ownerPassedLastTurn;
             _ownerPassedLastTurn = _bModePlayOwner && wasPass;
+            
+            if (_gameScreen.KeyboardPanel.IsVisible)
+                _gameScreen.KeyboardPanel.HideAsync().Forget();
 
             if (GameDebug.IsAutoWin)
             {
@@ -664,7 +684,7 @@ namespace Game.Logic
 
             if (MaxPassesReached(_gameScreen.PlayerPanelOwner.Pass) ||
                 MaxPassesReached(_gameScreen.PlayerPanelOpponent.Pass) ||
-                _wordsFieldManager.Filled())
+                _wordsFieldManager.FilledOrEmpty())
             {
                 FinishGame();
             }
@@ -913,10 +933,28 @@ namespace Game.Logic
 
         private async void OnShowWordInfoEvent(ShowWordInfoEvent eventData)
         {
-            _analyticsReporter.TrackWordInfoClicked(eventData.word);
-            await _wordInfoPresenter.ShowAsync(
-                eventData.word,
-                _dictionaryService.DictionaryConfig.languageCode);
+            var isClosed = false;
+            void OnClosed()
+            {
+                if (isClosed)
+                    return;
+
+                isClosed = true;
+                eventData.onClosed?.Invoke();
+            }
+
+            try
+            {
+                _analyticsReporter.TrackWordInfoClicked(eventData.word);
+                await _wordInfoPresenter.ShowAsync(
+                    eventData.word,
+                    _dictionaryService.DictionaryConfig.languageCode,
+                    OnClosed);
+            }
+            finally
+            {
+                OnClosed();
+            }
         }
 
         private async void OnActivateBooster(UseBoosterEvent eventData)

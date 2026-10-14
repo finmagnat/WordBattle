@@ -8,6 +8,7 @@ using Core.UI;
 using Cysharp.Threading.Tasks;
 using Game.Logic;
 using UI.Popups;
+using UI.SkinBindings;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.UI;
@@ -24,7 +25,7 @@ namespace UI.Screens
         [SerializeField] private Button _skinsButton;
         [SerializeField] private Button _shopButton;
         [SerializeField] private Button _dailyBonusButton;
-        [SerializeField] private RectTransform _mainScreenBackgroung;
+        [SerializeField] private SkinBindingGroup _skinBindings;
         
         [Inject] private IUIManager _ui;
         [Inject] private ILoadingUI _loadingUI;
@@ -41,7 +42,7 @@ namespace UI.Screens
 
         private bool _isProcessing;
         private GameObject _backgroundInstance;
-
+           
         private void Start()
         {
             _localization.OnLocaleChanged += OnLocaleChanged; 
@@ -224,7 +225,7 @@ namespace UI.Screens
         
         private void OnSkinChanged(SkinData skinCurrent)
         {
-            UpdateSkin().Forget();
+            UpdateSkin();
         }
 
         private void OnDailyBonusStateChanged(DailyBonusState state)
@@ -242,7 +243,7 @@ namespace UI.Screens
 
         public UniTask PrepareAsync()
         {
-            return UpdateSkin();
+            return _skinBindings.PrepareAsync();
         }
 
         private void UpdateDailyBonusButton()
@@ -253,32 +254,9 @@ namespace UI.Screens
             _dailyBonusButton.gameObject.SetActive(_dailyBonusService is { IsAvailable: true });
         }
         
-        protected async UniTask UpdateSkin()
+        protected UniTask UpdateSkin()
         {
-            var skin = _skinsService.SkinCurrent;
-            _playAIButton.image.sprite = await _spritesService.GetSpriteAsync(skin.DefaultButtonAlias);
-            _loadAndplayAIButton.image.sprite = await _spritesService.GetSpriteAsync(skin.DefaultButtonAlias);
-
-            _settingsButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.SettingsButtonAlias);
-            _infoButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.InfoButtonAlias);
-            _skinsButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.SkinButtonAlias);
-            _shopButton.image.sprite = await _spritesService.GetSpriteAsync(skin.MainScreenTheme.ShopButtonAlias);
-
-            var prefab = await _prefabService.GetPrefabAsync(
-                skin.MainScreenTheme.HomeBackgroundAlias);
-
-            if (prefab == null)
-                return;
-
-            if (_backgroundInstance != null)
-                Destroy(_backgroundInstance);
-
-            _backgroundInstance = Instantiate(
-                prefab,
-                _mainScreenBackgroung,
-                false);
-
-            _backgroundInstance.transform.SetAsFirstSibling();
+            return _skinBindings.PrepareAsync();
         }
 
         private void SendAnalyticsShown()

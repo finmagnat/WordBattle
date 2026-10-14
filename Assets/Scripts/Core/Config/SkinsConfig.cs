@@ -18,6 +18,19 @@ namespace Core.Config
         public SkinData GetSkinByType(SkinType skinType) =>
             _skins.Find(item => item.SkinType == skinType);
 
+        public bool TryGetSkinByType(SkinType skinType, out SkinData skinData)
+        {
+            int index = _skins.FindIndex(item => item.SkinType == skinType);
+            if (index >= 0)
+            {
+                skinData = _skins[index];
+                return true;
+            }
+
+            skinData = default;
+            return false;
+        }
+
         public SkinData GetSkinRandom() =>
             _skins[Random.Range(0, _skins.Count)];
     }

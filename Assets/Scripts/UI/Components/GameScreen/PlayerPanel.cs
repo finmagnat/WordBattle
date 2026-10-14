@@ -1,8 +1,6 @@
 using Core.Services;
-using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 
 namespace UI.Components
@@ -16,7 +14,6 @@ namespace UI.Components
         [SerializeField] private TextMeshProUGUI _playerNameText;
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private TextMeshProUGUI _passText;
-        [SerializeField] private Image _mainBackground;
         
         [Inject] private SkinsService _skinsService;
         [Inject] private ISpriteService _spritesService;
@@ -51,10 +48,5 @@ namespace UI.Components
             SetData();
         }
         
-        public async UniTask UpdateSkin()
-        {
-            var skin = _skinsService.SkinCurrent;
-            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.PlayerPanelBackgroundAlias);
-        }
     }
 }

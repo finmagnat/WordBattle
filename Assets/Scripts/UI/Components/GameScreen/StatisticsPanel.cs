@@ -13,7 +13,6 @@ namespace UI.Components
     public class StatisticsPanel : UIPopup
     {
         [SerializeField] protected Button _closeButton;
-        [SerializeField] private Image _mainBackground;
         [SerializeField] protected TextMeshProUGUI _startWordText;
         [SerializeField] protected StatisticPlayerPanel _statisticPlayerPlayerPanelOwner;
         [SerializeField] protected StatisticPlayerPanel _statisticPlayerPlayerPanelOpponent;
@@ -21,9 +20,6 @@ namespace UI.Components
         internal StatisticPlayerPanel StatisticPlayerPlayerPanelOwner => _statisticPlayerPlayerPanelOwner;
         internal StatisticPlayerPanel StatisticPlayerPlayerPanelOpponent => _statisticPlayerPlayerPanelOpponent;
         
-        [Inject] private SkinsService _skinsService;
-        [Inject] private ISpriteService _spritesService;
-        [Inject] private LocalizationService _localization;
         [Inject] private AnalyticsService _analytics;
         
         private UniTaskCompletionSource<PopupExitData> _completionSource;
@@ -42,7 +38,7 @@ namespace UI.Components
         internal void SetStartWord(string value)
         {
             _startWord = value;
-            _startWordText.text = $"{value}   <size=100%><voffset=20><sprite name=\"info\"></voffset></size>";
+            _startWordText.text = $"{value} <size=100%><voffset=-10><sprite name=\"question_2\"></voffset></size>";
         }
         
         public override async UniTask ShowAsync()
@@ -55,14 +51,6 @@ namespace UI.Components
         public UniTask<PopupExitData> WaitForResultAsync() => _completionSource.Task;
 
         public void OnStartWordPressed() => EventBus.Raise(new ShowWordInfoEvent{word = _startWord});
-        
-        internal async UniTask UpdateSkin()
-        {
-            var skin = _skinsService.SkinCurrent;
-            _mainBackground.sprite = await _spritesService.GetSpriteAsync(skin.MainBackgroundAlias);
-            _statisticPlayerPlayerPanelOwner.UpdateSkin();
-            _statisticPlayerPlayerPanelOpponent.UpdateSkin();
-        }
 
         internal void Reset()
         {

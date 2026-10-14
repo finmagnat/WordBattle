@@ -364,7 +364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ComponentVersion: 2
+  m_ComponentVersion: 3
   m_LightType: 4
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
@@ -535,6 +535,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3321074867970734527, guid: 5bc95e0a605bc64458d3071ce773b253, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3321074867970734527, guid: 5bc95e0a605bc64458d3071ce773b253, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
@@ -556,7 +560,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5152261491073031055, guid: 5bc95e0a605bc64458d3071ce773b253, type: 3}
       propertyPath: m_fontSize
-      value: 22.15
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 6220109460825396736, guid: 5bc95e0a605bc64458d3071ce773b253, type: 3}
       propertyPath: m_Name
@@ -564,7 +568,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8100119412809793854, guid: 5bc95e0a605bc64458d3071ce773b253, type: 3}
       propertyPath: m_fontSize
-      value: 18
+      value: 92.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

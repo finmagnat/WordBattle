@@ -15,8 +15,8 @@ MonoBehaviour:
   m_GroupName: Localization-Asset-Tables-English
   m_GUID: c03c1192f548b0f49b54a99d4f02d513
   m_SerializeEntries:
-  - m_GUID: 689f8a0d3ce63a44cb29671372c57363
-    m_Address: UI_Sprites_en-US
+  - m_GUID: f19011169ec744e4c8a81e3b1da04370
+    m_Address: MainScreen_Logo_en-US
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en-US

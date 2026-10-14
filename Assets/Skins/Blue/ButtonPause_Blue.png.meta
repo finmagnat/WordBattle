@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 0e014a509fe29104f8618a8dae1d426a
+guid: 604db95ad046f7246a3e3dde64dc3498
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2300202289637689586
-    second: ButtonPause_Blue_0
+      213: -1803461106088473014
+    second: IconPause_Blue_0
+  - first:
+      213: -296408631014194842
+    second: IconPause_Blue_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,33 +103,7 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 50
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 1
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: 50
+    textureFormat: 48
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -139,13 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ButtonPause_Blue_0
+      name: IconPause_Blue_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 504
-        height: 456
+        width: 544
+        height: 490
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +131,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2f80561abc5fbef10800000000000000
-      internalID: 2300202289637689586
+      spriteID: a4e0d5ddda1d8f6e0800000000000000
+      internalID: -1803461106088473014
       vertices: []
       indices: 
       edges: []
@@ -164,7 +141,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 8e0726a7da3d95a43a76b16582dcf057
+    spriteID: 09b9d04c3c9f27d40be39fc63f05a035
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +151,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ButtonPause_Blue_0: 2300202289637689586
+      IconPause_Blue_0: -1803461106088473014
+      IconPause_Blue_1: -296408631014194842
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

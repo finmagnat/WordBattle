@@ -72,7 +72,7 @@ namespace Core.DebugTools
         
         public void SetLocalization()
         {
-            var localeCode = DebugLanguageCode.Get();
+            var localeCode = DebugLanguageCode.GetLocaleCode();
             _localization.SetLocale(localeCode);
         }
 
@@ -96,7 +96,7 @@ namespace Core.DebugTools
         {
             try
             {
-                var language = DebugLanguageCode.Get();
+                var language = DebugLanguageCode.GetLanguageCode();
                 var rawWord = WordToAdd;
 
                 if (string.IsNullOrWhiteSpace(rawWord))

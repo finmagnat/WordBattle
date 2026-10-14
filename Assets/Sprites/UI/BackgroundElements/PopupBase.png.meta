@@ -165,11 +165,11 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1200
-        height: 985
+        width: 941
+        height: 1387
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 587, y: 472, z: 595, w: 378}
+      border: {x: 400, y: 619, z: 400, w: 714}
       customData: 
       outline: []
       physicsShape: []
@@ -177,160 +177,6 @@ TextureImporter:
       bones: []
       spriteID: e38376e2069acb020800000000000000
       internalID: 2358946535395768382
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PopupBase_1
-      rect:
-        serializedVersion: 2
-        x: 5
-        y: 184
-        width: 8
-        height: 11
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: dee48ccd3f290d800800000000000000
-      internalID: 635169123538063085
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PopupBase_2
-      rect:
-        serializedVersion: 2
-        x: 6
-        y: 171
-        width: 9
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f50b17dbb4df96780800000000000000
-      internalID: -8689135504291942305
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PopupBase_3
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 151
-        width: 11
-        height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: df1c9561874b10ca0800000000000000
-      internalID: -6052357996345179651
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PopupBase_4
-      rect:
-        serializedVersion: 2
-        x: 6
-        y: 134
-        width: 6
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d07a962ccbc2e19c0800000000000000
-      internalID: -3954674233557539059
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PopupBase_5
-      rect:
-        serializedVersion: 2
-        x: 1012
-        y: 136
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 499925f9b15136690800000000000000
-      internalID: -7610215736944715372
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PopupBase_6
-      rect:
-        serializedVersion: 2
-        x: 5
-        y: 108
-        width: 10
-        height: 10
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: acbee5bd2983a3f40800000000000000
-      internalID: 5708937681042336714
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PopupBase_7
-      rect:
-        serializedVersion: 2
-        x: 177
-        y: 0
-        width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7ac251e02fbc9f080800000000000000
-      internalID: -9153060527175029593
       vertices: []
       indices: 
       edges: []

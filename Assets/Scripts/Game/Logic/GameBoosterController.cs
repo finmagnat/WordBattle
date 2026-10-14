@@ -13,6 +13,7 @@ using Core.Services.Common;
 using Game.Logic.Mixer;
 using UI.Popups;
 using UI.Screens;
+using UI.Components;
 using UnityEngine;
 using Zenject;
 
@@ -35,6 +36,8 @@ namespace Game.Logic
     public sealed class GameBoosterController
     {
         private const string MixerFailNoValidPattern = "no_valid_pattern";
+        // Temporary experiment. Set to false to restore the original Letter booster.
+        private static readonly bool UseCluePrototype = true;
 
         [Inject] private InventorySyncService _inventorySync;
         [Inject] private ConfigService _configService;
@@ -56,6 +59,8 @@ namespace Game.Logic
         private bool _bModeEraser;
         private bool _bModeSwap;
         private bool _bLetterRemoved;
+        private SelectableLetter _erasedCell;
+        private string _erasedLetter;
         private bool _boosterProcessing;
         private bool _shopOpen;
 
@@ -63,6 +68,7 @@ namespace Game.Logic
 
         public void Attach(GameScreenBase gameScreen, WordsFieldManager wordsFieldManager, AIGameController ai)
         {
+            _gameScreen?.CancelLetterThinking();
             if (_gameScreen?.HoleOverlay != null)
                 _gameScreen.HoleOverlay.CloseButtonClicked -= OnHoleOverlayCloseButtonClicked;
 
@@ -76,9 +82,11 @@ namespace Game.Logic
 
         public void ResetForNewGame()
         {
+            _gameScreen?.CancelLetterThinking();
             _bModeEraser = false;
             _bModeSwap = false;
             _bLetterRemoved = false;
+            ClearErasedLetter();
             _boosterProcessing = false;
             _activeEraserHost = null;
             _activeSwapHost = null;
@@ -89,13 +97,16 @@ namespace Game.Logic
         public void ResetForOpponentTurn()
         {
             _bLetterRemoved = false;
+            ClearErasedLetter();
         }
 
         public void OnGameFinished()
         {
+            _gameScreen?.CancelLetterThinking();
             CancelEraserMode();
             CancelSwapMode();
             _bLetterRemoved = false;
+            ClearErasedLetter();
             _boosterProcessing = false;
             _activeEraserHost = null;
             _activeSwapHost = null;
@@ -133,6 +144,8 @@ namespace Game.Logic
 
             if (_bModeEraser)
             {
+                _erasedCell = eventData.letter;
+                _erasedLetter = eventData.erasedLetter;
                 TrackEraserBoosterSuccess(_activeEraserHost, eventData);
                 CancelEraserMode();
                 _bLetterRemoved = true;
@@ -149,6 +162,29 @@ namespace Game.Logic
         public void StopSlowdown()
         {
             EndSlowdown(restartTimer: false);
+        }
+
+        // The current move must be cancelled first so its replacement letter is removed.
+        public async UniTask RollbackEraserAsync()
+        {
+            if (!_bLetterRemoved || _erasedCell == null || string.IsNullOrEmpty(_erasedLetter))
+                return;
+
+            _erasedCell.SetLetter(_erasedLetter);
+            _erasedCell.UnHighlight();
+            ClearErasedLetter();
+            _bLetterRemoved = false;
+
+            if (!await _inventorySync.GrantBoosterAsync(BoosterType.Eraser, 1))
+                Debug.LogError("[BOOSTER ERASER] Failed to refund eraser after a missing word.");
+
+            _gameScreen?.BoosterPanel.Refresh();
+        }
+
+        private void ClearErasedLetter()
+        {
+            _erasedCell = null;
+            _erasedLetter = null;
         }
 
         public async UniTask HandleUseAsync(UseBoosterEvent eventData, IGameBoosterHost host)
@@ -177,43 +213,51 @@ namespace Game.Logic
             }
 
             _boosterProcessing = true;
-            await host.BlockUIAsync(true);
-
-            bool ok = await _inventorySync.TryUseBoosterAsync(eventData.boosterType);
-            _gameScreen.BoosterPanel.Refresh();
-
-            if (!ok)
+            try
             {
-                await host.BlockUIAsync(false);
-                _boosterProcessing = false;
-                return;
-            }
+                await host.BlockUIAsync(true);
+                bool ok = await _inventorySync.TryUseBoosterAsync(eventData.boosterType);
+                _gameScreen.BoosterPanel.Refresh();
 
-            switch (eventData.boosterType)
+                if (!ok)
+                {
+                    return;
+                }
+
+                switch (eventData.boosterType)
+                {
+                    case BoosterType.Letter:
+                        await ActivateBoosterLetterAsync(host);
+                        break;
+
+                    case BoosterType.Slowdown:
+                        ActivateBoosterSlowdownAsync(host).Forget();
+                        break;
+
+                    case BoosterType.Eraser:
+                        await ActivateBoosterEraserAsync(host);
+                        break;
+
+                    case BoosterType.Mixer:
+                        await ActivateBoosterMixerAsync(host);
+                        break;
+
+                    case BoosterType.Swap:
+                        await ActivateBoosterSwapAsync(host);
+                        break;
+                }
+            }
+            finally
             {
-                case BoosterType.Letter:
-                    await ActivateBoosterLetterAsync(host);
-                    break;
-
-                case BoosterType.Slowdown:
-                    ActivateBoosterSlowdownAsync(host).Forget();
-                    break;
-
-                case BoosterType.Eraser:
-                    await ActivateBoosterEraserAsync(host);
-                    break;
-                
-                case BoosterType.Mixer:
-                    await ActivateBoosterMixerAsync(host);
-                    break;
-                
-                case BoosterType.Swap:
-                    await ActivateBoosterSwapAsync(host);
-                    break;
+                try
+                {
+                    await host.BlockUIAsync(false);
+                }
+                finally
+                {
+                    _boosterProcessing = false;
+                }
             }
-
-            await host.BlockUIAsync(false);
-            _boosterProcessing = false;
         }
 
         private async UniTask ShowShopAsync(IGameBoosterHost host)
@@ -307,14 +351,61 @@ namespace Game.Logic
 
         private async UniTask ActivateBoosterLetterAsync(IGameBoosterHost host)
         {
+            // Validation has finished. Keep input blocked, but remove the technical spinner.
+            await host.BlockUIAsync(true, BlockUIScreenMode.NoSpinner);
+            if (!host.IsGameStarted || !host.IsOwnerTurn || !_gameScreen.isActiveAndEnabled)
+                return;
+
             _gameScreen.TimerBar.StopTimer();
             host.CancelCurrentMove();
 
-            var res = await _ai.FindWordAsync(_configService.Game.boosterLetterAiSettings);
+            var screen = _gameScreen;
+            var ai = _ai;
+            var token = screen.BeginLetterThinking();
+            AIWordResult res;
+            try
+            {
+                using (token.Register(ai.AbortSearch))
+                {
+                    token.ThrowIfCancellationRequested();
+                    res = await ai.FindWordAsync(_configService.Game.boosterLetterAiSettings, clueOnly: UseCluePrototype);
+                    token.ThrowIfCancellationRequested();
+                    if (!host.IsGameStarted || !host.IsOwnerTurn || !screen.isActiveAndEnabled)
+                        return;
+                }
+            }
+            catch (OperationCanceledException) when (token.IsCancellationRequested)
+            {
+                return;
+            }
+            catch
+            {
+                if (host.IsGameStarted && host.IsOwnerTurn && !host.IsPaused && !IsSlowdownActive && screen.isActiveAndEnabled)
+                    screen.TimerBar.StartTimer();
+                throw;
+            }
+            finally
+            {
+                screen.EndLetterThinking(token);
+            }
             
             if (res.Success)
             {
                 TrackLetterBoosterSuccess(host, res.Word);
+                if (UseCluePrototype)
+                {
+                    _wordsFieldManager.SetModeSelect(true);
+                    host.MarkLetterPlacedByBooster();
+                    screen.GoButton.SetActive(true);
+                    screen.CancelButton.SetActive(true);
+                    screen.KeyboardPanel.HideAsync().Forget();
+                    screen.SetStatusLocalizationKey("STATUS_LABEL_CLUE_SUCCESS");
+                    _audioService?.PlaySfxAsync(SoundsConfig.BoosterFoundWord);
+                    if (!host.IsPaused && !IsSlowdownActive)
+                        screen.TimerBar.StartTimer();
+                    return;
+                }
+
                 ShowBoosterLetterSuccess(host, res.Word);
 
                 await UniTask.WaitForSeconds(_configService.Game.autoApplyDelay);
@@ -325,7 +416,8 @@ namespace Game.Logic
             {
                 TrackLetterBoosterFail(host);
                 await ShowBoosterLetterFailAsync();
-                _gameScreen.TimerBar.StartTimer();
+                if (host.IsGameStarted && host.IsOwnerTurn && !host.IsPaused && !IsSlowdownActive && screen.isActiveAndEnabled)
+                    screen.TimerBar.StartTimer();
             }
         }
 
@@ -343,7 +435,7 @@ namespace Game.Logic
 
         private async UniTask ShowBoosterLetterFailAsync()
         {
-            _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_BOOSTER_FAIL");
+            _gameScreen.SetStatusLocalizationKey(UseCluePrototype ? "STATUS_LABEL_CLUE_FAIL" : "STATUS_LABEL_BOOSTER_FAIL");
             _audioService?.PlaySfxAsync(SoundsConfig.BoosterNotFoundWord);
 
             await _inventorySync.GrantBoosterAsync(BoosterType.Letter, 1);

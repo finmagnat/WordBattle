@@ -551,10 +551,6 @@ MonoBehaviour:
     m_Key: STARTER_BONUS_POPUP_GET
     m_Metadata:
       m_Items: []
-  - m_Id: 69204997894979584
-    m_Key: DAILY_BONUS_ICON_LABEL
-    m_Metadata:
-      m_Items: []
   - m_Id: 69208840519172096
     m_Key: DAILY_BONUS_POPUP_TITLE
     m_Metadata:
@@ -593,6 +589,30 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 110846098682560513
     m_Key: FORCE_UPDATE_BUTTON
+    m_Metadata:
+      m_Items: []
+  - m_Id: 114125151988498432
+    m_Key: SKIN_NAME_SKY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 114125551735029760
+    m_Key: SKIN_NAME_WOOD
+    m_Metadata:
+      m_Items: []
+  - m_Id: 114125791653412864
+    m_Key: SKIN_NAME_PAPER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 118107412391936000
+    m_Key: THINKING_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 119563404753387520
+    m_Key: STATUS_LABEL_CLUE_SUCCESS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 119563404795330560
+    m_Key: STATUS_LABEL_CLUE_FAIL
     m_Metadata:
       m_Items: []
   m_Metadata:

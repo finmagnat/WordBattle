@@ -15,8 +15,14 @@ MonoBehaviour:
   m_GroupName: Localization-Assets-English
   m_GUID: eeadbdc4e1efe1340aff1a2a698ddbd6
   m_SerializeEntries:
-  - m_GUID: 32d12688bc3d647469d4fc961d7ab325
-    m_Address: Logo-en
+  - m_GUID: 3e6585e35ae9224429f1b95f9c982afd
+    m_Address: HeroLetters_EN
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en-US
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: db6e71f4ae6880346b58d82a854bf7d3
+    m_Address: HeroLetters_EN_Wood
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en-US
