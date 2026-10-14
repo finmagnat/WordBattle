@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: a4eea6ac1e0fe1b4b9801f0897661a2c
+guid: 41b609e4e7ee05c4fab41615f65522da
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3258317305327940652
-    second: BannerLoadingScreen02_0
+      213: -7500343064519909097
+    second: UseBoosters_0
+  - first:
+      213: 1715749797538981750
+    second: UseBoosters_1
+  - first:
+      213: 2677026317514884784
+    second: UseBoosters_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +52,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -100,32 +106,6 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 51
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 1
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
     textureFormat: 50
     textureCompression: 1
     compressionQuality: 50
@@ -139,23 +119,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BannerLoadingScreen02_0
+      name: UseBoosters_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 2000
-        height: 2500
+        width: 598
+        height: 709
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4db8b629ca128c2d0800000000000000
-      internalID: -3258317305327940652
+      spriteID: 711e9b9a8bd69e790800000000000000
+      internalID: -7500343064519909097
       vertices: []
       indices: 
       edges: []
@@ -164,7 +144,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: cc6fae393d7385a4db0522b1480c430f
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +154,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BannerLoadingScreen02_0: -3258317305327940652
+      UseBoosters_0: -7500343064519909097
+      UseBoosters_1: 1715749797538981750
+      UseBoosters_2: 2677026317514884784
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

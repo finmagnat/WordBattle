@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: b411ebd522895cc4196d3a19e31bfa50
+guid: a098cc0a2ea1c514bb7f54c28773414f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3570328973926732294
-    second: Banner_Swap_0
-  - first:
-      213: -1398057158658023976
-    second: Banner_Swap_1
+      213: -8178576035687786624
+    second: 2_4_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -103,33 +100,7 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 50
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 1
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: 50
+    textureFormat: 51
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -142,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Banner_Swap_0
+      name: 2_4_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 1024
-        height: 983
+        height: 1536
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: afdefc1f6b4a37ec0800000000000000
-      internalID: -3570328973926732294
+      spriteID: 0879e407d6cdf7e80800000000000000
+      internalID: -8178576035687786624
       vertices: []
       indices: 
       edges: []
@@ -167,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: db284c4253114294ea7b269bda9a5604
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -177,8 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Banner_Swap_0: -3570328973926732294
-      Banner_Swap_1: -1398057158658023976
+      2_4_0: -8178576035687786624
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
