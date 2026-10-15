@@ -13,6 +13,7 @@ namespace Core.Data
         public SelectableLetter SelectedItem => _selectedItem;
         
         public List<SelectableLetter> Items => _items;
+        internal int PlacedLetterIndex => _setItem != null ? _setItem.Index : -1;
 
         private List<SelectableLetter> _items; // Список всех элементов на поле.
         private List<int> _selectedIndex = new(); // Индексы выбранных букв составляющих слово.
@@ -284,6 +285,11 @@ namespace Core.Data
             _selectedIndex.Clear();
             _selectedItem = null;
             _setItem = null;
+            if (saveGameData.hasPlacedLetter)
+            {
+                _setItem = _items[saveGameData.placedLetterIndex];
+                _setItem.HighlightCell();
+            }
         }
 
         private static bool AreOrthogonalNeighbors(int a, int b)

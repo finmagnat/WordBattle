@@ -36,6 +36,7 @@ namespace Game.Logic
         [Inject] private ShowWordInfoPresenter _wordInfoPresenter;
         [Inject] private InterstitialPolicyService _interstitialService;
         [Inject] private ISaveService _saveService;
+        [Inject] private RoundAutoSaveService _roundAutoSave;
         [Inject] private DictionaryManager _dictionaryManager;
         [Inject] private GameBoosterController _boosterController;
         [Inject] private GameAnalyticsPayloadFactory _analyticsPayloadFactory;
@@ -66,6 +67,9 @@ namespace Game.Logic
         private string _lastAcceptedWord;
         private SaveGameData _saveGameData;
         private bool _isSavedGame;
+        private bool _isRecoveryGame;
+        private bool _isExitingRound;
+        private int _turnGeneration;
         private bool _timeExpiredStatus;
         private int _winsInSeries;
 
@@ -138,9 +142,9 @@ namespace Game.Logic
             _wordsFieldManager.Destroy();
         }
 
-        public SaveGameData GetGameData()
+        public SaveGameData GetGameData(bool cancelPendingMove = true)
         {
-            if (_bLetterPut)
+            if (_bLetterPut && cancelPendingMove)
                 Cancel();
 
             var boardRows = _wordsFieldManager.WordsFieldData.GetBoardData();
@@ -156,6 +160,10 @@ namespace Game.Logic
                 boardRows = boardRows,
                 levelComplexityAI = (int)_complexityAI,
                 playerTurn = _bModePlayOwner,
+                ownerPassedLastTurn = _ownerPassedLastTurn,
+                winsInSeries = _winsInSeries,
+                hasPlacedLetter = _bLetterPut,
+                placedLetterIndex = _bLetterPut ? _wordsFieldManager.WordsFieldData.PlacedLetterIndex : 0,
                 maxSeconds = _durationGame,
                 currentSeconds = (int)_gameScreen.TimerBar.GetCurrentValue(),
 
@@ -170,17 +178,57 @@ namespace Game.Logic
                 opponentWords = _gameScreen.StatisticsPanel.StatisticPlayerPlayerPanelOpponent.Words
             };
 
+            _boosterController.CaptureSaveState(data);
             return data;
         }
 
-        public void SetGameData(SaveGameData data)
+        public void SetGameData(SaveGameData data, bool isRecovery = false)
         {
             _saveGameData = data;
+            _isRecoveryGame = isRecovery;
+        }
+
+        public async UniTask ExitRoundAsync(bool saveManually = false)
+        {
+            if (_isExitingRound)
+                return;
+
+            _isExitingRound = true;
+            try
+            {
+                // Finish any accepted-word animation before taking a manual snapshot or leaving.
+                await UniTask.WaitUntil(() => !_isSavingWord);
+                bool wasActive = _bStart;
+                _bStart = false;
+                ++_turnGeneration;
+                _ai.AbortSearch();
+                _gameScreen?.TimerBar.StopTimer();
+                if (saveManually && wasActive)
+                    await _saveService.SaveAsync();
+                _boosterController.OnGameFinished();
+                _roundAutoSave.Clear("user exited round");
+            }
+            finally
+            {
+                _isExitingRound = false;
+            }
+        }
+
+        private void AutoSaveRound()
+        {
+            if (_bStart && _gameOpponent == GameOpponent.AI)
+                _roundAutoSave.Save(GetGameData(cancelPendingMove: false));
         }
 
         private void OnGameScreenStart(GameScreenStartEvent eventData)
         {
             bool isSavedGame = _saveGameData != null;
+            ++_turnGeneration;
+            _bLetterPut = false;
+            _isSavedGame = false;
+            _timeExpiredStatus = false;
+            if (!isSavedGame)
+                _isRecoveryGame = false;
 
             _gameScreen = eventData.Screen;
             _gameOpponent = eventData.Opponent;
@@ -239,6 +287,10 @@ namespace Game.Logic
             {
                 _firstWord = savedGameData.firstWord;
                 _lastWord = savedGameData.lastWord;
+                _lastAcceptedWord = _lastWord;
+                _bModePlayOwner = savedGameData.playerTurn;
+                _ownerPassedLastTurn = savedGameData.ownerPassedLastTurn;
+                _winsInSeries = savedGameData.winsInSeries;
                 
                 _gameScreen.SetTextWordWithInfoIcon(_lastWord);
                 
@@ -277,6 +329,14 @@ namespace Game.Logic
 
             _saveGameData = null;
             _bStart = true;
+            if (savedGameData != null)
+            {
+                _bLetterPut = savedGameData.hasPlacedLetter;
+                _wordsFieldManager.SetModeSelect(_bLetterPut);
+                _gameScreen.GoButton.SetActive(_bLetterPut);
+                _gameScreen.CancelButton.SetActive(_bLetterPut);
+                _boosterController.RestoreSaveState(savedGameData, this);
+            }
 
             if (_gameOpponent == GameOpponent.AI)
             {
@@ -294,7 +354,12 @@ namespace Game.Logic
         {
             if (_bStart)
             {
-                _gameScreen.TimerBar.StartTimer();
+                _boosterController.ResumeSavedEffects(this);
+                AutoSaveRound();
+                if (!_boosterController.IsSlowdownActive)
+                    _gameScreen.TimerBar.StartTimer();
+                if (!_bModePlayOwner)
+                    ContinueCurrentTurn().Forget();
                 _audioService?.PlaySfxAsync(SoundsConfig.StartNewGame);
             }
         }
@@ -355,7 +420,7 @@ namespace Game.Logic
                     await BlockUIAsync(true);
                     try
                     {
-                        await _boosterController.RollbackEraserAsync();
+                        await _boosterController.RollbackEraserAsync(this);
                     }
                     finally
                     {
@@ -387,6 +452,7 @@ namespace Game.Logic
 
             _analyticsReporter.TrackCancelClicked();
             Cancel();
+            AutoSaveRound();
         }
 
         private void Cancel()
@@ -584,6 +650,7 @@ namespace Game.Logic
 
         private async UniTask TryConfirmPass()
         {
+            int generation = _turnGeneration;
             if (PlayerPrefs.GetInt(PlayerPrefsKey.ConfirmPassDontShowAgainKey, 0) == 0)
             {
                 var popup = await _ui.ShowPopupAsync<ConfirmPassPopup, MessageBoxData>(AssetKey.ConfirmPassPopup, null);
@@ -595,6 +662,9 @@ namespace Game.Logic
                 if (exitData.Result == PopupResult.Exit)
                     return;
             }
+
+            if (!_bStart || _isExitingRound || generation != _turnGeneration)
+                return;
 
             _boosterController.StopSlowdown();
             PassedGame();
@@ -619,6 +689,8 @@ namespace Game.Logic
 
         private void OnTimeExpired(IGameEvent eventData)
         {
+            if (!_bStart || _isExitingRound || _isSavingWord)
+                return;
             if (_gameOpponent == GameOpponent.AI)
                 _analyticsReporter.TrackTimeExpired(GetGameSnapshotParams(), _bModePlayOwner);
 
@@ -655,6 +727,8 @@ namespace Game.Logic
 
         private void OnOpponentFindWordSuccess(OpponentFindWordEvent eventData)
         {
+            if (!_bStart || _isExitingRound)
+                return;
             _gameScreen.TimerBar.StopTimer();
             SaveWordAndContinueGameAsync(eventData.word).Forget();
 
@@ -663,6 +737,8 @@ namespace Game.Logic
 
         private void OnOpponentFindWordFail(IGameEvent eventData)
         {
+            if (!_bStart || _isExitingRound)
+                return;
             _gameScreen.PlayerPanelOpponent.SetPass(_gameScreen.PlayerPanelOpponent.Pass + 1, _maxPasses);
             _audioService?.PlaySfxAsync(SoundsConfig.OpponentFindWordFail);
             CheckFinishGame(wasPass: true);
@@ -702,10 +778,23 @@ namespace Game.Logic
             }
         }
 
-        private async UniTaskVoid SwitchPlayer()
+        private void SwitchPlayer()
         {
+            ++_turnGeneration;
             _bModePlayOwner = !_bModePlayOwner;
+            if (!_bModePlayOwner)
+                _boosterController.ResetForOpponentTurn();
+            _gameScreen.TimerBar.ResetTimer();
             _gameScreen.TimerBar.SetTargetValue(_durationGame);
+            // Board, scores, passes, auto-mix and next-turn ownership are now committed.
+            // Save before launching AI, which may mutate the board during its search.
+            AutoSaveRound();
+            ContinueCurrentTurn().Forget();
+        }
+
+        private async UniTaskVoid ContinueCurrentTurn()
+        {
+            int generation = _turnGeneration;
             _gameScreen.TimerBar.StartTimer();
             _vibrationService.Play(VibrationType.Medium);
             
@@ -723,13 +812,14 @@ namespace Game.Logic
                 _gameScreen.PassButton.interactable = false;
                 _gameScreen.CancelButton.SetActive(false);
                 _gameScreen.GoButton.SetActive(false);
-                _boosterController.ResetForOpponentTurn();
                 
                 if (_timeExpiredStatus)
                 {
                     _timeExpiredStatus = false;
                     _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_TIME_EXPIRED_GO_OPPONENT");
                     await UniTask.WaitForSeconds(_configService.Game.delayAIPlayAfterPlayerPassSeconds);
+                    if (!_bStart || generation != _turnGeneration)
+                        return;
                 }
                 else
                 {
@@ -739,7 +829,7 @@ namespace Game.Logic
                 switch (_gameOpponent)
                 {
                     case GameOpponent.AI:
-                        AIPlayAsync().Forget();
+                        AIPlayAsync(generation).Forget();
                         break;
                 }
             }
@@ -747,6 +837,7 @@ namespace Game.Logic
 
         private void FinishGame()
         {
+            ++_turnGeneration;
             _bStart = false;
             _bPause = false;
             _bLetterPut = false;
@@ -784,13 +875,15 @@ namespace Game.Logic
 
             _boosterController.OnGameFinished();
 
-            if (wasSavedGame)
+            if (wasSavedGame && !_isRecoveryGame)
             {
                 _saveService.ClearAsync().Forget();
                 _isSavedGame = false;
             }
 
             _analyticsReporter.TrackFinishGame(analyticsSnapshot, resultGame, wasSavedGame);
+
+            _roundAutoSave.Clear("round finished");
 
             ShowFinishGamePopup(resultGame).Forget();
         }
@@ -906,12 +999,16 @@ namespace Game.Logic
             return data;
         }
 
-        private async UniTaskVoid AIPlayAsync()
+        private async UniTaskVoid AIPlayAsync(int generation)
         {
             await UniTask.WaitForSeconds(_configService.Game.delayAIPlaySeconds);
+            if (!_bStart || generation != _turnGeneration)
+                return;
             _analyticsReporter.TrackAiMoveStart(GetGameSnapshotParams());
 
             var res = await _ai.FindWordAsync(_complexityAISettings);
+            if (!_bStart || generation != _turnGeneration)
+                return;
 
             if (res.Success)
             {
@@ -1019,7 +1116,7 @@ namespace Game.Logic
         }
 
         /// IGameBoosterHost 
-        bool IGameBoosterHost.IsGameStarted => _bStart;
+        bool IGameBoosterHost.IsGameStarted => _bStart && !_isExitingRound;
         bool IGameBoosterHost.IsPaused => _bPause;
         bool IGameBoosterHost.IsOwnerTurn => _bModePlayOwner;
 
@@ -1041,6 +1138,12 @@ namespace Game.Logic
         void IGameBoosterHost.MarkLetterPlacedByBooster()
         {
             _bLetterPut = true;
+        }
+
+        void IGameBoosterHost.SaveRecoveryCheckpoint()
+        {
+            if (!_isSavingWord && !_isExitingRound)
+                AutoSaveRound();
         }
     }
 }

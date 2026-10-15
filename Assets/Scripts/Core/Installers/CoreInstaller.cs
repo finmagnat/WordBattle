@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Core.Build;
+using Core.Events;
 using Core.Services.DataDictionary;
 using Core.Generated;
 using Core.Services;
@@ -75,6 +76,7 @@ namespace Core.Installers
             Container.Bind<GameController>().AsSingle();
             
             Container.Bind<ISaveService>().To<SaveService>().AsSingle().NonLazy();
+            Container.Bind<RoundAutoSaveService>().AsSingle();
             Container.Bind<IInventoryService>().To<InventoryService>().AsSingle().NonLazy();
 
             Container.BindInterfacesAndSelfTo<PlayFabAuthService>().AsSingle();
@@ -241,9 +243,46 @@ namespace Core.Installers
             analytics.TrackEvent(AnalyticsEvents.Startup.LoadingCompleted, AdsAnalyticsHelper.GetWaitTimeParams());
             
             await ui.HideAllScreensAsync();
-            await ui.ShowScreenAsync<MainMenuScreen>(AssetKey.MainMenuScreen);
+            var recovery = Container.Resolve<RoundAutoSaveService>();
+            var recoveryData = recovery.Load();
+            bool recovered = false;
+            if (recoveryData != null)
+            {
+                var localization = Container.Resolve<LocalizationService>();
+                string startupLocale = localization.CurrentLocale.Identifier.Code;
+                try
+                {
+                    if (startupLocale != recoveryData.localeCode)
+                        localization.SetLocale(recoveryData.localeCode);
+                    await dictionaryManager.EnsureCurrentLocaleLoadedAsync();
+                    if (!dictionaryManager.Service.IsLoaded)
+                        throw new System.InvalidOperationException("Recovery dictionary is unavailable.");
+                    Container.Resolve<GameController>().SetGameData(recoveryData, isRecovery: true);
+                    var gameScreen = await ui.ShowScreenAsync<AIGameScreen>(AssetKey.AIGameScreen);
+                    if (gameScreen == null)
+                        throw new System.InvalidOperationException("Recovery game screen is unavailable.");
+                    recovered = true;
+                }
+                catch (System.Exception exception)
+                {
+                    Debug.LogWarning($"[Recovery] Could not initialize saved round: {exception.Message}");
+                    recovery.Clear("invalid/corrupted");
+                    await Container.Resolve<GameController>().ExitRoundAsync();
+                    Container.Resolve<GameController>().SetGameData(null);
+                    if (localization.CurrentLocale.Identifier.Code != startupLocale)
+                        localization.SetLocale(startupLocale);
+                    await dictionaryManager.EnsureCurrentLocaleLoadedAsync();
+                    await ui.HideAllScreensAsync();
+                }
+            }
+            if (!recovered)
+            {
+                await ui.ShowScreenAsync<MainMenuScreen>(AssetKey.MainMenuScreen);
+            }
 
             await loading.HideAsync();
+            if (recovered)
+                EventBus.Raise(new GameScreenReadyEvent());
             
             Destroy(loading.gameObject);
         }

@@ -5,6 +5,7 @@ using Core.Generated;
 using Core.Services;
 using Core.UI;
 using Cysharp.Threading.Tasks;
+using Game.Logic;
 using TMPro;
 using UI.Components;
 using UI.Popups;
@@ -65,6 +66,7 @@ namespace UI.Screens
         [Inject] protected IUIManager _ui;
         [Inject] protected ILoadingUI _loadingUI;
         [Inject] protected ISaveService _saveService;
+        [Inject] private GameController _roundController;
         [Inject] protected InterstitialPolicyService _interstitialService;
         [Inject] protected IGamePauseService _pauseService;
 
@@ -296,11 +298,9 @@ namespace UI.Screens
 
         protected async UniTask GoToHome(bool isSaveGame = false)
         {
+            await _roundController.ExitRoundAsync(isSaveGame);
             await _interstitialService.TryShowAndWaitAsync(AnalyticsEvents.Placement.ExitGame);
             await _loadingUI.ShowLoadingAsync<InGameLoadingScreen>(AssetKey.InGameLoadingScreen);
-
-            if (isSaveGame)
-                await _saveService.SaveAsync();
 
             Reset();
 

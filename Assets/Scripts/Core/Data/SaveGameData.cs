@@ -15,6 +15,17 @@ namespace Core.Data
         public string[] boardRows;         // буквы на кнопках
         public int levelComplexityAI;      // уровень сложности
         public bool playerTurn;            // ход игрока
+        public bool ownerPassedLastTurn;   // для перемешивания после двух пропусков подряд
+        public int winsInSeries;           // прогресс серии побед в текущей сессии
+        // Optional in older manual saves: false/0/null mean no pending booster state.
+        public bool hasPlacedLetter;
+        public int placedLetterIndex;
+        public bool eraserUsedThisTurn;
+        public int erasedCellIndex;
+        public string erasedLetter;
+        public bool eraserSelectionPending;
+        public bool swapSelectionPending;
+        public float slowdownRemainingSeconds;
         public int maxSeconds;             // время хода
         public int currentSeconds;         // текущее время хода
         

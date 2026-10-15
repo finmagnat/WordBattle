@@ -31,7 +31,7 @@ namespace Core.Services
         {
             SaveGameData data = _gameController.GetGameData();
                 
-            var json = JsonUtility.ToJson(data, prettyPrint: false);
+            var json = SaveGameStorage.Serialize(data);
             Directory.CreateDirectory(_directoryPath);
             await File.WriteAllTextAsync(_filePath, json);
 
@@ -44,7 +44,7 @@ namespace Core.Services
                 return null;
 
             var json = await File.ReadAllTextAsync(_filePath);
-            var data = JsonUtility.FromJson<SaveGameData>(json);
+            var data = SaveGameStorage.Deserialize(json);
 
             Debug.Log($"📂 Loaded current game: {_filePath}");
             return data;

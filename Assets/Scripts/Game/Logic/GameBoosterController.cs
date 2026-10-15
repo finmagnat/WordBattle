@@ -1,5 +1,6 @@
 using System;
 using Core.Config;
+using Core.Data;
 using Core.Services.DataDictionary;
 using Core.Events;
 using Core.Generated;
@@ -31,6 +32,7 @@ namespace Game.Logic
         void CancelCurrentMove();
         UniTask SaveWordAndContinueGameAsync(string word);
         void MarkLetterPlacedByBooster();
+        void SaveRecoveryCheckpoint();
     }
 
     public sealed class GameBoosterController
@@ -55,6 +57,8 @@ namespace Game.Logic
         private IGameBoosterHost _activeSwapHost;
         private IGameBoosterHost _activeSlowdownHost;
         private CancellationTokenSource _slowdownCts;
+        private float _slowdownEndsAt;
+        private float _restoredSlowdownSeconds;
 
         private bool _bModeEraser;
         private bool _bModeSwap;
@@ -65,6 +69,57 @@ namespace Game.Logic
         private bool _shopOpen;
 
         public bool IsSlowdownActive => _gameScreen != null && _gameScreen.BoosterPanel.IsActive(BoosterType.Slowdown);
+
+        internal void CaptureSaveState(SaveGameData data)
+        {
+            data.eraserUsedThisTurn = _bLetterRemoved;
+            data.erasedCellIndex = _erasedCell != null ? _erasedCell.Index : 0;
+            data.erasedLetter = _erasedLetter;
+            data.eraserSelectionPending = _bModeEraser;
+            data.swapSelectionPending = _bModeSwap;
+            data.slowdownRemainingSeconds = IsSlowdownActive ? Mathf.Max(0, _slowdownEndsAt - Time.time) : _restoredSlowdownSeconds;
+        }
+
+        internal void RestoreSaveState(SaveGameData data, IGameBoosterHost host)
+        {
+            _bLetterRemoved = data.eraserUsedThisTurn;
+            if (_bLetterRemoved)
+            {
+                _erasedCell = _wordsFieldManager.WordsFieldData.Items[data.erasedCellIndex];
+                _erasedLetter = data.erasedLetter;
+            }
+            _bModeEraser = data.eraserSelectionPending;
+            _bModeSwap = data.swapSelectionPending;
+            _activeEraserHost = _bModeEraser ? host : null;
+            _activeSwapHost = _bModeSwap ? host : null;
+            _restoredSlowdownSeconds = data.slowdownRemainingSeconds;
+        }
+
+        internal void ResumeSavedEffects(IGameBoosterHost host)
+        {
+            if (_restoredSlowdownSeconds > 0)
+            {
+                float seconds = _restoredSlowdownSeconds;
+                _restoredSlowdownSeconds = 0;
+                ActivateBoosterSlowdownAsync(host, seconds, isRecovery: true).Forget();
+            }
+            if (_bModeEraser || _bModeSwap)
+            {
+                _wordsFieldManager.SetModeEraser(_bModeEraser);
+                _wordsFieldManager.SetModeSwap(_bModeSwap);
+                _gameScreen.WordsField.SetModeEraser(_bModeEraser);
+                _gameScreen.WordsField.SetModeSwap(_bModeSwap);
+                _gameScreen.HoleOverlay.SetHintText(_localization.Get(LocalizationConst.TableUI,
+                    _bModeEraser ? LocalizationConst.KeyPopupHintEraser : LocalizationConst.KeyPopupHintSwap));
+                _gameScreen.HoleOverlay.ShowAsync().Forget();
+            }
+            else if (_bLetterRemoved && _erasedCell != null && _erasedCell.Empty())
+            {
+                _wordsFieldManager.WordsFieldData.SetSelectedCell(_erasedCell);
+                _erasedCell.HighlightCell();
+                _gameScreen.KeyboardPanel.ShowAsync().Forget();
+            }
+        }
 
         public void Attach(GameScreenBase gameScreen, WordsFieldManager wordsFieldManager, AIGameController ai)
         {
@@ -92,6 +147,9 @@ namespace Game.Logic
             _activeSwapHost = null;
             CancelSlowdownTracking();
             _activeSlowdownHost = null;
+            _restoredSlowdownSeconds = 0;
+            _slowdownEndsAt = 0;
+            _gameScreen?.BoosterPanel.SlowdownStop();
         }
 
         public void ResetForOpponentTurn()
@@ -144,18 +202,22 @@ namespace Game.Logic
 
             if (_bModeEraser)
             {
+                var host = _activeEraserHost;
                 _erasedCell = eventData.letter;
                 _erasedLetter = eventData.erasedLetter;
                 TrackEraserBoosterSuccess(_activeEraserHost, eventData);
                 CancelEraserMode();
                 _bLetterRemoved = true;
+                host?.SaveRecoveryCheckpoint();
                 return;
             }
 
             if (_bModeSwap)
             {
+                var host = _activeSwapHost;
                 TrackSwapBoosterSuccess(_activeSwapHost, eventData);
                 CancelSwapMode();
+                host?.SaveRecoveryCheckpoint();
             }
         }
 
@@ -165,7 +227,7 @@ namespace Game.Logic
         }
 
         // The current move must be cancelled first so its replacement letter is removed.
-        public async UniTask RollbackEraserAsync()
+        public async UniTask RollbackEraserAsync(IGameBoosterHost host)
         {
             if (!_bLetterRemoved || _erasedCell == null || string.IsNullOrEmpty(_erasedLetter))
                 return;
@@ -174,6 +236,8 @@ namespace Game.Logic
             _erasedCell.UnHighlight();
             ClearErasedLetter();
             _bLetterRemoved = false;
+            // Persist the rollback before requesting a refund; do not replay a completed refund on recovery.
+            host.SaveRecoveryCheckpoint();
 
             if (!await _inventorySync.GrantBoosterAsync(BoosterType.Eraser, 1))
                 Debug.LogError("[BOOSTER ERASER] Failed to refund eraser after a missing word.");
@@ -307,6 +371,7 @@ namespace Game.Logic
             }
 
             TrackMixerBoosterSuccess(host, boardBefore, result);
+            host.SaveRecoveryCheckpoint();
         }
         
         private async UniTask ActivateBoosterEraserAsync(IGameBoosterHost host)
@@ -327,6 +392,7 @@ namespace Game.Logic
                 LocalizationConst.KeyPopupHintEraser));
             TrackEraserBoosterShown(host);
             await _gameScreen.HoleOverlay.ShowAsync();
+            host.SaveRecoveryCheckpoint();
         }
         
         private async UniTask ActivateBoosterSwapAsync(IGameBoosterHost host)
@@ -347,6 +413,7 @@ namespace Game.Logic
                 LocalizationConst.KeyPopupHintSwap));
             TrackSwapBoosterShown(host);
             await _gameScreen.HoleOverlay.ShowAsync();
+            host.SaveRecoveryCheckpoint();
         }
 
         private async UniTask ActivateBoosterLetterAsync(IGameBoosterHost host)
@@ -403,6 +470,7 @@ namespace Game.Logic
                     _audioService?.PlaySfxAsync(SoundsConfig.BoosterFoundWord);
                     if (!host.IsPaused && !IsSlowdownActive)
                         screen.TimerBar.StartTimer();
+                    host.SaveRecoveryCheckpoint();
                     return;
                 }
 
@@ -458,7 +526,7 @@ namespace Game.Logic
                 _wordsFieldManager.WordsFieldData.GetBoardData());
         }
 
-        private async UniTaskVoid ActivateBoosterSlowdownAsync(IGameBoosterHost host)
+        private async UniTaskVoid ActivateBoosterSlowdownAsync(IGameBoosterHost host, float remainingSeconds = -1, bool isRecovery = false)
         {
             if (!host.IsGameStarted || host.IsPaused || !host.IsOwnerTurn)
                 return;
@@ -467,14 +535,20 @@ namespace Game.Logic
             _activeSlowdownHost = host;
             _gameScreen.TimerBar.StopTimer();
             _gameScreen.BoosterPanel.SlowdownStart();
-            TrackSlowdownBoosterSuccess(host);
-            _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch);
+            _slowdownEndsAt = Time.time + (remainingSeconds >= 0 ? remainingSeconds : _configService.Game.slowdownDelay);
+            if (!isRecovery)
+            {
+                TrackSlowdownBoosterSuccess(host);
+                _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch);
+            }
 
             _slowdownCts = new CancellationTokenSource();
+            if (!isRecovery)
+                host.SaveRecoveryCheckpoint();
 
             try
             {
-                await UniTask.Delay(System.TimeSpan.FromSeconds(_configService.Game.slowdownDelay), cancellationToken: _slowdownCts.Token);
+                await UniTask.Delay(System.TimeSpan.FromSeconds(Mathf.Max(0, _slowdownEndsAt - Time.time)), cancellationToken: _slowdownCts.Token);
             }
             catch (OperationCanceledException)
             {
@@ -490,6 +564,7 @@ namespace Game.Logic
             {
                 var host = _activeEraserHost;
                 CancelEraserMode();
+                host?.SaveRecoveryCheckpoint();
                 ReturnEraserBoosterAsync(host).Forget();
             }
             
@@ -497,6 +572,7 @@ namespace Game.Logic
             {
                 var host = _activeSwapHost;
                 CancelSwapMode();
+                host?.SaveRecoveryCheckpoint();
                 ReturnSwapBoosterAsync(host).Forget();
             }
         }
@@ -603,7 +679,10 @@ namespace Game.Logic
             if (restartTimer)
                 _gameScreen.TimerBar.StartTimer();
 
+            var host = _activeSlowdownHost;
             _activeSlowdownHost = null;
+            _slowdownEndsAt = 0;
+            host.SaveRecoveryCheckpoint();
         }
 
         private void CancelSlowdownTracking()
