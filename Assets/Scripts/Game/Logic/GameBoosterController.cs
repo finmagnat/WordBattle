@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Core.Config;
 using Core.Data;
 using Core.Services.DataDictionary;
@@ -29,7 +30,8 @@ namespace Game.Logic
         string LocaleCode { get; }
 
         UniTask BlockUIAsync(bool isBlocked, BlockUIScreenMode mode = BlockUIScreenMode.Default);
-        void CancelCurrentMove();
+        // True when a provisional letter was removed from the saved round state.
+        bool CancelCurrentMove();
         UniTask SaveWordAndContinueGameAsync(string word);
         void MarkLetterPlacedByBooster();
         void SaveRecoveryCheckpoint();
@@ -63,16 +65,19 @@ namespace Game.Logic
         private bool _bModeEraser;
         private bool _bModeSwap;
         private bool _bLetterRemoved;
+        private bool _eraserRemovalCommitted;
         private SelectableLetter _erasedCell;
         private string _erasedLetter;
         private bool _boosterProcessing;
         private bool _shopOpen;
+        private int _operationGeneration;
 
         public bool IsSlowdownActive => _gameScreen != null && _gameScreen.BoosterPanel.IsActive(BoosterType.Slowdown);
 
         internal void CaptureSaveState(SaveGameData data)
         {
             data.eraserUsedThisTurn = _bLetterRemoved;
+            data.eraserRemovalCommitted = _eraserRemovalCommitted;
             data.erasedCellIndex = _erasedCell != null ? _erasedCell.Index : 0;
             data.erasedLetter = _erasedLetter;
             data.eraserSelectionPending = _bModeEraser;
@@ -83,7 +88,9 @@ namespace Game.Logic
         internal void RestoreSaveState(SaveGameData data, IGameBoosterHost host)
         {
             _bLetterRemoved = data.eraserUsedThisTurn;
-            if (_bLetterRemoved)
+            _eraserRemovalCommitted = _bLetterRemoved && data.eraserRemovalCommitted;
+            ClearErasedLetter();
+            if (_bLetterRemoved && !_eraserRemovalCommitted)
             {
                 _erasedCell = _wordsFieldManager.WordsFieldData.Items[data.erasedCellIndex];
                 _erasedLetter = data.erasedLetter;
@@ -137,10 +144,12 @@ namespace Game.Logic
 
         public void ResetForNewGame()
         {
+            ++_operationGeneration;
             _gameScreen?.CancelLetterThinking();
             _bModeEraser = false;
             _bModeSwap = false;
             _bLetterRemoved = false;
+            _eraserRemovalCommitted = false;
             ClearErasedLetter();
             _boosterProcessing = false;
             _activeEraserHost = null;
@@ -154,16 +163,21 @@ namespace Game.Logic
 
         public void ResetForOpponentTurn()
         {
+            ++_operationGeneration;
+            _boosterProcessing = false;
             _bLetterRemoved = false;
+            _eraserRemovalCommitted = false;
             ClearErasedLetter();
         }
 
         public void OnGameFinished()
         {
+            ++_operationGeneration;
             _gameScreen?.CancelLetterThinking();
             CancelEraserMode();
             CancelSwapMode();
             _bLetterRemoved = false;
+            _eraserRemovalCommitted = false;
             ClearErasedLetter();
             _boosterProcessing = false;
             _activeEraserHost = null;
@@ -208,13 +222,15 @@ namespace Game.Logic
                 TrackEraserBoosterSuccess(_activeEraserHost, eventData);
                 CancelEraserMode();
                 _bLetterRemoved = true;
+                _eraserRemovalCommitted = false;
                 host?.SaveRecoveryCheckpoint();
                 return;
             }
 
-            if (_bModeSwap)
+            if (_bModeSwap && eventData.isSwapSuccess)
             {
                 var host = _activeSwapHost;
+                CommitEraserRemoval();
                 TrackSwapBoosterSuccess(_activeSwapHost, eventData);
                 CancelSwapMode();
                 host?.SaveRecoveryCheckpoint();
@@ -227,15 +243,16 @@ namespace Game.Logic
         }
 
         // The current move must be cancelled first so its replacement letter is removed.
-        public async UniTask RollbackEraserAsync(IGameBoosterHost host)
+        public async UniTask<bool> RollbackEraserAsync(IGameBoosterHost host)
         {
-            if (!_bLetterRemoved || _erasedCell == null || string.IsNullOrEmpty(_erasedLetter))
-                return;
+            if (!_bLetterRemoved || _eraserRemovalCommitted || _erasedCell == null || string.IsNullOrEmpty(_erasedLetter))
+                return false;
 
             _erasedCell.SetLetter(_erasedLetter);
             _erasedCell.UnHighlight();
             ClearErasedLetter();
             _bLetterRemoved = false;
+            _eraserRemovalCommitted = false;
             // Persist the rollback before requesting a refund; do not replay a completed refund on recovery.
             host.SaveRecoveryCheckpoint();
 
@@ -243,6 +260,18 @@ namespace Game.Logic
                 Debug.LogError("[BOOSTER ERASER] Failed to refund eraser after a missing word.");
 
             _gameScreen?.BoosterPanel.Refresh();
+            return true;
+        }
+
+        // Call only after a field-changing booster succeeds, before its recovery checkpoint.
+        private void CommitEraserRemoval()
+        {
+            if (!_bLetterRemoved || _eraserRemovalCommitted)
+                return;
+
+            _eraserRemovalCommitted = true;
+            ClearErasedLetter();
+            // Keep _bLetterRemoved: the once-per-turn restriction still applies.
         }
 
         private void ClearErasedLetter()
@@ -277,10 +306,15 @@ namespace Game.Logic
             }
 
             _boosterProcessing = true;
+            int operationGeneration = _operationGeneration;
             try
             {
                 await host.BlockUIAsync(true);
+                if (!IsCurrentOperation(host, operationGeneration))
+                    return;
                 bool ok = await _inventorySync.TryUseBoosterAsync(eventData.boosterType);
+                if (!IsCurrentOperation(host, operationGeneration))
+                    return;
                 _gameScreen.BoosterPanel.Refresh();
 
                 if (!ok)
@@ -319,9 +353,15 @@ namespace Game.Logic
                 }
                 finally
                 {
-                    _boosterProcessing = false;
+                    if (operationGeneration == _operationGeneration)
+                        _boosterProcessing = false;
                 }
             }
+        }
+
+        private bool IsCurrentOperation(IGameBoosterHost host, int generation)
+        {
+            return generation == _operationGeneration && host.IsGameStarted && host.IsOwnerTurn;
         }
 
         private async UniTask ShowShopAsync(IGameBoosterHost host)
@@ -358,18 +398,22 @@ namespace Game.Logic
 
             _audioService?.PlaySfxAsync(SoundsConfig.BoosterMixerLaunch);
 
-            host.CancelCurrentMove();
+            bool cancelledMove = host.CancelCurrentMove();
 
             string[] boardBefore = _wordsFieldManager.WordsFieldData.GetBoardData();
             MixerResult result = _wordsFieldManager.MixLetters(_dictionaryService.DictionaryConfig);
             if (result == null)
             {
+                // The cancellation is complete. Persist it before an asynchronous refund can fail.
+                if (cancelledMove)
+                    host.SaveRecoveryCheckpoint();
                 TrackMixerBoosterFail(host, boardBefore, MixerFailNoValidPattern);
                 await _inventorySync.GrantBoosterAsync(BoosterType.Mixer, 1);
                 _gameScreen.BoosterPanel.Refresh();
                 return;
             }
 
+            CommitEraserRemoval();
             TrackMixerBoosterSuccess(host, boardBefore, result);
             host.SaveRecoveryCheckpoint();
         }
@@ -391,8 +435,10 @@ namespace Game.Logic
                 LocalizationConst.TableUI,
                 LocalizationConst.KeyPopupHintEraser));
             TrackEraserBoosterShown(host);
+            int operationGeneration = _operationGeneration;
             await _gameScreen.HoleOverlay.ShowAsync();
-            host.SaveRecoveryCheckpoint();
+            if (IsCurrentOperation(host, operationGeneration))
+                host.SaveRecoveryCheckpoint();
         }
         
         private async UniTask ActivateBoosterSwapAsync(IGameBoosterHost host)
@@ -412,8 +458,10 @@ namespace Game.Logic
                 LocalizationConst.TableUI,
                 LocalizationConst.KeyPopupHintSwap));
             TrackSwapBoosterShown(host);
+            int operationGeneration = _operationGeneration;
             await _gameScreen.HoleOverlay.ShowAsync();
-            host.SaveRecoveryCheckpoint();
+            if (IsCurrentOperation(host, operationGeneration))
+                host.SaveRecoveryCheckpoint();
         }
 
         private async UniTask ActivateBoosterLetterAsync(IGameBoosterHost host)
@@ -424,12 +472,14 @@ namespace Game.Logic
                 return;
 
             _gameScreen.TimerBar.StopTimer();
-            host.CancelCurrentMove();
+            bool cancelledMove = host.CancelCurrentMove();
+            string[] cancelledBoard = cancelledMove ? _wordsFieldManager.WordsFieldData.GetBoardData() : null;
 
             var screen = _gameScreen;
             var ai = _ai;
+            int operationGeneration = _operationGeneration;
             var token = screen.BeginLetterThinking();
-            AIWordResult res;
+            AIWordResult res = AIWordResult.Fail();
             try
             {
                 using (token.Register(ai.AbortSearch))
@@ -437,17 +487,22 @@ namespace Game.Logic
                     token.ThrowIfCancellationRequested();
                     res = await ai.FindWordAsync(_configService.Game.boosterLetterAiSettings, clueOnly: UseCluePrototype);
                     token.ThrowIfCancellationRequested();
-                    if (!host.IsGameStarted || !host.IsOwnerTurn || !screen.isActiveAndEnabled)
+                    if (!IsCurrentOperation(host, operationGeneration) || !screen.isActiveAndEnabled)
                         return;
                 }
             }
             catch (OperationCanceledException) when (token.IsCancellationRequested)
             {
+                // An aborted search may already have cancelled the player's provisional letter.
+                // A failed search has not applied AI letters; never snapshot a partial success.
+                if (!res.Success)
+                    SaveCancelledMoveIfUnchanged(host, operationGeneration, cancelledBoard);
                 return;
             }
             catch
             {
-                if (host.IsGameStarted && host.IsOwnerTurn && !host.IsPaused && !IsSlowdownActive && screen.isActiveAndEnabled)
+                SaveCancelledMoveIfUnchanged(host, operationGeneration, cancelledBoard);
+                if (IsCurrentOperation(host, operationGeneration) && !host.IsPaused && !IsSlowdownActive && screen.isActiveAndEnabled)
                     screen.TimerBar.StartTimer();
                 throw;
             }
@@ -458,6 +513,7 @@ namespace Game.Logic
             
             if (res.Success)
             {
+                CommitEraserRemoval();
                 TrackLetterBoosterSuccess(host, res.Word);
                 if (UseCluePrototype)
                 {
@@ -475,18 +531,30 @@ namespace Game.Logic
                 }
 
                 ShowBoosterLetterSuccess(host, res.Word);
+                host.SaveRecoveryCheckpoint();
 
                 await UniTask.WaitForSeconds(_configService.Game.autoApplyDelay);
 
-                await host.SaveWordAndContinueGameAsync(res.Word);
+                if (IsCurrentOperation(host, operationGeneration) && screen.isActiveAndEnabled)
+                    await host.SaveWordAndContinueGameAsync(res.Word);
             }
             else
             {
+                if (cancelledMove)
+                    host.SaveRecoveryCheckpoint();
                 TrackLetterBoosterFail(host);
                 await ShowBoosterLetterFailAsync();
-                if (host.IsGameStarted && host.IsOwnerTurn && !host.IsPaused && !IsSlowdownActive && screen.isActiveAndEnabled)
+                if (IsCurrentOperation(host, operationGeneration) && !host.IsPaused && !IsSlowdownActive && screen.isActiveAndEnabled)
                     screen.TimerBar.StartTimer();
             }
+        }
+
+        private void SaveCancelledMoveIfUnchanged(IGameBoosterHost host, int generation, string[] cancelledBoard)
+        {
+            if (cancelledBoard != null && IsCurrentOperation(host, generation)
+                && _wordsFieldManager.WordsFieldData.PlacedLetterIndex < 0
+                && _wordsFieldManager.WordsFieldData.GetBoardData().SequenceEqual(cancelledBoard))
+                host.SaveRecoveryCheckpoint();
         }
 
         private void ShowBoosterLetterSuccess(IGameBoosterHost host, string resWord)
@@ -669,7 +737,9 @@ namespace Game.Logic
 
         private void EndSlowdown(bool restartTimer)
         {
-            if (_gameScreen == null || _activeSlowdownHost == null || !_gameScreen.BoosterPanel.IsActive(BoosterType.Slowdown))
+            // The visual countdown can finish before this continuation runs.
+            // The host tracks the logical effect even if the panel is already inactive.
+            if (_gameScreen == null || _activeSlowdownHost == null)
                 return;
 
             CancelSlowdownTracking();

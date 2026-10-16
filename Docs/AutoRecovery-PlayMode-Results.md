@@ -1,0 +1,108 @@
+# Isolated Auto Recovery Play Mode integration run
+
+Production: C:/Users/YURIY/AppData/LocalLow/com_finmagnat_wordlet/WordBattle
+
+- PASS: A: initial checkpoint exists before any move
+- PASS: Eraser starts reversible in the actual game
+- PASS: Eraser + missing word restores letter and refunds exactly once
+- PASS: Rollback clears refund replay state in checkpoint
+- PASS: Successful real mixer commits eraser and clears rollback payload
+- PASS: Eraser + mixer + missing word preserves mixed board without refund
+- PASS: Committed eraser remains limited to one use per turn
+- PASS: Recovery restores committed eraser without server transactions
+- PASS: Eraser + mixer + recovery + missing word cannot restore old cell
+- PASS: Real completed swap commits eraser
+- PASS: Eraser + swap + missing word preserves exchange
+- PASS: Cancelling a partially selected swap saves closed mode and refunds swap
+- PASS: Cancelled swap keeps normal eraser rollback
+- PASS: Actual AI letter hint commits eraser
+- PASS: Cancelling successful hint preserves eraser commitment
+- PASS: Eraser + letter + cancellation + missing word does not refund eraser
+- PASS: Slowdown persists timer effect without committing eraser
+- PASS: Eraser + slowdown + missing word rolls eraser back
+- PASS: Cancelled slowdown is absent from checkpoint
+- PASS: Repeated slowdown stop does not write a duplicate checkpoint
+- PASS: Expired slowdown clears checkpoint even if visual countdown finishes first
+- PASS: Recovery cannot restart an already finished slowdown
+- PASS: Legacy recovery before a second booster keeps eraser reversible without re-consumption
+- PASS: Recovered reversible eraser refunds once
+- PASS: Cancelling eraser selection saves non-pending state before refund
+- PASS: Failed mixer + failed refund saves cancelled provisional letter
+- PASS: Failed refund is attempted once and not queued by recovery
+- PASS: Failed mixer without a cancelled letter does not write redundant checkpoint
+- PASS: Recovery after failed mixer does not resurrect cancellation or retry refund
+- PASS: Failed real word search + failed refund saves cancelled provisional letter
+- PASS: Failed letter search without state changes does not rewrite checkpoint
+- PASS: Recovery after failed letter search does not resurrect cancellation or retry refund
+- PASS: Rejected consumption leaves provisional move and checkpoint unchanged
+- PASS: Ordinary cancellation updates recovery
+- PASS: B: accepted player word saves board, score, history and AI ownership after animation
+- PASS: D: intentional exit clears recovery and preserves isolated manual save
+- PASS: Exit prevents late checkpoint resurrection
+- PASS: E: legacy checkpoint without commit field loads through real storage validator
+- PASS: E: actual game startup restores legacy manual data without booster fields
+- PASS: E: corrupted recovery is rejected and removed only from test slot
+- PASS: D: actual round finish removes recovery
+- PASS: D: finishing a recovered round leaves independent manual save intact
+- PASS: Finished round cannot recreate checkpoint
+- PASS: Cancel A: real repeated-word rejection saves the cancelled letter
+- PASS: Cancel A: repeated-word cancellation preserves reversible eraser data and inventory rules
+- PASS: Cancel B: unselected provisional letter is still present during real blinking
+- PASS: Cancel B: SelectableLetter.Update completion cancels and saves the provisional letter
+- PASS: Cancel C: repeated blink completion does not write another checkpoint
+- PASS: Cancel C: visual selection cancellation reports no saved-data change and performs no write
+- PASS: Cancel C: repeated-word callback without a provisional letter does not save
+- PASS: Audit: cancellation performed by GetGameData updates recovery without recursion
+- PASS: Cancel D: real accepted-word animation is in progress
+- PASS: Cancel D: late blink and data read cannot cancel or checkpoint a partially accepted word
+- PASS: Cancel D: accepted move still commits its history and score after stale callback
+- PASS: Late advice WordAlreadyBeen after turn cannot mutate the current board
+- PASS: Late advice WordAlreadyBeen after turn cannot save or resurrect recovery
+- PASS: Late advice WordAlreadyBeen after exit cannot mutate the current board
+- PASS: Late advice WordAlreadyBeen after exit cannot save or resurrect recovery
+- PASS: Late advice WordAlreadyBeen after finish cannot mutate the current board
+- PASS: Late advice WordAlreadyBeen after finish cannot save or resurrect recovery
+- PASS: Late advice WordAlreadyBeen after new-round cannot mutate the current board
+- PASS: Late advice WordAlreadyBeen after new-round cannot save or resurrect recovery
+- PASS: Late advice SetLetterNoSelected after turn cannot mutate the current board
+- PASS: Late advice SetLetterNoSelected after turn cannot save or resurrect recovery
+- PASS: Late advice SetLetterNoSelected after exit cannot mutate the current board
+- PASS: Late advice SetLetterNoSelected after exit cannot save or resurrect recovery
+- PASS: Late advice SetLetterNoSelected after finish cannot mutate the current board
+- PASS: Late advice SetLetterNoSelected after finish cannot save or resurrect recovery
+- PASS: Late advice SetLetterNoSelected after new-round cannot mutate the current board
+- PASS: Late advice SetLetterNoSelected after new-round cannot save or resurrect recovery
+- PASS: Late completion of a real blink after turn cannot cancel a new move
+- PASS: Late blink after turn cannot write an obsolete checkpoint
+- PASS: Late completion of a real blink after exit cannot cancel a new move
+- PASS: Late blink after exit cannot write an obsolete checkpoint
+- PASS: Late completion of a real blink after finish cannot cancel a new move
+- PASS: Late blink after finish cannot write an obsolete checkpoint
+- PASS: Late completion of a real blink after new-round cannot cancel a new move
+- PASS: Late blink after new-round cannot write an obsolete checkpoint
+- PASS: Late advice cannot cancel a replacement move within the same turn
+- PASS: Audit: old inventory response cannot run CancelCurrentMove or mixer in a new round
+- PASS: Audit: exception before AI field application saves only the completed cancellation
+- PASS: Audit: exception during real AI field application cannot replace the last valid checkpoint with a partial board
+- PASS: Audit: cancellation of a real in-flight letter search checkpoints its cancelled provisional move
+- PASS: Audit: search cancellation preserves existing booster refund rules
+- PASS: Audit: obsolete missing-word continuation cannot roll back a new round's eraser
+- PASS: Session completed: 85 assertions; no production startup or PlayFab calls.
+- PASS: A: Stop/Play restores initial round without inventory calls
+- PASS: B: Stop/Play recovery of AI ownership executes exactly one real AI move
+- PASS: B: completed AI move saves score, history and next player ownership
+- PASS: Recovered AI turn never consumes or refunds boosters
+- PASS: B: restoring completed AI checkpoint preserves board, history, score and player ownership
+- PASS: Stop/Play: cancelled provisional letter stays absent in restart-duplicate
+- PASS: Stop/Play: restart-duplicate restores without replaying inventory operations
+- PASS: Stop/Play: repeated-word cancellation keeps the original eraser rollback payload
+- PASS: Stop/Play: cancelled provisional letter stays absent in restart-blink
+- PASS: Stop/Play: restart-blink restores without replaying inventory operations
+- PASS: Stop/Play: cancelled provisional letter stays absent in restart-data-read
+- PASS: Stop/Play: restart-data-read restores without replaying inventory operations
+- PASS: Stop/Play: cancelled provisional letter stays absent in restart-cancelled-search
+- PASS: Stop/Play: restart-cancelled-search restores without replaying inventory operations
+- PASS: Session completed: 14 assertions; no production startup or PlayFab calls.
+
+Production saves unchanged: True
+Result: PASSED

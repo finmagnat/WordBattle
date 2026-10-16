@@ -77,9 +77,9 @@ namespace Game.Logic
             return false;
         }
 
-        internal void BlinkNoSelectedLetter()
+        internal SelectableLetter BlinkNoSelectedLetter(int moveGeneration)
         {
-            _wordsFildData.BlinkNoSelectedLetter();
+            return _wordsFildData.BlinkNoSelectedLetter(moveGeneration);
         }
 
         internal void SaveWord(string word)

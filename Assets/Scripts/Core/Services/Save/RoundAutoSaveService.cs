@@ -105,7 +105,8 @@ namespace Core.Services
             if (float.IsNaN(data.slowdownRemainingSeconds) || float.IsInfinity(data.slowdownRemainingSeconds) || data.slowdownRemainingSeconds < 0 ||
                 (data.hasPlacedLetter && (data.placedLetterIndex < 0 || data.placedLetterIndex >= data.boardRows.Length ||
                     string.IsNullOrEmpty(data.boardRows[data.placedLetterIndex]))) ||
-                (data.eraserUsedThisTurn && (data.erasedCellIndex < 0 || data.erasedCellIndex >= data.boardRows.Length ||
+                (data.eraserRemovalCommitted && !data.eraserUsedThisTurn) ||
+                (data.eraserUsedThisTurn && !data.eraserRemovalCommitted && (data.erasedCellIndex < 0 || data.erasedCellIndex >= data.boardRows.Length ||
                     string.IsNullOrEmpty(data.erasedLetter) || data.erasedLetter.Length != 1 || !char.IsLetter(data.erasedLetter[0]))) ||
                 (data.eraserSelectionPending && (data.swapSelectionPending || data.eraserUsedThisTurn)) ||
                 ((data.eraserSelectionPending || data.swapSelectionPending) && data.hasPlacedLetter) ||

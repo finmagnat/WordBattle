@@ -32,6 +32,7 @@ namespace UI.Components
         private float _blinkDtTimer = 0;
         private float _blinkCounter = 0;
         private bool _bModeBlink; // Режим мигания
+        private int _blinkMoveGeneration;
         private bool _isIlluminated; // Состояние подсветки в Режиме мигания
         private string _letter;
         private bool _isClue;
@@ -70,7 +71,7 @@ namespace UI.Components
                     {
                         ModeBlinkClear();
                         HighlightCell();
-                        EventBus.Raise(new ModeBlinkEndEvent());
+                        EventBus.Raise(new ModeBlinkEndEvent { letter = this, moveGeneration = _blinkMoveGeneration });
                     }
                 }
             }
@@ -171,7 +172,11 @@ namespace UI.Components
         /// <summary>
         /// Включить режим "Помигать буквой"
         /// </summary>
-        internal void SetModeBlink() => _bModeBlink = true;
+        internal void SetModeBlink(int moveGeneration)
+        {
+            _blinkMoveGeneration = moveGeneration;
+            _bModeBlink = true;
+        }
 
         internal void SetLetter(string letter)
         {

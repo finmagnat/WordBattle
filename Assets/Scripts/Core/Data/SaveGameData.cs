@@ -21,6 +21,7 @@ namespace Core.Data
         public bool hasPlacedLetter;
         public int placedLetterIndex;
         public bool eraserUsedThisTurn;
+        public bool eraserRemovalCommitted; // Optional: older saves keep eraser rollback available.
         public int erasedCellIndex;
         public string erasedLetter;
         public bool eraserSelectionPending;

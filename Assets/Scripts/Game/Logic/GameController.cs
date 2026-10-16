@@ -12,6 +12,7 @@ using Core.UI;
 using Cysharp.Threading.Tasks;
 using Game.AI;
 using Core.Services.Inventory;
+using UI.Components;
 using UI.Popups;
 using UI.Screens;
 using UnityEngine;
@@ -70,6 +71,9 @@ namespace Game.Logic
         private bool _isRecoveryGame;
         private bool _isExitingRound;
         private int _turnGeneration;
+        private int _moveGeneration;
+        private SelectableLetter _pendingBlinkLetter;
+        private int _pendingBlinkTurnGeneration;
         private bool _timeExpiredStatus;
         private int _winsInSeries;
 
@@ -111,6 +115,8 @@ namespace Game.Logic
 
         public void Dispose()
         {
+            _bStart = false;
+            ++_turnGeneration;
             EventBus.Unsubscribe<GameScreenStartEvent>(OnGameScreenStart);
             EventBus.Unsubscribe<GameScreenReadyEvent>(OnGameScreenReady);
 
@@ -144,8 +150,8 @@ namespace Game.Logic
 
         public SaveGameData GetGameData(bool cancelPendingMove = true)
         {
-            if (_bLetterPut && cancelPendingMove)
-                Cancel();
+            if (_bLetterPut && cancelPendingMove && !_isSavingWord)
+                CancelAndSaveRecovery();
 
             var boardRows = _wordsFieldManager.WordsFieldData.GetBoardData();
 
@@ -224,6 +230,8 @@ namespace Game.Logic
         {
             bool isSavedGame = _saveGameData != null;
             ++_turnGeneration;
+            ++_moveGeneration;
+            _pendingBlinkLetter = null;
             _bLetterPut = false;
             _isSavedGame = false;
             _timeExpiredStatus = false;
@@ -417,15 +425,24 @@ namespace Game.Logic
                 if (!_dictionaryService.Contains(word))
                 {
                     Cancel();
+                    int turnGeneration = _turnGeneration;
+                    int moveGeneration = _moveGeneration;
                     await BlockUIAsync(true);
                     try
                     {
-                        await _boosterController.RollbackEraserAsync(this);
+                        if (!CanResolveMoveError(turnGeneration, moveGeneration))
+                            return;
+                        // Rollback already writes its checkpoint before requesting the refund.
+                        if (!await _boosterController.RollbackEraserAsync(this))
+                            AutoSaveRound();
                     }
                     finally
                     {
                         await BlockUIAsync(false);
                     }
+
+                    if (!CanResolveMoveError(turnGeneration, moveGeneration))
+                        return;
 
                     _audioService?.PlaySfxAsync(SoundsConfig.PopupQuestion);
 
@@ -433,7 +450,7 @@ namespace Game.Logic
                         word,
                         _dictionaryService.DictionaryConfig.languageCode);
 
-                    if (!string.IsNullOrEmpty(_lastAcceptedWord))
+                    if (CanResolveMoveError(turnGeneration, moveGeneration) && !string.IsNullOrEmpty(_lastAcceptedWord))
                         _gameScreen.SetTextWordWithInfoIcon(_lastAcceptedWord);
                 }
                 else
@@ -451,17 +468,32 @@ namespace Game.Logic
                 return;
 
             _analyticsReporter.TrackCancelClicked();
-            Cancel();
-            AutoSaveRound();
+            CancelAndSaveRecovery();
         }
 
-        private void Cancel()
+        private bool Cancel()
         {
+            bool hadPlacedLetter = _bLetterPut;
             _bLetterPut = false;
+            ++_moveGeneration;
+            _pendingBlinkLetter = null;
             _wordsFieldManager.Cancel();
             _gameScreen.SetTextWord("");
             _gameScreen.GoButton.SetActive(false);
             _gameScreen.CancelButton.SetActive(false);
+            return hadPlacedLetter;
+        }
+
+        private void CancelAndSaveRecovery()
+        {
+            if (Cancel())
+                ((IGameBoosterHost)this).SaveRecoveryCheckpoint();
+        }
+
+        private bool CanResolveMoveError(int turnGeneration, int moveGeneration)
+        {
+            return _bStart && !_isExitingRound && _bModePlayOwner && !_isSavingWord
+                && turnGeneration == _turnGeneration && moveGeneration == _moveGeneration;
         }
 
         internal void OnCellSelect(CellSelectEvent eventData)
@@ -518,6 +550,7 @@ namespace Game.Logic
         {
             _analyticsReporter.TrackLetterPutSuccess(eventData.letter, eventData.index);
             _bLetterPut = true;
+            ++_moveGeneration;
             _gameScreen.GoButton.SetActive(true);
             _gameScreen.CancelButton.SetActive(true);
             _audioService?.PlaySfxAsync(SoundsConfig.LetterPutSuccess);
@@ -546,6 +579,11 @@ namespace Game.Logic
 
         private async void OnErrorPlayer(PlayerErrorEvent eventData)
         {
+            int turnGeneration = _turnGeneration;
+            int moveGeneration = _moveGeneration;
+            if (!CanResolveMoveError(turnGeneration, moveGeneration))
+                return;
+
             Debug.Log("[GameController] [OnErrorPlayer] " + eventData.GameError);
 
             var messageBoxData = new MessageBoxData
@@ -560,23 +598,33 @@ namespace Game.Logic
             
             await popup.WaitForResultAsync();
 
+            if (!CanResolveMoveError(turnGeneration, moveGeneration))
+                return;
+
             switch (eventData.GameError)
             {
                 case GameError.SetLetterNoSelected:
+                    if (!_bLetterPut)
+                        break;
                     BlockUIAsync(true, BlockUIScreenMode.NoSpinner).Forget();
                     _gameScreen.CancelButton.SetActive(false);
                     _gameScreen.GoButton.SetActive(false);
-                    _wordsFieldManager.BlinkNoSelectedLetter();
+                    _pendingBlinkTurnGeneration = turnGeneration;
+                    _pendingBlinkLetter = _wordsFieldManager.BlinkNoSelectedLetter(moveGeneration);
                     break;
                 case GameError.WordAlreadyBeen:
-                    Cancel();
+                    CancelAndSaveRecovery();
                     break;
             }
         }
 
         private void OnModeBlinkEnd(ModeBlinkEndEvent eventData)
         {
-            Cancel();
+            if (!_bLetterPut || _pendingBlinkLetter == null || eventData.letter != _pendingBlinkLetter
+                || !CanResolveMoveError(_pendingBlinkTurnGeneration, eventData.moveGeneration))
+                return;
+
+            CancelAndSaveRecovery();
             BlockUIAsync(false).Forget();
         }
 
@@ -1125,9 +1173,9 @@ namespace Game.Logic
             return BlockUIAsync(isBlocked, mode);
         }
 
-        void IGameBoosterHost.CancelCurrentMove()
+        bool IGameBoosterHost.CancelCurrentMove()
         {
-            Cancel();
+            return Cancel();
         }
 
         UniTask IGameBoosterHost.SaveWordAndContinueGameAsync(string word)
@@ -1138,6 +1186,7 @@ namespace Game.Logic
         void IGameBoosterHost.MarkLetterPlacedByBooster()
         {
             _bLetterPut = true;
+            ++_moveGeneration;
         }
 
         void IGameBoosterHost.SaveRecoveryCheckpoint()

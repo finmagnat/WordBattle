@@ -43,7 +43,7 @@ namespace Core.Services.Inventory
         /// Пытается использовать бустер: списание делаем на сервере через CloudScript,
         /// затем обновляем локальный инвентарь по серверному ответу.
         /// </summary>
-        public async UniTask<bool> TryUseBoosterAsync(BoosterType type)
+        public virtual async UniTask<bool> TryUseBoosterAsync(BoosterType type)
         {
             string key = PlayFabInventoryKeys.ToKey(type);
 
@@ -112,7 +112,7 @@ namespace Core.Services.Inventory
         /// Серверно добавляет бустеры (используется для "возврата" при неудаче ивента/алгоритма).
         /// CloudScript: AddBooster { key, amount } -> { ok, key, total }
         /// </summary>
-        public async UniTask<bool> GrantBoosterAsync(BoosterType type, int quantity)
+        public virtual async UniTask<bool> GrantBoosterAsync(BoosterType type, int quantity)
         {
             if (quantity == 0)
                 return true;

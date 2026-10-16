@@ -73,10 +73,11 @@ namespace Core.Data
             return new List<int>(_selectedIndex);
         }
 
-        internal void BlinkNoSelectedLetter()
+        internal SelectableLetter BlinkNoSelectedLetter(int moveGeneration)
         {
             if (_setItem)
-                _setItem.SetModeBlink();
+                _setItem.SetModeBlink(moveGeneration);
+            return _setItem;
         }
 
         internal void ShowLetters(bool value)
