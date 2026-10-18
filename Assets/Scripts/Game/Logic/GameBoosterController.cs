@@ -40,8 +40,6 @@ namespace Game.Logic
     public sealed class GameBoosterController
     {
         private const string MixerFailNoValidPattern = "no_valid_pattern";
-        // Temporary experiment. Set to false to restore the original Letter booster.
-        private static readonly bool UseCluePrototype = true;
 
         [Inject] private InventorySyncService _inventorySync;
         [Inject] private ConfigService _configService;
@@ -284,7 +282,9 @@ namespace Game.Logic
         {
             if (eventData.isEmpty)
             {
-                await ShowShopAsync(host);
+                // Hint has no shop offer in stage 1.
+                if (eventData.boosterType != BoosterType.Hint)
+                    await ShowShopAsync(host);
                 return;
             }
 
@@ -326,6 +326,10 @@ namespace Game.Logic
                 {
                     case BoosterType.Letter:
                         await ActivateBoosterLetterAsync(host);
+                        break;
+
+                    case BoosterType.Hint:
+                        await ActivateBoosterHintAsync(host);
                         break;
 
                     case BoosterType.Slowdown:
@@ -466,10 +470,77 @@ namespace Game.Logic
 
         private async UniTask ActivateBoosterLetterAsync(IGameBoosterHost host)
         {
+            int generation = _operationGeneration;
+            var screen = _gameScreen;
+            var found = await FindBoosterWordAsync(host, hintOnly: false);
+            if (!found.HasValue)
+                return;
+
+            var res = found.Value;
+            if (res.Success)
+            {
+                CommitEraserRemoval();
+                TrackLetterBoosterSuccess(host, res.Word);
+                ShowBoosterLetterSuccess(host, res.Word);
+                host.SaveRecoveryCheckpoint();
+
+                await UniTask.WaitForSeconds(_configService.Game.autoApplyDelay);
+
+                if (IsCurrentOperation(host, generation) && screen.isActiveAndEnabled)
+                    await host.SaveWordAndContinueGameAsync(res.Word);
+            }
+            else
+            {
+                TrackLetterBoosterFail(host);
+                await ShowBoosterLetterFailAsync();
+                if (IsCurrentOperation(host, generation) && !host.IsPaused && !IsSlowdownActive && screen.isActiveAndEnabled)
+                    screen.TimerBar.StartTimer();
+            }
+        }
+
+        private async UniTask ActivateBoosterHintAsync(IGameBoosterHost host)
+        {
+            int generation = _operationGeneration;
+            var screen = _gameScreen;
+            var found = await FindBoosterWordAsync(host, hintOnly: true);
+            if (!found.HasValue)
+                return;
+
+            var res = found.Value;
+            if (res.Success)
+            {
+                CommitEraserRemoval();
+                _analyticsReporter.TrackHintBoosterSuccess(host, res.Word, _wordsFieldManager.WordsFieldData.GetBoardData());
+                _wordsFieldManager.SetModeSelect(true);
+                host.MarkLetterPlacedByBooster();
+                screen.GoButton.SetActive(true);
+                screen.CancelButton.SetActive(true);
+                screen.KeyboardPanel.HideAsync().Forget();
+                screen.SetStatusLocalizationKey("STATUS_LABEL_CLUE_SUCCESS");
+                _audioService?.PlaySfxAsync(SoundsConfig.BoosterFoundWord);
+                if (!host.IsPaused && !IsSlowdownActive)
+                    screen.TimerBar.StartTimer();
+                host.SaveRecoveryCheckpoint();
+            }
+            else
+            {
+                _analyticsReporter.TrackHintBoosterFail(host, screen.TimerBar.GetCurrentValue(), _wordsFieldManager.WordsFieldData.GetBoardData());
+                screen.SetStatusLocalizationKey("STATUS_LABEL_CLUE_FAIL");
+                _audioService?.PlaySfxAsync(SoundsConfig.BoosterNotFoundWord);
+                await _inventorySync.GrantBoosterAsync(BoosterType.Hint, 1);
+                screen.BoosterPanel.Refresh();
+                if (IsCurrentOperation(host, generation) && !host.IsPaused && !IsSlowdownActive && screen.isActiveAndEnabled)
+                    screen.TimerBar.StartTimer();
+            }
+        }
+
+        // Both boosters share search/cancellation/recovery; each applies its own outcome above.
+        private async UniTask<AIWordResult?> FindBoosterWordAsync(IGameBoosterHost host, bool hintOnly)
+        {
             // Validation has finished. Keep input blocked, but remove the technical spinner.
             await host.BlockUIAsync(true, BlockUIScreenMode.NoSpinner);
             if (!host.IsGameStarted || !host.IsOwnerTurn || !_gameScreen.isActiveAndEnabled)
-                return;
+                return null;
 
             _gameScreen.TimerBar.StopTimer();
             bool cancelledMove = host.CancelCurrentMove();
@@ -485,10 +556,14 @@ namespace Game.Logic
                 using (token.Register(ai.AbortSearch))
                 {
                     token.ThrowIfCancellationRequested();
-                    res = await ai.FindWordAsync(_configService.Game.boosterLetterAiSettings, clueOnly: UseCluePrototype);
+                    // Hint searches every possible length; Letter keeps its original configured limits.
+                    var settings = hintOnly
+                        ? new ComplexityAISettings { WordLength = new RangeInteger { Min = 2, Max = WordsFieldData.AMOUNT_LETTERS } }
+                        : _configService.Game.boosterLetterAiSettings;
+                    res = await ai.FindWordAsync(settings, clueOnly: hintOnly);
                     token.ThrowIfCancellationRequested();
                     if (!IsCurrentOperation(host, operationGeneration) || !screen.isActiveAndEnabled)
-                        return;
+                        return null;
                 }
             }
             catch (OperationCanceledException) when (token.IsCancellationRequested)
@@ -497,7 +572,7 @@ namespace Game.Logic
                 // A failed search has not applied AI letters; never snapshot a partial success.
                 if (!res.Success)
                     SaveCancelledMoveIfUnchanged(host, operationGeneration, cancelledBoard);
-                return;
+                return null;
             }
             catch
             {
@@ -511,42 +586,9 @@ namespace Game.Logic
                 screen.EndLetterThinking(token);
             }
             
-            if (res.Success)
-            {
-                CommitEraserRemoval();
-                TrackLetterBoosterSuccess(host, res.Word);
-                if (UseCluePrototype)
-                {
-                    _wordsFieldManager.SetModeSelect(true);
-                    host.MarkLetterPlacedByBooster();
-                    screen.GoButton.SetActive(true);
-                    screen.CancelButton.SetActive(true);
-                    screen.KeyboardPanel.HideAsync().Forget();
-                    screen.SetStatusLocalizationKey("STATUS_LABEL_CLUE_SUCCESS");
-                    _audioService?.PlaySfxAsync(SoundsConfig.BoosterFoundWord);
-                    if (!host.IsPaused && !IsSlowdownActive)
-                        screen.TimerBar.StartTimer();
-                    host.SaveRecoveryCheckpoint();
-                    return;
-                }
-
-                ShowBoosterLetterSuccess(host, res.Word);
+            if (!res.Success && cancelledMove)
                 host.SaveRecoveryCheckpoint();
-
-                await UniTask.WaitForSeconds(_configService.Game.autoApplyDelay);
-
-                if (IsCurrentOperation(host, operationGeneration) && screen.isActiveAndEnabled)
-                    await host.SaveWordAndContinueGameAsync(res.Word);
-            }
-            else
-            {
-                if (cancelledMove)
-                    host.SaveRecoveryCheckpoint();
-                TrackLetterBoosterFail(host);
-                await ShowBoosterLetterFailAsync();
-                if (IsCurrentOperation(host, operationGeneration) && !host.IsPaused && !IsSlowdownActive && screen.isActiveAndEnabled)
-                    screen.TimerBar.StartTimer();
-            }
+            return res;
         }
 
         private void SaveCancelledMoveIfUnchanged(IGameBoosterHost host, int generation, string[] cancelledBoard)
@@ -571,7 +613,7 @@ namespace Game.Logic
 
         private async UniTask ShowBoosterLetterFailAsync()
         {
-            _gameScreen.SetStatusLocalizationKey(UseCluePrototype ? "STATUS_LABEL_CLUE_FAIL" : "STATUS_LABEL_BOOSTER_FAIL");
+            _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_BOOSTER_FAIL");
             _audioService?.PlaySfxAsync(SoundsConfig.BoosterNotFoundWord);
 
             await _inventorySync.GrantBoosterAsync(BoosterType.Letter, 1);

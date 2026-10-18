@@ -60,6 +60,7 @@ namespace Core.Config
         Eraser,      // “Ластик”
         Mixer,       // “Миксер”
         Swap,        // “Менялка”
+        Hint = 6,    // “Подсказка”
     }
     
     public enum RewardType

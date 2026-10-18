@@ -23,3 +23,5 @@ MonoBehaviour:
     IconAssetKey: BoosterMixer
   - Type: 5
     IconAssetKey: BoosterSwap
+  - Type: 6
+    IconAssetKey: BoosterHint

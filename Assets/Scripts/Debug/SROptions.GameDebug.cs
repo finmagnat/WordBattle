@@ -4,6 +4,16 @@ using Core.DebugTools;
 
 public partial class SROptions
 {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+    [Category("Dev/Inventory")]
+    [DisplayName("Выдать 5 × Буковка")]
+    public void GrantLetterBoosters() => SRDebugGameSettingsBridge.Instance?.GrantLetterBoosters();
+
+    [Category("Dev/Inventory")]
+    [DisplayName("Выдать 5 × Подсказка")]
+    public void GrantHintBoosters() => SRDebugGameSettingsBridge.Instance?.GrantHintBoosters();
+#endif
+
     [Category("Dev/Game")]
     [DisplayName("Настройка времени хода"), NumberRange(GameConfig.MinDurationGameSeconds, int.MaxValue), Increment(1), Sort(1)]
     public int DurationGameSeconds
