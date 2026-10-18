@@ -615,6 +615,26 @@ MonoBehaviour:
     m_Key: STATUS_LABEL_CLUE_FAIL
     m_Metadata:
       m_Items: []
+  - m_Id: 123563091072270336
+    m_Key: STATUS_HINT_PENDING
+    m_Metadata:
+      m_Items: []
+  - m_Id: 123563091130990592
+    m_Key: STATUS_HINT_REVEAL_LENGTH
+    m_Metadata:
+      m_Items: []
+  - m_Id: 123563091130990593
+    m_Key: STATUS_HINT_REVEAL_WORD
+    m_Metadata:
+      m_Items: []
+  - m_Id: 123563091130990594
+    m_Key: STATUS_HINT_PASSED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 123563091130990595
+    m_Key: STATUS_HINT_MAXIMUM
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

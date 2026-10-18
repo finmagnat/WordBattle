@@ -27,6 +27,7 @@ namespace Core.Data
         public bool eraserSelectionPending;
         public bool swapSelectionPending;
         public float slowdownRemainingSeconds;
+        public HintState hint;             // Optional; absent in legacy saves.
         public int maxSeconds;             // время хода
         public int currentSeconds;         // текущее время хода
         

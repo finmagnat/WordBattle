@@ -69,11 +69,40 @@ namespace Game.Logic
         private bool _boosterProcessing;
         private bool _shopOpen;
         private int _operationGeneration;
+        private HintState _hint;
+        public bool IsHintActive => _hint != null;
+        internal HintState ActiveHint => _hint;
+
+        internal void RefreshHintStatus()
+        {
+            if (_hint != null && !_hint.passPending)
+                _gameScreen.SetStatusLocalizationKey("STATUS_HINT_PENDING", _hint.targetLength);
+        }
+
+        internal HintState FinishHint(string result, int playerWordLength = 0)
+        {
+            var hint = _hint;
+            _hint = null;
+            if (hint != null)
+            {
+                _analyticsReporter.TrackHintOutcome(result, hint.targetLength, playerWordLength);
+                _wordsFieldManager.WordsFieldData.Items[hint.cellIndex].SetClueHighlight(false);
+            }
+            return hint;
+        }
+
+        internal void ClearHint()
+        {
+            if (_hint != null && _wordsFieldManager?.WordsFieldData.Items != null)
+                _wordsFieldManager.WordsFieldData.Items[_hint.cellIndex].SetClueHighlight(false);
+            _hint = null;
+        }
 
         public bool IsSlowdownActive => _gameScreen != null && _gameScreen.BoosterPanel.IsActive(BoosterType.Slowdown);
 
         internal void CaptureSaveState(SaveGameData data)
         {
+            data.hint = _hint?.Copy();
             data.eraserUsedThisTurn = _bLetterRemoved;
             data.eraserRemovalCommitted = _eraserRemovalCommitted;
             data.erasedCellIndex = _erasedCell != null ? _erasedCell.Index : 0;
@@ -85,6 +114,10 @@ namespace Game.Logic
 
         internal void RestoreSaveState(SaveGameData data, IGameBoosterHost host)
         {
+            _hint = data.hint != null && data.hasPlacedLetter && data.playerTurn
+                && data.placedLetterIndex == data.hint.cellIndex && data.hint.IsValidForBoard(data.boardRows)
+                ? data.hint.Copy() : null;
+            if (_hint != null) _wordsFieldManager.WordsFieldData.Items[_hint.cellIndex].SetClueHighlight(true);
             _bLetterRemoved = data.eraserUsedThisTurn;
             _eraserRemovalCommitted = _bLetterRemoved && data.eraserRemovalCommitted;
             ClearErasedLetter();
@@ -102,6 +135,7 @@ namespace Game.Logic
 
         internal void ResumeSavedEffects(IGameBoosterHost host)
         {
+            RefreshHintStatus();
             if (_restoredSlowdownSeconds > 0)
             {
                 float seconds = _restoredSlowdownSeconds;
@@ -142,6 +176,8 @@ namespace Game.Logic
 
         public void ResetForNewGame()
         {
+            ClearHint();
+            _gameScreen?.CancelHintReveal();
             ++_operationGeneration;
             _gameScreen?.CancelLetterThinking();
             _bModeEraser = false;
@@ -161,6 +197,7 @@ namespace Game.Logic
 
         public void ResetForOpponentTurn()
         {
+            ClearHint();
             ++_operationGeneration;
             _boosterProcessing = false;
             _bLetterRemoved = false;
@@ -170,6 +207,8 @@ namespace Game.Logic
 
         public void OnGameFinished()
         {
+            ClearHint();
+            _gameScreen?.CancelHintReveal();
             ++_operationGeneration;
             _gameScreen?.CancelLetterThinking();
             CancelEraserMode();
@@ -280,6 +319,8 @@ namespace Game.Logic
 
         public async UniTask HandleUseAsync(UseBoosterEvent eventData, IGameBoosterHost host)
         {
+            if (_hint != null && (eventData.boosterType == BoosterType.Hint || eventData.boosterType == BoosterType.Letter))
+                return;
             if (eventData.isEmpty)
             {
                 // Hint has no shop offer in stage 1.
@@ -511,12 +552,18 @@ namespace Game.Logic
             {
                 CommitEraserRemoval();
                 _analyticsReporter.TrackHintBoosterSuccess(host, res.Word, _wordsFieldManager.WordsFieldData.GetBoardData());
+                _hint = new HintState
+                {
+                    active = true,
+                    targetWord = res.Word, targetLength = res.Word.Length, orderedPath = (int[])res.OrderedPath.Clone(),
+                    letter = res.InsertLetter, cellIndex = res.InsertIndex
+                };
                 _wordsFieldManager.SetModeSelect(true);
                 host.MarkLetterPlacedByBooster();
                 screen.GoButton.SetActive(true);
                 screen.CancelButton.SetActive(true);
                 screen.KeyboardPanel.HideAsync().Forget();
-                screen.SetStatusLocalizationKey("STATUS_LABEL_CLUE_SUCCESS");
+                RefreshHintStatus();
                 _audioService?.PlaySfxAsync(SoundsConfig.BoosterFoundWord);
                 if (!host.IsPaused && !IsSlowdownActive)
                     screen.TimerBar.StartTimer();

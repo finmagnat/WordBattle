@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System;
 using System.Threading;
+using Core.Data;
 using Core.Events;
 using Core.Generated;
 using Core.Services;
@@ -79,6 +81,10 @@ namespace UI.Screens
         private bool _wordInfoButtonInitialized;
         private bool _isWordInfoOpen;
         private string _statusLocalizationKey;
+        private object[] _statusArguments = Array.Empty<object>();
+        private Button _hintRevealBlock;
+        private CancellationTokenSource _hintRevealCts;
+        internal bool IsHintRevealActive => _hintRevealCts != null;
         private string _statusBeforeThinking;
         private CancellationTokenSource _letterThinkingCts;
 
@@ -91,6 +97,7 @@ namespace UI.Screens
 
         protected virtual void OnDestroy()
         {
+            CancelHintReveal();
             CancelLetterThinking();
             if (_wordText && _wordInfoButtonInitialized)
                 _wordText.OnPreRenderText -= UpdateWordInfoIconPosition;
@@ -101,7 +108,14 @@ namespace UI.Screens
 
         protected virtual void OnDisable()
         {
+            CancelHintReveal();
             CancelLetterThinking();
+        }
+
+        protected virtual void OnApplicationPause(bool paused)
+        {
+            if (paused && _roundController != null)
+                ((IGameBoosterHost)_roundController).SaveRecoveryCheckpoint();
         }
 
         public void OnPressedHome() => EventBus.Raise(new GoToHomeEvent());
@@ -149,6 +163,7 @@ namespace UI.Screens
 
         internal virtual void Reset()
         {
+            CancelHintReveal();
             CancelLetterThinking();
             SetStatusLocalizationKey("STATUS_LABEL_NEW_GAME");
             SetTextWord(string.Empty);
@@ -205,11 +220,73 @@ namespace UI.Screens
             _wordText.text += letter;
         }
 
-        internal virtual void SetStatusLocalizationKey(string localizationKey)
+        internal virtual void SetStatusLocalizationKey(string localizationKey, params object[] arguments)
         {
             _statusLocalizationKey = localizationKey;
+            _statusArguments = arguments;
             if (_letterThinkingCts == null)
-                _statusText.text = _localization.Get(LocalizationConst.TableUI, localizationKey);
+                _statusText.text = _localization.Get(LocalizationConst.TableUI, localizationKey, arguments);
+        }
+
+        internal async UniTask<bool> PlayHintRevealAsync(HintState hint, bool passed)
+        {
+            CancelHintReveal();
+            var cts = new CancellationTokenSource();
+            _hintRevealCts = cts;
+            if (_hintRevealBlock == null)
+            {
+                var go = new GameObject("Hint reveal tap blocker", typeof(RectTransform), typeof(Image), typeof(Button));
+                go.transform.SetParent(transform, false);
+                var rect = (RectTransform)go.transform;
+                rect.anchorMin = Vector2.zero; rect.anchorMax = Vector2.one;
+                rect.offsetMin = Vector2.zero; rect.offsetMax = Vector2.zero;
+                go.GetComponent<Image>().color = Color.clear;
+                _hintRevealBlock = go.GetComponent<Button>();
+                _hintRevealBlock.transition = Selectable.Transition.None;
+                _hintRevealBlock.onClick.AddListener(SkipHintReveal);
+            }
+            _hintRevealBlock.transform.SetAsLastSibling();
+            _hintRevealBlock.gameObject.SetActive(true);
+            _progressBar.StopTimer();
+            _wordsField.BeginHintReveal();
+            SetStatusLocalizationKey(passed ? "STATUS_HINT_PASSED" : "STATUS_HINT_REVEAL_LENGTH", hint.targetLength, hint.targetWord);
+            bool completed;
+            try
+            {
+                foreach (int index in hint.orderedPath)
+                {
+                    cts.Token.ThrowIfCancellationRequested();
+                    _wordsField.RevealHintCell(index);
+                    await UniTask.Delay(80, ignoreTimeScale: true, cancellationToken: cts.Token);
+                }
+                if (!passed) SetStatusLocalizationKey("STATUS_HINT_REVEAL_WORD", hint.targetWord);
+                float hold = Mathf.Clamp(3f - hint.targetLength * 0.08f, 1.5f, 2f);
+                await UniTask.Delay(TimeSpan.FromSeconds(hold), ignoreTimeScale: true, cancellationToken: cts.Token);
+            }
+            catch (OperationCanceledException) when (cts.IsCancellationRequested) { }
+            finally
+            {
+                completed = _hintRevealCts == cts && isActiveAndEnabled;
+                if (_hintRevealCts == cts)
+                {
+                    _hintRevealCts = null;
+                    _wordsField.EndHintReveal();
+                    _hintRevealBlock.gameObject.SetActive(false);
+                }
+                cts.Dispose();
+            }
+            return completed;
+        }
+
+        internal void SkipHintReveal() => _hintRevealCts?.Cancel();
+
+        internal void CancelHintReveal()
+        {
+            var cts = _hintRevealCts;
+            _hintRevealCts = null;
+            cts?.Cancel();
+            if (_hintRevealBlock != null) _hintRevealBlock.gameObject.SetActive(false);
+            if (_wordsField != null) _wordsField.EndHintReveal();
         }
 
         internal CancellationToken BeginLetterThinking()
@@ -251,7 +328,7 @@ namespace UI.Screens
             {
                 _statusText.text = string.IsNullOrEmpty(_statusLocalizationKey)
                     ? _statusBeforeThinking
-                    : _localization.Get(LocalizationConst.TableUI, _statusLocalizationKey);
+                    : _localization.Get(LocalizationConst.TableUI, _statusLocalizationKey, _statusArguments);
             }
 
             try

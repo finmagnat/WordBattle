@@ -55,7 +55,7 @@ namespace Game.AI
                 wordAlreadyUsed: wordsFieldManager.WordExist,
                 yieldEveryWordChecks: 250);
 
-            if (!result.Success)
+            if (!result.Success || _bCancel)
                 return AIWordResult.Fail();
 
             // Меняем реальное поле только после успешного поиска
@@ -77,7 +77,7 @@ namespace Game.AI
             wordsFieldManager.WordsFieldData.SetLetterItem(items[result.InsertIndex]);
 
             Debug.Log($"[SmartWordAlgorithmAsync][GetWordAsync] start = {start}, Word [{result.Word.Length}] = {result.Word}");
-            return AIWordResult.Ok(result.Word);
+            return new AIWordResult(true, result.Word, result.InsertIndex, result.InsertChar.ToString(), result.PathIndexes.ToArray());
         }
 
         private static int CountLettersOnBoard(IReadOnlyList<SelectableLetter> items)

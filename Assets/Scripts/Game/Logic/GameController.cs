@@ -57,6 +57,8 @@ namespace Game.Logic
         private bool _bLetterPut; // The local player has placed a letter.
         private bool _bModePlayOwner = true; // It is the local player's turn.
         private bool _isSavingWord;
+        private bool _isResolvingHint;
+        private int _wordSaveOperation;
         private bool _ownerPassedLastTurn;
 
         private uint _maxPasses;
@@ -150,7 +152,7 @@ namespace Game.Logic
 
         public SaveGameData GetGameData(bool cancelPendingMove = true)
         {
-            if (_bLetterPut && cancelPendingMove && !_isSavingWord)
+            if (_bLetterPut && cancelPendingMove && !_isSavingWord && !_boosterController.IsHintActive)
                 CancelAndSaveRecovery();
 
             var boardRows = _wordsFieldManager.WordsFieldData.GetBoardData();
@@ -203,7 +205,7 @@ namespace Game.Logic
             try
             {
                 // Finish any accepted-word animation before taking a manual snapshot or leaving.
-                await UniTask.WaitUntil(() => !_isSavingWord);
+                await UniTask.WaitUntil(() => !_isSavingWord && !_isResolvingHint);
                 bool wasActive = _bStart;
                 _bStart = false;
                 ++_turnGeneration;
@@ -228,6 +230,9 @@ namespace Game.Logic
 
         private void OnGameScreenStart(GameScreenStartEvent eventData)
         {
+            ++_wordSaveOperation;
+            _isSavingWord = false;
+            _isResolvingHint = false;
             bool isSavedGame = _saveGameData != null;
             ++_turnGeneration;
             ++_moveGeneration;
@@ -363,6 +368,14 @@ namespace Game.Logic
             if (_bStart)
             {
                 _boosterController.ResumeSavedEffects(this);
+                if (_boosterController.ActiveHint?.passPending == true)
+                {
+                    // Reveal is transient. A saved pending pass has not yet incremented passes.
+                    _timeExpiredStatus = _boosterController.ActiveHint.timedOut;
+                    _boosterController.ClearHint();
+                    PassedGame();
+                    return;
+                }
                 AutoSaveRound();
                 if (!_boosterController.IsSlowdownActive)
                     _gameScreen.TimerBar.StartTimer();
@@ -374,7 +387,7 @@ namespace Game.Logic
 
         private void OnGamePause(GamePauseChangedEvent eventData)
         {
-            if (!_bStart || !_bModePlayOwner)
+            if (!_bStart || !_bModePlayOwner || _isResolvingHint || _gameScreen.IsHintRevealActive)
                 return;
 
             PauseCooldownAsync().Forget();
@@ -393,6 +406,7 @@ namespace Game.Logic
                 if (!_boosterController.IsSlowdownActive)
                     _gameScreen.TimerBar.StartTimer();
                 _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OWNER");
+                _boosterController.RefreshHintStatus();
                 if (_wordsFieldManager.WordsFieldData.SelectedItem != null)
                     _gameScreen.KeyboardPanel.ShowAsync().Forget();
             }
@@ -410,7 +424,7 @@ namespace Game.Logic
 
         private async void OnGameGo(IGameEvent eventData)
         {
-            if (!_bStart || _bPause || !_bModePlayOwner || _isSavingWord)
+            if (!_bStart || _bPause || !_bModePlayOwner || _isSavingWord || _isResolvingHint)
                 return;
 
             if (!_bLetterPut)
@@ -424,7 +438,9 @@ namespace Game.Logic
             {
                 if (!_dictionaryService.Contains(word))
                 {
-                    Cancel();
+                    bool keepHint = _boosterController.IsHintActive;
+                    if (keepHint) ResetHintSelection();
+                    else Cancel();
                     int turnGeneration = _turnGeneration;
                     int moveGeneration = _moveGeneration;
                     await BlockUIAsync(true);
@@ -433,7 +449,7 @@ namespace Game.Logic
                         if (!CanResolveMoveError(turnGeneration, moveGeneration))
                             return;
                         // Rollback already writes its checkpoint before requesting the refund.
-                        if (!await _boosterController.RollbackEraserAsync(this))
+                        if (keepHint || !await _boosterController.RollbackEraserAsync(this))
                             AutoSaveRound();
                     }
                     finally
@@ -450,8 +466,11 @@ namespace Game.Logic
                         word,
                         _dictionaryService.DictionaryConfig.languageCode);
 
-                    if (CanResolveMoveError(turnGeneration, moveGeneration) && !string.IsNullOrEmpty(_lastAcceptedWord))
-                        _gameScreen.SetTextWordWithInfoIcon(_lastAcceptedWord);
+                    if (CanResolveMoveError(turnGeneration, moveGeneration))
+                    {
+                        if (keepHint) _boosterController.RefreshHintStatus();
+                        else if (!string.IsNullOrEmpty(_lastAcceptedWord)) _gameScreen.SetTextWordWithInfoIcon(_lastAcceptedWord);
+                    }
                 }
                 else
                 {
@@ -464,7 +483,7 @@ namespace Game.Logic
 
         private void OnGameCancel(IGameEvent eventData)
         {
-            if (!_bStart || _bPause || !_bLetterPut || !_bModePlayOwner || _isSavingWord)
+            if (!_bStart || _bPause || !_bLetterPut || !_bModePlayOwner || _isSavingWord || _isResolvingHint)
                 return;
 
             _analyticsReporter.TrackCancelClicked();
@@ -473,6 +492,11 @@ namespace Game.Logic
 
         private bool Cancel()
         {
+            if (_boosterController.IsHintActive)
+            {
+                _boosterController.FinishHint("cancelled");
+                _gameScreen.SetStatusLocalizationKey("STATUS_LABEL_GO_OWNER");
+            }
             bool hadPlacedLetter = _bLetterPut;
             _bLetterPut = false;
             ++_moveGeneration;
@@ -492,13 +516,13 @@ namespace Game.Logic
 
         private bool CanResolveMoveError(int turnGeneration, int moveGeneration)
         {
-            return _bStart && !_isExitingRound && _bModePlayOwner && !_isSavingWord
+            return _bStart && !_isExitingRound && _bModePlayOwner && !_isSavingWord && !_isResolvingHint
                 && turnGeneration == _turnGeneration && moveGeneration == _moveGeneration;
         }
 
         internal void OnCellSelect(CellSelectEvent eventData)
         {
-            if (!_bStart || _bPause || !_bModePlayOwner || _isSavingWord)
+            if (!_bStart || _bPause || !_bModePlayOwner || _isSavingWord || _isResolvingHint)
                 return;
 
             _wordsFieldManager.TryCellSelect(eventData);
@@ -601,6 +625,14 @@ namespace Game.Logic
             if (!CanResolveMoveError(turnGeneration, moveGeneration))
                 return;
 
+            if (_boosterController.IsHintActive)
+            {
+                ResetHintSelection();
+                _boosterController.RefreshHintStatus();
+                AutoSaveRound();
+                return;
+            }
+
             switch (eventData.GameError)
             {
                 case GameError.SetLetterNoSelected:
@@ -634,6 +666,10 @@ namespace Game.Logic
                 return;
 
             _isSavingWord = true;
+            int saveOperation = ++_wordSaveOperation;
+            int acceptedTurn = _turnGeneration;
+            var acceptedScreen = _gameScreen;
+            var hint = _bModePlayOwner ? _boosterController.ActiveHint?.Copy() : null;
             
             try
             {
@@ -668,26 +704,43 @@ namespace Game.Logic
                 }
                 finally
                 {
-                    if (wordsField)
+                    if (wordsField && acceptedTurn == _turnGeneration)
                         wordsField.SetInputLocked(false);
                 }
 
+                if (!_bStart || acceptedTurn != _turnGeneration || acceptedScreen != _gameScreen)
+                    return;
                 _wordsFieldManager.SaveWord(word);
                 _wordsFieldManager.Clear();
 
                 _bLetterPut = false;
 
-                CheckFinishGame();
+                bool reveal = hint != null && word.Length < hint.targetLength;
+                if (hint != null)
+                {
+                    _boosterController.FinishHint(reveal ? "shorter_word" : "max_word", word.Length);
+                    if (!reveal) _gameScreen.SetStatusLocalizationKey("STATUS_HINT_MAXIMUM");
+                }
+
+                // Switch ownership and persist committed score/history BEFORE any informational reveal.
+                CheckFinishGame(deferContinuation: reveal);
+                if (reveal && _bStart)
+                {
+                    int generation = _turnGeneration;
+                    bool completed = await _gameScreen.PlayHintRevealAsync(hint, passed: false);
+                    if (completed && _bStart && !_isExitingRound && generation == _turnGeneration)
+                        ContinueCurrentTurn().Forget();
+                }
             }
             finally
             {
-                _isSavingWord = false;
+                if (saveOperation == _wordSaveOperation) _isSavingWord = false;
             }
         }
 
         private void OnGameSkip(IGameEvent eventData)
         {
-            if (!_bStart || _bPause || !_bModePlayOwner || _isSavingWord)
+            if (!_bStart || _bPause || !_bModePlayOwner || _isSavingWord || _isResolvingHint)
                 return;
 
             if (_gameOpponent == GameOpponent.AI)
@@ -711,11 +764,11 @@ namespace Game.Logic
                     return;
             }
 
-            if (!_bStart || _isExitingRound || generation != _turnGeneration)
+            if (!_bStart || _isExitingRound || _isResolvingHint || _isSavingWord || generation != _turnGeneration)
                 return;
 
             _boosterController.StopSlowdown();
-            PassedGame();
+            await RevealHintAndPassAsync(timedOut: false);
         }
 
         private void OnRepeatGame(RepeatGameEvent eventData)
@@ -737,7 +790,7 @@ namespace Game.Logic
 
         private void OnTimeExpired(IGameEvent eventData)
         {
-            if (!_bStart || _isExitingRound || _isSavingWord)
+            if (!_bStart || _isExitingRound || _isSavingWord || _isResolvingHint)
                 return;
             if (_gameOpponent == GameOpponent.AI)
                 _analyticsReporter.TrackTimeExpired(GetGameSnapshotParams(), _bModePlayOwner);
@@ -752,7 +805,42 @@ namespace Game.Logic
             _gameScreen.StatisticsPanel.HideAsync().Forget();
             _gameScreen.KeyboardPanel.HideAsync().Forget();
 
-            PassedGame();
+            RevealHintAndPassAsync(timedOut: true).Forget();
+        }
+
+        private void ResetHintSelection()
+        {
+            ++_moveGeneration;
+            _pendingBlinkLetter = null;
+            _wordsFieldManager.ClearWordSelection();
+            _gameScreen.WordsField.ClearDragSelection();
+            _gameScreen.SetTextWord("");
+        }
+
+        private async UniTask RevealHintAndPassAsync(bool timedOut)
+        {
+            if (_isResolvingHint) return;
+            var hint = _boosterController.ActiveHint;
+            if (hint == null) { PassedGame(); return; }
+            _isResolvingHint = true;
+            int generation = _turnGeneration;
+            _gameScreen.TimerBar.StopTimer();
+            hint.passPending = true;
+            hint.timedOut = timedOut;
+            _boosterController.StopSlowdown();
+            AutoSaveRound();
+            try
+            {
+                bool completed = await _gameScreen.PlayHintRevealAsync(hint, passed: true);
+                if (!completed || !_bStart || _isExitingRound || generation != _turnGeneration) return;
+                _boosterController.FinishHint(timedOut ? "timeout" : "skipped");
+                _isResolvingHint = false;
+                PassedGame();
+            }
+            finally
+            {
+                if (generation == _turnGeneration || !_bStart) _isResolvingHint = false;
+            }
         }
 
         private void PassedGame()
@@ -792,7 +880,7 @@ namespace Game.Logic
             CheckFinishGame(wasPass: true);
         }
 
-        private void CheckFinishGame(bool wasPass = false)
+        private void CheckFinishGame(bool wasPass = false, bool deferContinuation = false)
         {
             bool shouldAutoMix = !_bModePlayOwner && wasPass && _ownerPassedLastTurn;
             _ownerPassedLastTurn = _bModePlayOwner && wasPass;
@@ -822,11 +910,11 @@ namespace Game.Logic
                         _audioService?.PlaySfxAsync(SoundsConfig.BoosterSlowdownLaunch);
                 }
 
-                SwitchPlayer();
+                SwitchPlayer(deferContinuation);
             }
         }
 
-        private void SwitchPlayer()
+        private void SwitchPlayer(bool deferContinuation = false)
         {
             ++_turnGeneration;
             _bModePlayOwner = !_bModePlayOwner;
@@ -837,7 +925,7 @@ namespace Game.Logic
             // Board, scores, passes, auto-mix and next-turn ownership are now committed.
             // Save before launching AI, which may mutate the board during its search.
             AutoSaveRound();
-            ContinueCurrentTurn().Forget();
+            if (!deferContinuation) ContinueCurrentTurn().Forget();
         }
 
         private async UniTaskVoid ContinueCurrentTurn()
@@ -1104,7 +1192,7 @@ namespace Game.Logic
 
         private async void OnActivateBooster(UseBoosterEvent eventData)
         {
-            if (_isSavingWord)
+            if (_isSavingWord || _isResolvingHint)
                 return;
 
             if (_gameOpponent == GameOpponent.AI)

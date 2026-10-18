@@ -32,7 +32,7 @@ namespace Tests.AutoRecovery
     // Editor-only integration suite. The coordinator selects an empty scene BEFORE Play Mode.
     // Real controllers, events, field operations, AI, animations and recovery storage are used.
     // Only external services (inventory server, profile, audio/skins and popup routing) are isolated.
-    public static class AutoRecoveryPlayModeSuite
+    public static partial class AutoRecoveryPlayModeSuite
     {
         public const string ScenePath = "Assets/Scenes/Tests/AutoRecoveryTests.unity";
         public const string ActiveKey = "Wordlet.RecoveryTests.Active";
@@ -121,6 +121,7 @@ namespace Tests.AutoRecovery
         private static async UniTask FirstSession()
         {
             await BoosterSeparationCases();
+            await HintLifecycleCases();
             await NewRound();
             var initial = _fixture.Load();
             Check(initial != null && initial.playerTurn && !initial.hasPlacedLetter && initial.playerScore == 0, "A: initial checkpoint exists before any move");
@@ -508,6 +509,7 @@ namespace Tests.AutoRecovery
         private static async UniTask SecondSession()
         {
             await NewRound(null, false, "bootstrap");
+            await HintAfterRestartCases();
             var initial = _fixture.LoadFrom(Path.Combine(_root, "restart-initial"));
             await NewRound(initial, true);
             Check(_fixture.Board().SequenceEqual(initial.boardRows) && _fixture.Game.GetGameData(false).playerTurn && _fixture.Network.Consumes == 0, "A: Stop/Play restores initial round without inventory calls");
@@ -860,6 +862,22 @@ namespace Tests.AutoRecovery
                 await UniTask.Delay(400);
             }
             public void OnlyUsedWordInDictionary() => SetWords(new[] { "STONE" });
+            public void HintWords(params string[] words) => SetWords(words);
+            public void SelectWord(string word)
+            {
+                Manager.ClearWordSelection();
+                _screen.SetTextWord("");
+                int placed = Manager.WordsFieldData.PlacedLetterIndex;
+                foreach (int start in Enumerable.Range(0, 25))
+                {
+                    var path = new List<int>();
+                    if (!FindPath(word, 0, start, path) || !path.Contains(placed)) continue;
+                    foreach (int index in path) EventBus.Raise(new LetterSelectEvent { letter = Cells[index] });
+                    return;
+                }
+                throw new Exception("No test path for " + word);
+            }
+            public int MissingWordCount => _ui.MissingWords;
             private void SetWords(string[] words)
             {
                 Set(Dictionary, "_words", new HashSet<string>(words));
@@ -938,6 +956,14 @@ namespace Tests.AutoRecovery
                 public UniTask<T> ShowPopupAsync<T>(AssetKey key) where T : UIPopup => throw new NotSupportedException(typeof(T).Name);
                 public async UniTask<T> ShowPopupAsync<T, TPayload>(AssetKey key, TPayload payload) where T : UIPopup<TPayload>
                 {
+                    if (typeof(T) == typeof(ConfirmPassPopup))
+                    {
+                        var popup = _owner.Clone<ConfirmPassPopup>("Assets/UI/Popups/MessagePopups/ConfirmPassPopup.prefab");
+                        var completion = new UniTaskCompletionSource<PopupExitData>();
+                        completion.TrySetResult(new PopupExitData { Result = PopupResult.Confirm });
+                        Set(popup, "_completionSource", completion);
+                        return (T)(object)popup;
+                    }
                     if (typeof(T) == typeof(AdvicePopup))
                     {
                         var popup = _owner.Clone<AdvicePopup>("Assets/UI/Popups/MessagePopups/AdvicePopup.prefab");

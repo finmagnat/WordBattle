@@ -9,7 +9,14 @@ namespace Core.Services
     {
         public static string Serialize(SaveGameData data) => JsonUtility.ToJson(data, false);
 
-        public static SaveGameData Deserialize(string json) => JsonUtility.FromJson<SaveGameData>(json);
+        public static SaveGameData Deserialize(string json)
+        {
+            var data = JsonUtility.FromJson<SaveGameData>(json);
+            // JsonUtility serializes null inline classes as default-valued objects.
+            // Normalize that representation as well as saves predating Hint entirely.
+            if (data?.hint != null && !data.hint.active) data.hint = null;
+            return data;
+        }
 
         public static void WriteAtomic(string path, SaveGameData data)
         {

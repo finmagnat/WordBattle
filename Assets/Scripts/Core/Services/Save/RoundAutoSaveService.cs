@@ -98,7 +98,8 @@ namespace Core.Services
                 data.playerScore != data.playerWords.Sum(word => (long)word.Length) ||
                 data.opponentScore != data.opponentWords.Sum(word => (long)word.Length) ||
                 (!string.IsNullOrEmpty(data.lastWord) && !data.playerWords.Contains(data.lastWord) && !data.opponentWords.Contains(data.lastWord)) ||
-                data.maxSeconds < GameConfig.MinDurationGameSeconds || data.currentSeconds < 0 || data.currentSeconds >= data.maxSeconds ||
+                data.maxSeconds < GameConfig.MinDurationGameSeconds || data.currentSeconds < 0 || data.currentSeconds > data.maxSeconds ||
+                (data.currentSeconds == data.maxSeconds && !(data.hint?.passPending == true && data.hint.timedOut)) ||
                 data.winsInSeries < 0 || !Enum.IsDefined(typeof(ComplexityAI), data.levelComplexityAI))
                 throw new InvalidDataException("Unsupported version, locale, mode or inconsistent round state.");
 
@@ -113,6 +114,10 @@ namespace Core.Services
                 (!data.playerTurn && (data.hasPlacedLetter || data.eraserUsedThisTurn || data.eraserSelectionPending ||
                     data.swapSelectionPending || data.slowdownRemainingSeconds > 0)))
                 throw new InvalidDataException("Invalid pending letter or booster state.");
+
+            if (data.hint != null && (!data.playerTurn || !data.hasPlacedLetter || data.placedLetterIndex != data.hint.cellIndex
+                || !data.hint.IsValidForBoard(data.boardRows)))
+                throw new InvalidDataException("Invalid active Hint state.");
 
             var complexity = _config.Game.GetComplexityAIItem((ComplexityAI)data.levelComplexityAI);
             if (complexity.СomplexityAiLevel != (ComplexityAI)data.levelComplexityAI || (complexity.MaxPasses > 0 &&

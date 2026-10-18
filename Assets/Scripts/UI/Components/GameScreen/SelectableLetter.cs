@@ -242,7 +242,7 @@ namespace UI.Components
             SkinSpriteKey key = state switch
             {
                 HighlightState.SelectedCell => SkinSpriteKey.CellSelectedAlias,
-                HighlightState.Highlighted => SkinSpriteKey.LettersSelectedAlias,
+                HighlightState.Highlighted => _isClue ? SkinSpriteKey.CellSelectedAlias : SkinSpriteKey.LettersSelectedAlias,
                 _ => Empty()
                     ? SkinSpriteKey.CellBackgroundDefaultAlias
                     : SkinSpriteKey.CellBackgroundFilledAlias
