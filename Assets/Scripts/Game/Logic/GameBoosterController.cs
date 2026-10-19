@@ -323,9 +323,7 @@ namespace Game.Logic
                 return;
             if (eventData.isEmpty)
             {
-                // Hint has no shop offer in stage 1.
-                if (eventData.boosterType != BoosterType.Hint)
-                    await ShowShopAsync(host);
+                await ShowShopAsync(host);
                 return;
             }
 

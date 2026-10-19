@@ -55,3 +55,9 @@ MonoBehaviour:
     LabelLocaleKeys:
     - Swap_TEXT_001
     - Swap_TEXT_002
+  - BoosterType: 6
+    RewardType: 6
+    Count: 1
+    Weight: 3
+    LabelLocaleKeys:
+    - Hint_TEXT_001

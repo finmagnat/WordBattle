@@ -123,10 +123,28 @@ namespace Core.Config
         public int WinsInSeries = 3;
         
         [Tooltip("Награды за победу")]
-        public List<RewardDto> WinRewards = new ();
+        public List<WeightedBoosterReward> WinRewards = new ();
         public List<RewardDto> GetWinReward()
         {
-            return new List<RewardDto> { WinRewards[Random.Range(0, WinRewards.Count)] };
+            int totalWeight = 0;
+            foreach (var reward in WinRewards) totalWeight += Mathf.Max(0, reward.Weight);
+            if (totalWeight <= 0) return new List<RewardDto>();
+            int roll = Random.Range(0, totalWeight);
+            foreach (var reward in WinRewards)
+            {
+                int weight = Mathf.Max(0, reward.Weight);
+                if (roll < weight) return new List<RewardDto> { new() { ItemId = reward.ItemId, Amount = reward.Amount } };
+                roll -= weight;
+            }
+            return new List<RewardDto>();
         }
+    }
+
+    [System.Serializable]
+    public sealed class WeightedBoosterReward
+    {
+        public BoosterType ItemId;
+        public int Amount;
+        [Min(0)] public int Weight = 1;
     }
 }

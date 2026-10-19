@@ -55,6 +55,10 @@ MonoBehaviour:
     m_Key: Eraser_TEXT_003
     m_Metadata:
       m_Items: []
+  - m_Id: 18529172099317760
+    m_Key: Hint_TEXT_001
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

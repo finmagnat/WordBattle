@@ -9,7 +9,8 @@ var DailyBonusBoosterKeys = {
     Slowdown: "boost_slow",
     Eraser: "boost_eraser",
     Mixer: "boost_mixer",
-    Swap: "boost_swap"
+    Swap: "boost_swap",
+    Hint: "boost_hint"
 };
 
 function getStarterBonusState(data) {
@@ -27,6 +28,7 @@ function getStarterBonusGifts() {
         "boost_eraser": 1,
         "boost_mixer": 1,
         "boost_swap": 1,
+        "boost_hint": 1,
     };
 }
 
@@ -281,6 +283,9 @@ function normalizeDailyBonusBoosterType(value) {
 
     if (normalized === "swap" || normalized === "boost_swap" || normalized === "5")
         return "Swap";
+
+    if (normalized === "hint" || normalized === "boost_hint" || normalized === "6")
+        return "Hint";
 
     return "";
 }
@@ -765,7 +770,7 @@ handlers.AddBooster = function (args, context) {
 };
 
 handlers.GrantPack = function (args, context) {
-    // args: { source, productId, receiptJson, signature, currencyCode, purchasePrice, transactionId, debugSecret }
+    // args: { source, productId, receiptJson, signature, currencyCode, purchasePrice, transactionId, debugSecret, sessionTicket }
 
     var source = args.source || "";
     var productId = args.productId;
@@ -787,16 +792,75 @@ handlers.GrantPack = function (args, context) {
         }
     }
     else if (source === "google") {
-        // --- REAL validate ---
-        server.ValidateGooglePlayPurchase({
-            ReceiptJson: args.receiptJson,
-            Signature: args.signature,
-            CurrencyCode: args.currencyCode || "USD",
-            PurchasePrice: args.purchasePrice || 0
-        });
+        var receipt = JSON.parse(args.receiptJson || "{}");
+        if (receipt.productId !== productId || !receipt.purchaseToken || !transactionId)
+            throw "Receipt does not match the product or transaction is missing";
     }
     else {
         throw "Unknown purchase source";
+    }
+
+    // Resolve the configured payload before consuming a receipt in PlayFab.
+    var rewards = null;
+    if (productId !== "remove_interstitial_ads") {
+        var td = server.GetTitleData({ Keys: ["shop_rewards"] });
+        if (!td.Data || !td.Data.shop_rewards)
+            throw "TitleData shop_rewards is missing";
+
+        var rewardsMap = JSON.parse(td.Data.shop_rewards);
+        rewards = rewardsMap[productId];
+        if (!rewards)
+            throw "Unknown productId: " + productId;
+
+    }
+
+    // Use the signed purchase token for Google; retries cannot change the grant identity.
+    if (!transactionId) throw "Missing purchase transaction";
+    var token = source === "google" ? "google:" + receipt.purchaseToken : "debug:" + transactionId;
+    var ledgerKey = "purchase_tokens_v2";
+    var ledgerData = server.GetUserReadOnlyData({ PlayFabId: currentPlayerId, Keys: [ledgerKey] });
+    var ledger = ledgerData.Data && ledgerData.Data[ledgerKey]
+        ? JSON.parse(ledgerData.Data[ledgerKey].Value) : [];
+    for (var entry = 0; entry < ledger.length; entry++) {
+        if (ledger[entry].token === token) {
+            if (ledger[entry].productId !== productId) throw "Purchase token product mismatch";
+            return { ok: true, duplicate: true, productId: productId };
+        }
+    }
+    // Retain compatibility with transactions recorded by the previous revision.
+    var legacy = server.GetUserInternalData({ PlayFabId: currentPlayerId, Keys: ["purchase_tokens"] });
+    var used = legacy.Data && legacy.Data.purchase_tokens ? JSON.parse(legacy.Data.purchase_tokens.Value) : [];
+    if (used.indexOf(transactionId) >= 0)
+        return { ok: true, duplicate: true, productId: productId };
+
+    // Legacy CloudScript exposes Server APIs only. Receipt validation is a Client
+    // API, so invoke its authenticated HTTPS endpoint after checking ticket ownership.
+    // Never log the ticket, request body, signature or HTTP response.
+    var validationKey = "shop_validated_receipts";
+    var validationData = server.GetUserInternalData({ PlayFabId: currentPlayerId, Keys: [validationKey] });
+    var validated = validationData.Data && validationData.Data[validationKey]
+        ? JSON.parse(validationData.Data[validationKey].Value) : [];
+    var proof = validated.filter(function (item) { return item.token === token && item.productId === productId; });
+    if (source === "google" && proof.length === 0) {
+        if (!args.sessionTicket) throw "Purchase session is missing";
+        var auth = server.AuthenticateSessionTicket({ SessionTicket: args.sessionTicket });
+        if (auth.IsSessionTicketExpired || !auth.UserInfo || auth.UserInfo.PlayFabId !== currentPlayerId)
+            throw "Purchase session belongs to another player or has expired";
+        if (validated.length >= 50) throw "Too many pending validated purchases";
+        var response = JSON.parse(http.request(
+            "https://" + script.titleId + ".playfabapi.com/Client/ValidateGooglePlayPurchase",
+            "post", JSON.stringify({
+                ReceiptJson: args.receiptJson, Signature: args.signature,
+                CurrencyCode: args.currencyCode || "USD", PurchasePrice: args.purchasePrice || 0
+            }), "application/json", { "X-Authorization": args.sessionTicket }, false));
+        if (response.code !== 200 || response.error)
+            throw "Google receipt validation failed: " + (response.error || response.code);
+        // Keep verified-but-unfulfilled receipts across a wallet write failure.
+        // ReceiptAlreadyUsed alone is never accepted as proof of this player's purchase.
+        validated.push({ token: token, productId: productId });
+        var validationUpdate = {};
+        validationUpdate[validationKey] = JSON.stringify(validated);
+        server.UpdateUserInternalData({ PlayFabId: currentPlayerId, Data: validationUpdate });
     }
 
     // --- special: remove interstitial ads entitlement ---
@@ -806,34 +870,13 @@ handlers.GrantPack = function (args, context) {
             Data: { "no_interstitial_ads": "1" }
         });
 
+        if (source === "google") {
+            var entitlementCleanup = {};
+            entitlementCleanup[validationKey] = JSON.stringify(validated.filter(function (item) { return item.token !== token; }));
+            server.UpdateUserInternalData({ PlayFabId: currentPlayerId, Data: entitlementCleanup });
+        }
+
         return { ok: true, productId: productId, entitlement: "no_interstitial_ads" };
-    }
-
-    // --- rewards from TitleData ---
-    var td = server.GetTitleData({ Keys: ["shop_rewards"] });
-    if (!td.Data || !td.Data.shop_rewards)
-        throw "TitleData shop_rewards is missing";
-
-    var rewardsMap = JSON.parse(td.Data.shop_rewards);
-    var rewards = rewardsMap[productId];
-    if (!rewards)
-        throw "Unknown productId: " + productId;
-
-    // --- idempotency by transactionId (для google обязательно) ---
-    // Для debug можно тоже, но не критично.
-    if (transactionId) {
-        var tokenKey = "purchase_tokens";
-        var internal = server.GetUserInternalData({ PlayFabId: currentPlayerId, Keys: [tokenKey] });
-        var used = [];
-        if (internal.Data && internal.Data[tokenKey] && internal.Data[tokenKey].Value) {
-            try { used = JSON.parse(internal.Data[tokenKey].Value); } catch (e) { used = []; }
-        }
-        if (used.indexOf(transactionId) >= 0) {
-            return { ok: true, duplicate: true, productId: productId };
-        }
-        used.unshift(transactionId);
-        if (used.length > 50) used = used.slice(0, 50);
-        server.UpdateUserInternalData({ PlayFabId: currentPlayerId, Data: { [tokenKey]: JSON.stringify(used) } });
     }
 
     // --- apply rewards to UserReadOnlyData ---
@@ -854,7 +897,18 @@ handlers.GrantPack = function (args, context) {
         totals[k] = total;
     }
 
+    // Commit balances and the consumed identity in the same write. A failed update
+    // must not permanently mark an ungranted purchase as consumed.
+    ledger.unshift({ token: token, productId: productId });
+    if (ledger.length > 50) ledger = ledger.slice(0, 50);
+    update[ledgerKey] = JSON.stringify(ledger);
     server.UpdateUserReadOnlyData({ PlayFabId: currentPlayerId, Data: update });
+
+    if (source === "google") {
+        var clearValidation = {};
+        clearValidation[validationKey] = JSON.stringify(validated.filter(function (item) { return item.token !== token; }));
+        server.UpdateUserInternalData({ PlayFabId: currentPlayerId, Data: clearValidation });
+    }
 
     return { ok: true, duplicate: false, productId: productId, totals: totals };
 };

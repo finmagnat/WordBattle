@@ -120,6 +120,7 @@ namespace Tests.AutoRecovery
 
         private static async UniTask FirstSession()
         {
+            await EconomyCases();
             await BoosterSeparationCases();
             await HintLifecycleCases();
             await NewRound();
@@ -315,8 +316,8 @@ namespace Tests.AutoRecovery
                 "Booster IDs preserve all legacy serialized values; Hint is 6");
             Check(PlayFabInventoryKeys.ToKey(BoosterType.Letter) == "boost_letter" && PlayFabInventoryKeys.ToKey(BoosterType.Hint) == "boost_hint"
                 && PlayFabInventoryKeys.GetKeys().Distinct().Count() == 6, "Letter and Hint have independent server inventory keys");
-            Check(RewardedBoosterCatalog.All.Count == 5 && !RewardedBoosterCatalog.TryGetPlayFabKey(BoosterType.Hint, out _),
-                "Hint is excluded from the existing rewarded-ad catalog");
+            Check(RewardedBoosterCatalog.All.Count == 6 && RewardedBoosterCatalog.GetPlayFabKey(BoosterType.Hint) == "boost_hint",
+                "Hint stage 3 uses the generic rewarded-ad catalog alongside all legacy boosters");
 
             await NewRound();
             var buttons = _fixture.Screen.BoosterPanel.GetComponentsInChildren<BoosterUI>(true);
@@ -934,6 +935,8 @@ namespace Tests.AutoRecovery
             private sealed class TestUI : IUIManager
             {
                 private readonly Fixture _owner;
+                public int RewardPopups;
+                public RewardPopupData LastReward;
                 public int MissingWords;
                 public AdvicePopup Advice;
                 public bool HoldAdvice;
@@ -956,6 +959,12 @@ namespace Tests.AutoRecovery
                 public UniTask<T> ShowPopupAsync<T>(AssetKey key) where T : UIPopup => throw new NotSupportedException(typeof(T).Name);
                 public async UniTask<T> ShowPopupAsync<T, TPayload>(AssetKey key, TPayload payload) where T : UIPopup<TPayload>
                 {
+                    if (typeof(T) == typeof(RewardPopup))
+                    {
+                        RewardPopups++;
+                        LastReward = (RewardPopupData)(object)payload;
+                        return null;
+                    }
                     if (typeof(T) == typeof(ConfirmPassPopup))
                     {
                         var popup = _owner.Clone<ConfirmPassPopup>("Assets/UI/Popups/MessagePopups/ConfirmPassPopup.prefab");

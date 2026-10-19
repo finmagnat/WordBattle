@@ -78,9 +78,16 @@ MonoBehaviour:
   WinRewards:
   - ItemId: 1
     Amount: 1
+    Weight: 1
   - ItemId: 2
     Amount: 1
+    Weight: 1
   - ItemId: 3
     Amount: 1
+    Weight: 1
   - ItemId: 5
     Amount: 1
+    Weight: 1
+  - ItemId: 6
+    Amount: 1
+    Weight: 1

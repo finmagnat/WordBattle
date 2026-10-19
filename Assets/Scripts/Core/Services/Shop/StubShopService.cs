@@ -5,8 +5,6 @@ using Core.Config;
 using Core.Data;
 using Cysharp.Threading.Tasks;
 using Core.Services.Inventory;
-using PlayFab;
-using PlayFab.ClientModels;
 using Zenject;
 
 namespace Core.Services.Shop
@@ -20,19 +18,21 @@ namespace Core.Services.Shop
 #endif
         
         private readonly ShopCatalog _catalog;
+        private readonly PlayFabShopGateway _gateway;
         private readonly InventorySyncService _inventorySync;
         private readonly RewardedBoosterGrantService _rewardGrant;
         private readonly LocalizationService _localization;
         private readonly AdsEntitlementService _adsEntitlement;
         
         [Inject]
-        public StubShopService(ConfigService configService, 
+        public StubShopService(ConfigService configService, PlayFabShopGateway gateway,
             InventorySyncService inventorySync, 
             RewardedBoosterGrantService rewardGrant,
             LocalizationService localization,
             AdsEntitlementService adsEntitlement)
         {
             _catalog = configService.Shop;
+            _gateway = gateway;
             _inventorySync = inventorySync;
             _rewardGrant = rewardGrant;
             _localization = localization;
@@ -74,27 +74,14 @@ namespace Core.Services.Shop
         {
             if (offer == null) return PurchaseResult.Fail("Offer is null");
             
-            if (offer.Type == ShopOfferTypeDto.IapPack && offer.ProductId == ShopCatalog.RemoveInterstitialProductId)
-            {
-                // ✅ применяем сразу в этой сессии
-                _adsEntitlement.SetNoInterstitialAdsLocal(true);
-
-                // опционально: пишем на сервер (если PlayFab доступен и ты хочешь чтобы в Editor тоже записывалось)
-                _adsEntitlement.SetNoInterstitialAdsAsync(true).Forget();
-
-                return PurchaseResult.Ok();
-            }
-            
             switch (offer.Type)
             {
                 case ShopOfferTypeDto.IapPack:
                     return await PurchaseAsync(offer.ProductId);
 
                 case ShopOfferTypeDto.RewardedAd:
-                    if (!_rewardGrant.TryShowAndGrant(offer.RewardType, offer.Rewards, out string error))
-                        return PurchaseResult.Fail(error);
-
-                    return PurchaseResult.Ok();
+                    return await _rewardGrant.ShowAndGrantAsync(offer.RewardType, offer.Rewards)
+                        ? PurchaseResult.Ok() : PurchaseResult.Fail("Reward was not granted");
 
                 default:
                     return PurchaseResult.Fail("Unknown offer type");
@@ -114,11 +101,14 @@ namespace Core.Services.Shop
                 return PurchaseResult.Fail("Debug purchases disabled");
 #endif
 
-                await PlayFabShopGateway.GrantPackOnServerAsync(
+                await _gateway.GrantPackOnServerAsync(
                     source: "debug",
                     productId: productId,
+                    transactionId: Guid.NewGuid().ToString("N"),
                     debugSecret: DEBUG_SECRET
                 );
+
+                if (pack.DisableInterstitialAds) _adsEntitlement.SetNoInterstitialAdsLocal(true);
 
                 // подтягиваем серверный источник истины
                 await _inventorySync.SyncFromServerAsync();
@@ -132,26 +122,5 @@ namespace Core.Services.Shop
             }
         }
 
-        private static UniTask<ExecuteCloudScriptResult> ExecuteCloudScriptAsync(ExecuteCloudScriptRequest request)
-        {
-            var tcs = new UniTaskCompletionSource<ExecuteCloudScriptResult>();
-
-            PlayFabClientAPI.ExecuteCloudScript(
-                request,
-                r =>
-                {
-                    if (r.Error != null)
-                    {
-                        var msg = r.Error.Message ?? r.Error.Message ?? "Unknown CloudScript error";
-                        tcs.TrySetException(new Exception($"CloudScript error: {msg}"));
-                        return;
-                    }
-                    tcs.TrySetResult(r);
-                },
-                e => tcs.TrySetException(new Exception(e.GenerateErrorReport()))
-            );
-
-            return tcs.Task;
-        }
     }
 }

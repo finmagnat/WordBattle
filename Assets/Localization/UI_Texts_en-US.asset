@@ -704,13 +704,17 @@ MonoBehaviour:
     m_Localized: Great! You found a longest word.
     m_Metadata:
       m_Items: []
+  - m_Id: 123604662618570752
+    m_Localized: 'Hint '
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
     - rid: 2966611432632221985
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries:
+        m_Entries: 
         m_SharedEntries:
         - id: 123563091072270336
         - id: 123563091130990592

@@ -36,7 +36,7 @@ namespace Core.Services
     /// - CooldownSeconds: 0 = выкл
     /// Хранение: PlayerPrefs
     /// </summary>
-    public sealed class RewardedLimitsService : IService
+    public class RewardedLimitsService : IService
     {
         [Inject] private IConfigService _configs;
         private ShopCatalog _shop => _configs.Shop;
@@ -112,7 +112,7 @@ namespace Core.Services
         }
 
         /// <summary>Вызывать только после УСПЕШНОГО начисления награды (GrantBoosterAsync ok).</summary>
-        public void RegisterSuccessfulClaim(RewardType type)
+        public virtual void RegisterSuccessfulClaim(RewardType type)
         {
             var cfg = GetConfig(type);
             if (cfg == null)

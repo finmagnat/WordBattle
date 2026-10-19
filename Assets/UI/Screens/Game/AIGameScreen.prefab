@@ -1584,7 +1584,7 @@ MonoBehaviour:
   _infiniteText: {fileID: 2573774189608000444}
   _useEmpty: 1
   _emptyGO: {fileID: 3746242317170106909}
-  _isAutoDisable: 1
+  _isAutoDisable: 0
   _button: {fileID: 1881699886151279496}
 --- !u!114 &3220808711564850859
 MonoBehaviour:

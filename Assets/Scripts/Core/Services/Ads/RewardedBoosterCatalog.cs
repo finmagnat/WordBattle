@@ -28,6 +28,7 @@ namespace Core.Services
             new(RewardType.Eraser, BoosterType.Eraser, "boost_eraser"),
             new(RewardType.Mixer, BoosterType.Mixer, "boost_mixer"),
             new(RewardType.Swap, BoosterType.Swap, "boost_swap"),
+            new(RewardType.Hint, BoosterType.Hint, "boost_hint"),
         };
 
         public static IReadOnlyList<RewardedBoosterDefinition> All => Definitions;

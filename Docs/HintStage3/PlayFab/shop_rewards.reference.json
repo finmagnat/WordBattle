@@ -1,0 +1,25 @@
+{
+  "wordlet_pack_best": {
+    "boost_letter": 5,
+    "boost_slow": 5,
+    "boost_eraser": 5,
+    "boost_swap": 5,
+    "boost_mixer": 5,
+    "boost_hint": 5
+  },
+  "wordlet_pack_hint_10": {
+    "boost_letter": 10
+  },
+  "wordlet_pack_slowtime_10": {
+    "boost_slow": 10
+  },
+  "wordlet_pack_eraser_10": {
+    "boost_eraser": 10
+  },
+  "wordlet_pack_mixer_10": {
+    "boost_mixer": 10
+  },
+  "wordlet_pack_swap_10": {
+    "boost_swap": 10
+  }
+}

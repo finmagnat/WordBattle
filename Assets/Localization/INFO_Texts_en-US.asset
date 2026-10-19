@@ -90,7 +90,9 @@ MonoBehaviour:
       <b>\xABEraser\xBB</b> \u2014 lets you fix the board\n\n<size=200%><voffset=-20><sprite
       name=\"swap\"></voffset></size> <b>\xABSwap\xBB</b> \u2014 helps customize
       the board\n\n<size=200%><voffset=-20><sprite name=\"mixer\"></voffset></size>
-      <b>\xABMixer\xBB</b> \u2014 changes the board and creates new possibilities\n</line-height>"
+      <b>\xABMixer\xBB</b> \u2014 changes the board and creates new possibilities\n\n<size=200%><voffset=-20><sprite
+      name=\"hint\"></voffset></size> <b>\xABHint\xBB</b> \u2014 reveals a word step
+      by step\n</line-height>"
     m_Metadata:
       m_Items: []
   references:

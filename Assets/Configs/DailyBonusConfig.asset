@@ -51,6 +51,8 @@ MonoBehaviour:
     Rewards:
     - ItemId: 3
       Amount: 1
+    - ItemId: 6
+      Amount: 1
     ChestDrops: []
   - Day: 7
     RewardKind: 1
@@ -59,12 +61,12 @@ MonoBehaviour:
     - Weight: 70
       Mode: 0
       Multiplier: 2
-      Pool: 0100000003000000020000000400000005000000
+      Pool: 010000000300000002000000040000000500000006000000
       Rewards: []
     - Weight: 20
       Mode: 0
       Multiplier: 3
-      Pool: 0100000003000000020000000400000005000000
+      Pool: 010000000300000002000000040000000500000006000000
       Rewards: []
     - Weight: 10
       Mode: 1
@@ -80,4 +82,6 @@ MonoBehaviour:
       - ItemId: 4
         Amount: 1
       - ItemId: 5
+        Amount: 1
+      - ItemId: 6
         Amount: 1

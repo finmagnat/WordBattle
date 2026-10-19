@@ -25,25 +25,40 @@ namespace Core.Services
 
         public UniTask InitializeAsync() => UniTask.CompletedTask;
 
-        public bool TryShowAndGrant(
-            RewardType rewardType,
-            IReadOnlyList<RewardDto> rewards,
-            out string error)
+        private bool _pending;
+
+        public async UniTask<bool> ShowAndGrantAsync(RewardType rewardType, IReadOnlyList<RewardDto> rewards)
         {
-            if (!TryCreateRewardSnapshot(rewards, out var rewardSnapshot, out error))
-                return false;
-
-            if (rewardType == RewardType.None)
+            if (_pending || rewardType == RewardType.None ||
+                !TryCreateRewardSnapshot(rewards, out var snapshot, out _)) return false;
+            _pending = true;
+            var completion = new UniTaskCompletionSource<bool>();
+            bool earned = false;
+            bool closed = false;
+            void OnClosed(RewardType type)
             {
-                error = "Reward type is not configured";
-                return false;
+                if (type != rewardType) return;
+                closed = true;
+                if (!earned) completion.TrySetResult(false);
             }
-
-            if (_ads.ShowFor(rewardType, _ => GrantAsync(rewardType, rewardSnapshot).Forget()))
-                return true;
-
-            error = "Rewarded ad is not ready";
-            return false;
+            async UniTaskVoid OnEarned()
+            {
+                if (earned || closed) return;
+                earned = true;
+                try { completion.TrySetResult(await GrantAsync(rewardType, snapshot)); }
+                catch (Exception exception) { completion.TrySetException(exception); }
+            }
+            _ads.OnClosed += OnClosed;
+            try
+            {
+                if (!_ads.ShowFor(rewardType, _ => OnEarned().Forget())) return false;
+                return await completion.Task;
+            }
+            finally
+            {
+                _ads.OnClosed -= OnClosed;
+                _pending = false;
+            }
         }
 
         private static bool TryCreateRewardSnapshot(
@@ -88,7 +103,7 @@ namespace Core.Services
             return true;
         }
 
-        private async UniTaskVoid GrantAsync(RewardType rewardType, IReadOnlyList<RewardDto> rewards)
+        private async UniTask<bool> GrantAsync(RewardType rewardType, IReadOnlyList<RewardDto> rewards)
         {
             int totalGranted = 0;
 
@@ -118,10 +133,11 @@ namespace Core.Services
             }
 
             if (totalGranted <= 0)
-                return;
+                return false;
 
             _limits.RegisterSuccessfulClaim(rewardType);
             OnRewardGranted?.Invoke(rewardType, totalGranted);
+            return true;
         }
     }
 }

@@ -71,5 +71,6 @@ namespace Core.Config
         Eraser, 
         Mixer,
         Swap, 
+        Hint = 6,
     }
 }

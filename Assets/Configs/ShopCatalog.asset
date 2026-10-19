@@ -23,6 +23,9 @@ MonoBehaviour:
     - ItemId: 1
       Amount: 5
       SpriteIcon: {fileID: 6511328444101842867, guid: e6099a093ace1c247857c73a2ad38c72, type: 3}
+    - ItemId: 6
+      Amount: 5
+      SpriteIcon: {fileID: 21300000, guid: 1e3432c92c4321c4c88cd706ed0d168b, type: 3}
     - ItemId: 2
       Amount: 5
       SpriteIcon: {fileID: 4367881216958779277, guid: 6c1ef6c4e84015049a957c6c49895482, type: 3}
@@ -49,13 +52,30 @@ MonoBehaviour:
     SpriteHeader: {fileID: -6270924561285312550, guid: c8918636c83b7d34090e6abce6a0780f, type: 3}
     Description: 
     Rewards:
-    - ItemId: 1
+    - ItemId: 6
       Amount: 1
-      SpriteIcon: {fileID: 6511328444101842867, guid: e6099a093ace1c247857c73a2ad38c72, type: 3}
+      SpriteIcon: {fileID: 21300000, guid: 1e3432c92c4321c4c88cd706ed0d168b, type: 3}
+    ProductId: 
+    DebugPriceText: "\u2014"
+    DebugAvailable: 1
+    RewardType: 6
+    DailyLimit: 3
+    CooldownSeconds: 45
+    DisableInterstitialAds: 0
+    IsNonConsumable: 0
+  - IsActive: 0
+    Type: 1
+    Title: STORE_TITLE_FREE
+    SpriteHeader: {fileID: -6270924561285312550, guid: c8918636c83b7d34090e6abce6a0780f, type: 3}
+    Description: 
+    Rewards:
+    - ItemId: 6
+      Amount: 1
+      SpriteIcon: {fileID: 21300000, guid: 1e3432c92c4321c4c88cd706ed0d168b, type: 3}
     ProductId: 
     DebugPriceText: 
     DebugAvailable: 1
-    RewardType: 1
+    RewardType: 6
     DailyLimit: 2
     CooldownSeconds: 30
     DisableInterstitialAds: 0
@@ -131,10 +151,27 @@ MonoBehaviour:
   - IsActive: 1
     Type: 0
     Title: STORE_TITLE_LETTER
-    SpriteHeader: {fileID: -1436280531840284944, guid: ace7fad1a2c5257409bdd30cb0e938e8, type: 3}
+    SpriteHeader: {fileID: 5331672064956558429, guid: 1a17aa1a1d793b649b0a6d495cecf623, type: 3}
     Description: 
     Rewards:
     - ItemId: 1
+      Amount: 10
+      SpriteIcon: {fileID: 6511328444101842867, guid: e6099a093ace1c247857c73a2ad38c72, type: 3}
+    ProductId: pack_letter_10
+    DebugPriceText: 30
+    DebugAvailable: 1
+    RewardType: 0
+    DailyLimit: 0
+    CooldownSeconds: 0
+    DisableInterstitialAds: 0
+    IsNonConsumable: 0
+  - IsActive: 1
+    Type: 0
+    Title: STORE_TITLE_HINT
+    SpriteHeader: {fileID: -1436280531840284944, guid: ace7fad1a2c5257409bdd30cb0e938e8, type: 3}
+    Description: 
+    Rewards:
+    - ItemId: 6
       Amount: 10
       SpriteIcon: {fileID: 6511328444101842867, guid: e6099a093ace1c247857c73a2ad38c72, type: 3}
     ProductId: wordlet_pack_hint_10

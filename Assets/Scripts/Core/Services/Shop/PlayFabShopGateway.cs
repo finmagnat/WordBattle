@@ -6,9 +6,9 @@ using PlayFab.ClientModels;
 
 namespace Core.Services.Shop
 {
-    public static class PlayFabShopGateway
+    public class PlayFabShopGateway
     {
-        public static UniTask<ExecuteCloudScriptResult> GrantPackOnServerAsync(
+        public virtual UniTask<ExecuteCloudScriptResult> GrantPackOnServerAsync(
             string source,
             string productId,
             string receiptJson = null,
@@ -29,6 +29,7 @@ namespace Core.Services.Shop
 
             if (source == "google")
             {
+                param["sessionTicket"] = PlayFabSettings.staticPlayer.ClientSessionTicket;
                 param["receiptJson"] = receiptJson ?? "";
                 param["signature"] = signature ?? "";
                 param["currencyCode"] = currencyCode ?? "USD";
@@ -44,7 +45,8 @@ namespace Core.Services.Shop
                 {
                     FunctionName = "GrantPack",
                     FunctionParameter = param,
-                    GeneratePlayStreamEvent = true
+                    // Google parameters include a session credential; never mirror them to PlayStream.
+                    GeneratePlayStreamEvent = source != "google"
                 },
                 r =>
                 {
@@ -52,6 +54,12 @@ namespace Core.Services.Shop
                     {
                         var msg = r.Error.Message ?? r.Error.Message ?? "Unknown CloudScript error";
                         tcs.TrySetException(new Exception($"CloudScript error: {msg}"));
+                        return;
+                    }
+                    if (!(r.FunctionResult is IDictionary<string, object> payload) ||
+                        !payload.TryGetValue("ok", out var accepted) || !(accepted is bool ok) || !ok)
+                    {
+                        tcs.TrySetException(new Exception("Pack was not accepted by the server"));
                         return;
                     }
                     tcs.TrySetResult(r);
