@@ -773,12 +773,12 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 30
+    m_Top: 26
     m_Bottom: 0
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 160, y: 160}
+  m_CellSize: {x: 158, y: 160}
   m_Spacing: {x: -4, y: -4}
   m_Constraint: 2
   m_ConstraintCount: 5
@@ -6391,11 +6391,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI.Components.BoosterPanel
   _boosters:
   - {fileID: 4016657662885717333}
+  - {fileID: 3982165103090414495}
   - {fileID: 2717863494069946447}
   - {fileID: 5502961486353466636}
   - {fileID: 7718248886064114649}
   - {fileID: 4990964508237763228}
-  - {fileID: 0}
 --- !u!1 &8201738996378773544
 GameObject:
   m_ObjectHideFlags: 0
@@ -8443,6 +8443,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7177033595194083885, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
   m_PrefabInstance: {fileID: 5553571475508478777}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3982165103090414495 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8813898260889858214, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}
+  m_PrefabInstance: {fileID: 5553571475508478777}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6652333404944007752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2415c84cfc2f414488ece859effacf26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.Components.BoosterUI
 --- !u!1 &6652333404944007752 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1244095384994431345, guid: 7edf54bc1ab017e46958f2a78054fd91, type: 3}

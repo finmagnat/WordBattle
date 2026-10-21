@@ -1550,6 +1550,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI.Components.BoosterPanelUI
   _boosters:
   - {fileID: 8310868147329963982}
+  - {fileID: 5793867413917389079}
   - {fileID: 4737596755765137112}
   - {fileID: 45252156743304399}
   - {fileID: 8708319383008689910}
@@ -2715,6 +2716,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2851240913853264630, guid: 890455b27ecbff74d8e9a958b2389c67, type: 3}
   m_PrefabInstance: {fileID: 6973150720007546327}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5793867413917389079 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3504477900878312640, guid: 890455b27ecbff74d8e9a958b2389c67, type: 3}
+  m_PrefabInstance: {fileID: 6973150720007546327}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 663d7e7945b24d7db1ce777e6465f862, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.Components.StartPopupBoosterUI
 --- !u!1001 &8150735992205244952
 PrefabInstance:
   m_ObjectHideFlags: 0
