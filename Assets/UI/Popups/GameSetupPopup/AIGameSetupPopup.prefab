@@ -2693,6 +2693,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3504477900878312640, guid: 890455b27ecbff74d8e9a958b2389c67, type: 3}
+      propertyPath: Type
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4708022725743987599, guid: 890455b27ecbff74d8e9a958b2389c67, type: 3}
       propertyPath: m_Name
       value: BoosterItemHint
