@@ -103,6 +103,11 @@ MonoBehaviour:
     m_GlyphIndex: 12
     m_Scale: 1
     m_Name: time
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 13
+    m_Scale: 1
+    m_Name: hint
   m_GlyphTable:
   - m_Index: 0
     m_Metrics:
@@ -128,8 +133,8 @@ MonoBehaviour:
       m_HorizontalBearingY: 128
       m_HorizontalAdvance: 128
     m_GlyphRect:
-      m_X: 4
-      m_Y: 140
+      m_X: 140
+      m_Y: 4
       m_Width: 128
       m_Height: 128
     m_Scale: 1
@@ -145,7 +150,7 @@ MonoBehaviour:
       m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 4
-      m_Y: 276
+      m_Y: 140
       m_Width: 128
       m_Height: 128
     m_Scale: 1
@@ -160,8 +165,8 @@ MonoBehaviour:
       m_HorizontalBearingY: 128
       m_HorizontalAdvance: 128
     m_GlyphRect:
-      m_X: 4
-      m_Y: 412
+      m_X: 140
+      m_Y: 140
       m_Width: 128
       m_Height: 128
     m_Scale: 1
@@ -176,8 +181,8 @@ MonoBehaviour:
       m_HorizontalBearingY: 128
       m_HorizontalAdvance: 128
     m_GlyphRect:
-      m_X: 4
-      m_Y: 548
+      m_X: 140
+      m_Y: 276
       m_Width: 128
       m_Height: 128
     m_Scale: 1
@@ -193,7 +198,7 @@ MonoBehaviour:
       m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 4
-      m_Y: 684
+      m_Y: 412
       m_Width: 128
       m_Height: 128
     m_Scale: 1
@@ -208,8 +213,8 @@ MonoBehaviour:
       m_HorizontalBearingY: 128
       m_HorizontalAdvance: 128
     m_GlyphRect:
-      m_X: 4
-      m_Y: 820
+      m_X: 140
+      m_Y: 412
       m_Width: 128
       m_Height: 128
     m_Scale: 1
@@ -225,7 +230,7 @@ MonoBehaviour:
       m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 4
-      m_Y: 956
+      m_Y: 548
       m_Width: 128
       m_Height: 128
     m_Scale: 1
@@ -240,8 +245,8 @@ MonoBehaviour:
       m_HorizontalBearingY: 128
       m_HorizontalAdvance: 128
     m_GlyphRect:
-      m_X: 4
-      m_Y: 1092
+      m_X: 140
+      m_Y: 548
       m_Width: 128
       m_Height: 128
     m_Scale: 1
@@ -257,7 +262,7 @@ MonoBehaviour:
       m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 4
-      m_Y: 1228
+      m_Y: 684
       m_Width: 128
       m_Height: 128
     m_Scale: 1
@@ -272,8 +277,8 @@ MonoBehaviour:
       m_HorizontalBearingY: 128
       m_HorizontalAdvance: 128
     m_GlyphRect:
-      m_X: 4
-      m_Y: 1364
+      m_X: 140
+      m_Y: 684
       m_Width: 128
       m_Height: 128
     m_Scale: 1
@@ -289,7 +294,7 @@ MonoBehaviour:
       m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 4
-      m_Y: 1500
+      m_Y: 820
       m_Width: 128
       m_Height: 128
     m_Scale: 1
@@ -304,8 +309,24 @@ MonoBehaviour:
       m_HorizontalBearingY: 128
       m_HorizontalAdvance: 128
     m_GlyphRect:
+      m_X: 140
+      m_Y: 820
+      m_Width: 128
+      m_Height: 128
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: 0}
+  - m_Index: 13
+    m_Metrics:
+      m_Width: 128
+      m_Height: 128
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 128
+      m_HorizontalAdvance: 128
+    m_GlyphRect:
       m_X: 4
-      m_Y: 1636
+      m_Y: 276
       m_Width: 128
       m_Height: 128
     m_Scale: 1

@@ -16,11 +16,11 @@ MonoBehaviour:
   m_TableCollectionNameGuidString: 8c1b72ee1ea77804c86ea6aa2d8c3b1e
   m_Entries:
   - m_Id: 29429649408
-    m_Key: Letter_TEXT_001
+    m_Key: Hint_TEXT_001
     m_Metadata:
       m_Items: []
   - m_Id: 632839000064
-    m_Key: Letter_TEXT_002
+    m_Key: Hint_TEXT_002
     m_Metadata:
       m_Items: []
   - m_Id: 832752111616
@@ -56,7 +56,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 18529172099317760
-    m_Key: Hint_TEXT_001
+    m_Key: Hint_TEXT_003
     m_Metadata:
       m_Items: []
   m_Metadata:

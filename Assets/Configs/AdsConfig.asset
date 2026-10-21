@@ -20,13 +20,6 @@ MonoBehaviour:
   InterstitialAd: ca-app-pub-8216303467519012/8664733002
   TestAd: ca-app-pub-3940256099942544/5224354917
   AdsRewardItems:
-  - BoosterType: 1
-    RewardType: 1
-    Count: 1
-    Weight: 1
-    LabelLocaleKeys:
-    - Letter_TEXT_001
-    - Letter_TEXT_002
   - BoosterType: 2
     RewardType: 2
     Count: 1
@@ -61,3 +54,5 @@ MonoBehaviour:
     Weight: 3
     LabelLocaleKeys:
     - Hint_TEXT_001
+    - Hint_TEXT_002
+    - Hint_TEXT_003
