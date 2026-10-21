@@ -27,13 +27,13 @@ namespace Core.Services.Inventory
         /// Скачивает бустеры с PlayFab и перезаписывает локальный инвентарь.
         /// PlayFab — источник истины.
         /// </summary>
-        public async UniTask SyncFromServerAsync()
+        public virtual async UniTask SyncFromServerAsync()
         {
-            var keys = RewardedBoosterCatalog.GetPlayFabKeys();
+            var keys = PlayFabInventoryKeys.GetKeys();
             var result = await GetUserReadOnlyDataAsync(keys);
 
-            foreach (var definition in RewardedBoosterCatalog.All)
-                _inventory.SetQuantity(definition.BoosterType, ReadInt(result.Data, definition.PlayFabKey));
+            foreach (var definition in PlayFabInventoryKeys.All)
+                _inventory.SetQuantity(definition.Key, ReadInt(result.Data, definition.Value));
 
             HasServerSnapshot = true;
             InventoryChanged?.Invoke();

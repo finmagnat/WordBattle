@@ -62,7 +62,7 @@ namespace Core.Config.EditorTools
             _jsonPreview = DailyBonusTitleDataJsonExporter.ToJson(config);
         }
 
-        private static class DailyBonusTitleDataJsonExporter
+        public static class DailyBonusTitleDataJsonExporter
         {
             public static string ToJson(DailyBonusConfig config)
             {

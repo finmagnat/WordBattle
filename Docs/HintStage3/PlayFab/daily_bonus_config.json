@@ -1,0 +1,142 @@
+{
+    "cycleLength": 7,
+    "days": [
+        {
+            "day": 1,
+            "rewardKind": "fixed",
+            "rewards": [
+                {
+                    "boosterType": "Letter",
+                    "amount": 1
+                }
+            ],
+            "chestDrops": []
+        },
+        {
+            "day": 2,
+            "rewardKind": "fixed",
+            "rewards": [
+                {
+                    "boosterType": "Slowdown",
+                    "amount": 1
+                }
+            ],
+            "chestDrops": []
+        },
+        {
+            "day": 3,
+            "rewardKind": "fixed",
+            "rewards": [
+                {
+                    "boosterType": "Eraser",
+                    "amount": 1
+                }
+            ],
+            "chestDrops": []
+        },
+        {
+            "day": 4,
+            "rewardKind": "fixed",
+            "rewards": [
+                {
+                    "boosterType": "Swap",
+                    "amount": 1
+                }
+            ],
+            "chestDrops": []
+        },
+        {
+            "day": 5,
+            "rewardKind": "fixed",
+            "rewards": [
+                {
+                    "boosterType": "Mixer",
+                    "amount": 1
+                }
+            ],
+            "chestDrops": []
+        },
+        {
+            "day": 6,
+            "rewardKind": "fixed",
+            "rewards": [
+                {
+                    "boosterType": "Eraser",
+                    "amount": 1
+                },
+                {
+                    "boosterType": "Hint",
+                    "amount": 1
+                }
+            ],
+            "chestDrops": []
+        },
+        {
+            "day": 7,
+            "rewardKind": "chest",
+            "rewards": [],
+            "chestDrops": [
+                {
+                    "weight": 70,
+                    "mode": "randomSingle",
+                    "multiplier": 2,
+                    "pool": [
+                        "Letter",
+                        "Eraser",
+                        "Slowdown",
+                        "Mixer",
+                        "Swap",
+                        "Hint"
+                    ],
+                    "rewards": []
+                },
+                {
+                    "weight": 20,
+                    "mode": "randomSingle",
+                    "multiplier": 3,
+                    "pool": [
+                        "Letter",
+                        "Eraser",
+                        "Slowdown",
+                        "Mixer",
+                        "Swap",
+                        "Hint"
+                    ],
+                    "rewards": []
+                },
+                {
+                    "weight": 10,
+                    "mode": "jackpot",
+                    "multiplier": 1,
+                    "pool": [],
+                    "rewards": [
+                        {
+                            "boosterType": "Letter",
+                            "amount": 1
+                        },
+                        {
+                            "boosterType": "Eraser",
+                            "amount": 1
+                        },
+                        {
+                            "boosterType": "Slowdown",
+                            "amount": 1
+                        },
+                        {
+                            "boosterType": "Mixer",
+                            "amount": 1
+                        },
+                        {
+                            "boosterType": "Swap",
+                            "amount": 1
+                        },
+                        {
+                            "boosterType": "Hint",
+                            "amount": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -15,6 +15,12 @@ MonoBehaviour:
   m_GroupName: Boosters
   m_GUID: 701778b074944094da15f05d6f2a4cf6
   m_SerializeEntries:
+  - m_GUID: 1e3432c92c4321c4c88cd706ed0d168b
+    m_Address: BoosterHint
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Booster
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 33f11c9f5f4a4e24ea3c7e6e06a159a8
     m_Address: BoosterEraser
     m_ReadOnly: 0

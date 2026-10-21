@@ -107,6 +107,8 @@ namespace Game.Logic
             _bModeSelectWord = value;
         }
 
+        internal void ClearWordSelection() => _wordsFildData.ClearWordSelection();
+
         internal bool Filled()
         {
             return _wordsFildData.Filled();

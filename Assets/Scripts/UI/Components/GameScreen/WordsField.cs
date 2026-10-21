@@ -25,6 +25,8 @@ namespace UI.Components
         private bool _isDragging;
         private bool _isInputLocked;
         private Sequence _acceptedWordSequence;
+        private readonly List<Tween> _hintTweens = new();
+        private readonly Dictionary<Transform, Vector3> _hintScales = new();
         private readonly List<SelectableLetter> _dragPath = new();
         private readonly HashSet<int> _dragVisited = new();
         
@@ -38,6 +40,7 @@ namespace UI.Components
         
         public List<SelectableLetter> InitField()
         {
+            EndHintReveal();
             _acceptedWordSequence?.Kill();
             _acceptedWordSequence = null;
             _isDragging = false;
@@ -112,6 +115,38 @@ namespace UI.Components
         public void EndDragSelection()
         {
             _isDragging = false;
+        }
+
+        internal void ClearDragSelection()
+        {
+            EndDragSelection();
+            _dragPath.Clear();
+            _dragVisited.Clear();
+        }
+
+        internal void BeginHintReveal()
+        {
+            SetInputLocked(true);
+            ClearDragSelection();
+            foreach (var cell in _items) cell.UnHighlight();
+        }
+
+        internal void RevealHintCell(int index)
+        {
+            var cell = _items[index];
+            cell.Highlight();
+            if (!_hintScales.ContainsKey(cell.transform)) _hintScales[cell.transform] = cell.transform.localScale;
+            _hintTweens.Add(cell.transform.DOPunchScale(Vector3.one * 0.06f, 0.2f, 3).SetUpdate(true));
+        }
+
+        internal void EndHintReveal()
+        {
+            foreach (var tween in _hintTweens) tween.Kill();
+            _hintTweens.Clear();
+            foreach (var pair in _hintScales) if (pair.Key) pair.Key.localScale = pair.Value;
+            _hintScales.Clear();
+            foreach (var cell in _items) if (cell) cell.UnHighlight();
+            SetInputLocked(false);
         }
 
         public async UniTask PlayAcceptedWordScaleAnimationAsync(IReadOnlyList<int> selectedIndexes)
@@ -238,6 +273,7 @@ namespace UI.Components
 
         private void OnDisable()
         {
+            EndHintReveal();
             _acceptedWordSequence?.Kill();
             _acceptedWordSequence = null;
             _isInputLocked = false;

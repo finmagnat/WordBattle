@@ -40,6 +40,28 @@ namespace Game.Logic
                     boardData));
         }
 
+        public void TrackHintBoosterSuccess(IGameBoosterHost host, string word, string[] boardData)
+        {
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.HintBoosterSuccess,
+                _payloadFactory.CreateLetterBoosterSuccessPayload(word, host.LocaleCode, boardData));
+        }
+
+        public void TrackHintBoosterFail(IGameBoosterHost host, float currentTimerValue, string[] boardData)
+        {
+            TrackHintOutcome("search_failed", 0, 0);
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.HintBoosterFail,
+                _payloadFactory.CreateLetterBoosterFailPayload(host.LocaleCode, host.RoundDurationSeconds, currentTimerValue, boardData));
+        }
+
+        public void TrackHintOutcome(string result, int targetLength, int playerWordLength)
+        {
+            _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.HintBoosterResult,
+                new System.Collections.Generic.Dictionary<string, object>
+                {
+                    ["result"] = result, ["target_length"] = targetLength, ["player_word_length"] = playerWordLength
+                });
+        }
+
         public void TrackEraserBoosterShown(IGameBoosterHost host, string[] boardData)
         {
             _analytics.TrackEvent(AnalyticsEvents.BoosterUsage.EraserBoosterShown,

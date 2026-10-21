@@ -227,6 +227,13 @@ namespace Core.Data
             _setItem = null;
         }
 
+        internal void ClearWordSelection()
+        {
+            _items?.ForEach(item => item.UnHighlight());
+            _selectedIndex.Clear();
+            _selectedItem = null;
+        }
+
         /// <summary>
         /// Отменить.
         /// Убирается выделение и установленная, но еще не зафиксированная буква.

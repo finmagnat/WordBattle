@@ -96,6 +96,7 @@ namespace Core.Installers
             Container.BindInterfacesAndSelfTo<ReportWordLimitsService>().AsSingle().NonLazy();
             Container.Bind<ShowWordInfoPresenter>().AsSingle();
 
+            Container.Bind<PlayFabShopGateway>().AsSingle();
 #if UNITY_ANDROID && !UNITY_EDITOR
             Container.Bind<IShopService>().To<GooglePlayShopService>().AsSingle().NonLazy();
 #else

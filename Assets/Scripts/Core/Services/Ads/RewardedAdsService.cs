@@ -8,7 +8,7 @@ using Zenject;
 
 namespace Core.Services
 {
-    public sealed class RewardedAdsService : IService
+    public class RewardedAdsService : IService
     {
         private RewardedAd _ad;
         private bool _loading;
@@ -56,7 +56,7 @@ namespace Core.Services
         public bool ShowFor(RewardType rewardType)
             => ShowFor(rewardType, null);
 
-        public bool ShowFor(RewardType rewardType, Action<RewardType> onRewardEarned)
+        public virtual bool ShowFor(RewardType rewardType, Action<RewardType> onRewardEarned)
         {
             if (!IsSupported(rewardType))
                 return false;
@@ -259,9 +259,11 @@ namespace Core.Services
 
             NotifyShowingChanged(false);
             NotifyAvailabilityChanged(false);
-            OnClosed?.Invoke(rewardType);
+            NotifyClosed(rewardType);
             EnsureSharedLoaded(rewardType, reloadReason);
         }
+
+        protected void NotifyClosed(RewardType type) => OnClosed?.Invoke(type);
 
         private static bool IsSupported(RewardType type)
             => RewardedBoosterCatalog.TryGetBoosterType(type, out _);

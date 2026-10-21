@@ -32,7 +32,7 @@ namespace Tests.AutoRecovery
     // Editor-only integration suite. The coordinator selects an empty scene BEFORE Play Mode.
     // Real controllers, events, field operations, AI, animations and recovery storage are used.
     // Only external services (inventory server, profile, audio/skins and popup routing) are isolated.
-    public static class AutoRecoveryPlayModeSuite
+    public static partial class AutoRecoveryPlayModeSuite
     {
         public const string ScenePath = "Assets/Scenes/Tests/AutoRecoveryTests.unity";
         public const string ActiveKey = "Wordlet.RecoveryTests.Active";
@@ -120,6 +120,9 @@ namespace Tests.AutoRecovery
 
         private static async UniTask FirstSession()
         {
+            await EconomyCases();
+            await BoosterSeparationCases();
+            await HintLifecycleCases();
             await NewRound();
             var initial = _fixture.Load();
             Check(initial != null && initial.playerTurn && !initial.hasPlacedLetter && initial.playerScore == 0, "A: initial checkpoint exists before any move");
@@ -168,8 +171,8 @@ namespace Tests.AutoRecovery
 
             await NewRound();
             await _fixture.Erase();
-            await _fixture.Use(BoosterType.Letter);
-            Check(_fixture.Load().hasPlacedLetter && _fixture.Load().eraserRemovalCommitted, "Actual AI letter hint commits eraser");
+            await _fixture.Use(BoosterType.Hint);
+            Check(_fixture.Load().hasPlacedLetter && _fixture.Load().eraserRemovalCommitted, "Actual Hint booster commits eraser");
             EventBus.Raise(new GameCancelEvent());
             var hintCancelled = _fixture.Board();
             Check(!_fixture.Load().hasPlacedLetter && _fixture.Load().eraserRemovalCommitted, "Cancelling successful hint preserves eraser commitment");
@@ -234,10 +237,10 @@ namespace Tests.AutoRecovery
             _fixture.Place("Q");
             _fixture.Checkpoint();
             _fixture.Network.FailRefund = true;
-            await _fixture.Use(BoosterType.Letter);
+            await _fixture.Use(BoosterType.Hint);
             Check(!_fixture.Load().hasPlacedLetter && !_fixture.Load().boardRows.Contains("Q"), "Failed real word search + failed refund saves cancelled provisional letter");
             noChangeTicks = _fixture.Load().savedAtUtcTicks;
-            await _fixture.Use(BoosterType.Letter);
+            await _fixture.Use(BoosterType.Hint);
             Check(_fixture.Load().savedAtUtcTicks == noChangeTicks, "Failed letter search without state changes does not rewrite checkpoint");
             var failedLetter = _fixture.Load();
             await NewRound(failedLetter, true);
@@ -255,7 +258,7 @@ namespace Tests.AutoRecovery
 
             // Real player acceptance, scale animation, score/history update and turn switch.
             _fixture.Network.FailConsume = false;
-            await _fixture.Use(BoosterType.Letter);
+            await _fixture.Use(BoosterType.Hint);
             _fixture.SelectHintPath();
             _fixture.Config.Game.delayAIPlaySeconds = 30;
             EventBus.Raise(new GameGoEvent());
@@ -304,6 +307,67 @@ namespace Tests.AutoRecovery
             seed.playerScore = 2;
             seed.lastWord = "AS";
             await _fixture.RestartRound(seed);
+        }
+
+        private static async UniTask BoosterSeparationCases()
+        {
+            Check((int)BoosterType.None == 0 && (int)BoosterType.Letter == 1 && (int)BoosterType.Slowdown == 2
+                && (int)BoosterType.Eraser == 3 && (int)BoosterType.Mixer == 4 && (int)BoosterType.Swap == 5 && (int)BoosterType.Hint == 6,
+                "Booster IDs preserve all legacy serialized values; Hint is 6");
+            Check(PlayFabInventoryKeys.ToKey(BoosterType.Letter) == "boost_letter" && PlayFabInventoryKeys.ToKey(BoosterType.Hint) == "boost_hint"
+                && PlayFabInventoryKeys.GetKeys().Distinct().Count() == 6, "Letter and Hint have independent server inventory keys");
+            Check(RewardedBoosterCatalog.All.Count == 6 && RewardedBoosterCatalog.GetPlayFabKey(BoosterType.Hint) == "boost_hint",
+                "Hint stage 3 uses the generic rewarded-ad catalog alongside all legacy boosters");
+
+            await NewRound();
+            var buttons = _fixture.Screen.BoosterPanel.GetComponentsInChildren<BoosterUI>(true);
+            Check(buttons.Length == 6 && buttons.Select(x => x.Type).Distinct().Count() == 6,
+                "Actual gameplay prefab has six distinct booster buttons");
+            // A restrictive Letter config must not cap Hint's longest-word search.
+            _fixture.Config.Game.boosterLetterAiSettings.WordLength.Max = 2;
+            await _fixture.ClickBooster(BoosterType.Hint);
+            var hint = _fixture.Game.GetGameData(false);
+            int placed = _fixture.Cells.FindIndex(x => (bool)Get(x, "_isClue"));
+            Check(hint.playerTurn && hint.playerWords.Count == 0 && hint.hasPlacedLetter && placed >= 0
+                && _fixture.SelectedIndexes.Count == 0 && _fixture.Screen.GetTextWord() == "",
+                "Hint click places only its clue letter without selecting or accepting the word");
+            Check(_fixture.Cells.Where(x => x.Index != placed).All(x => Get(x, "_highlightState").ToString() == "None"),
+                "Hint never highlights the rest of its word");
+            Check(_fixture.Inventory.GetQuantity(BoosterType.Hint) == 19 && _fixture.Inventory.GetQuantity(BoosterType.Letter) == 20,
+                "Hint click consumes Hint only");
+            var hintEvent = _fixture.Analytics.Events.Single(x => x.Name == AnalyticsEvents.BoosterUsage.HintBoosterSuccess);
+            Check(Convert.ToInt32(hintEvent.Parameters[AnalyticsEvents.Parameter.WordLength]) > 2
+                && !_fixture.Analytics.Events.Any(x => x.Name == AnalyticsEvents.BoosterUsage.LetterBoosterSuccess),
+                "Hint searches beyond Letter limits and logs its own success event");
+            EventBus.Raise(new LetterSelectEvent { letter = _fixture.Cells[placed] });
+            EventBus.Raise(new LetterBacktrackEvent());
+            Check(Get(_fixture.Cells[placed], "_highlightState").ToString() == "SelectedCell", "Hint highlight survives path backtracking");
+            EventBus.Raise(new GameCancelEvent());
+            Check(!_fixture.Game.GetGameData(false).hasPlacedLetter && _fixture.Board()[placed] == ""
+                && !(bool)Get(_fixture.Cells[placed], "_isClue") && _fixture.Inventory.GetQuantity(BoosterType.Hint) == 19,
+                "Normal Cancel removes clue without refunding the consumed Hint");
+
+            await NewRound();
+            _fixture.Config.Game.delayAIPlaySeconds = 30;
+            await _fixture.ClickBooster(BoosterType.Letter);
+            var letter = _fixture.Game.GetGameData(false);
+            Check(!letter.playerTurn && letter.playerWords.Count == 1 && letter.playerScore == letter.playerWords[0].Length,
+                "Letter click restores pre-prototype auto-selection and auto-acceptance");
+            Check(_fixture.Inventory.GetQuantity(BoosterType.Letter) == 19 && _fixture.Inventory.GetQuantity(BoosterType.Hint) == 20,
+                "Letter click consumes Letter only");
+            Check(_fixture.Analytics.Events.Any(x => x.Name == AnalyticsEvents.BoosterUsage.LetterBoosterSuccess)
+                && !_fixture.Analytics.Events.Any(x => x.Name == AnalyticsEvents.BoosterUsage.HintBoosterSuccess),
+                "Letter keeps its original analytics identity");
+
+            foreach (var type in new[] { BoosterType.Letter, BoosterType.Hint })
+            {
+                await NewRound();
+                _fixture.OnlyUsedWordInDictionary();
+                await _fixture.Use(type);
+                Check(_fixture.Inventory.GetQuantity(BoosterType.Letter) == 20 && _fixture.Inventory.GetQuantity(BoosterType.Hint) == 20
+                    && _fixture.Network.Refunds(type) == 1 && _fixture.Network.TotalRefunds == 1,
+                    type + " failed search refunds only the activated booster");
+            }
         }
 
         private static async UniTask CancellationConsistencyCases()
@@ -424,7 +488,7 @@ namespace Tests.AutoRecovery
             _fixture.PrepareLongWordSearch();
             _fixture.Place("Q");
             _fixture.Checkpoint();
-            var search = _fixture.Use(BoosterType.Letter);
+            var search = _fixture.Use(BoosterType.Hint);
             await _fixture.CancelActiveSearch();
             await search;
             Check(!_fixture.Load().hasPlacedLetter && !_fixture.Load().boardRows.Contains("Q"), "Audit: cancellation of a real in-flight letter search checkpoints its cancelled provisional move");
@@ -446,6 +510,7 @@ namespace Tests.AutoRecovery
         private static async UniTask SecondSession()
         {
             await NewRound(null, false, "bootstrap");
+            await HintAfterRestartCases();
             var initial = _fixture.LoadFrom(Path.Combine(_root, "restart-initial"));
             await NewRound(initial, true);
             Check(_fixture.Board().SequenceEqual(initial.boardRows) && _fixture.Game.GetGameData(false).playerTurn && _fixture.Network.Consumes == 0, "A: Stop/Play restores initial round without inventory calls");
@@ -513,6 +578,9 @@ namespace Tests.AutoRecovery
             public readonly TestManualSave Manual;
             public readonly string RecoveryPath;
             public readonly DictionaryService Dictionary = new DictionaryService(null);
+            public readonly RecordingAnalytics Analytics = new RecordingAnalytics();
+            public AIGameScreen Screen => _screen;
+            public List<int> SelectedIndexes => Manager.WordsFieldData.GetSelectedIndexesSnapshot();
             public List<SelectableLetter> Cells => Manager.WordsFieldData.Items;
             private WordsFieldManager Manager => (WordsFieldManager)Get(Game, "_wordsFieldManager");
             private readonly Dictionary<Type, object> _services = new Dictionary<Type, object>();
@@ -540,7 +608,7 @@ namespace Tests.AutoRecovery
                 var localization = new LocalizationService();
                 Recovery = new RoundAutoSaveService(Config, localization, directory);
                 Manual = new TestManualSave(Game, Path.Combine(directory, "manual.json"));
-                var analytics = new AnalyticsService(null, new AnalyticsPlayerContext());
+                var analytics = new AnalyticsService(new List<IAnalyticsProvider> { Analytics }, new AnalyticsPlayerContext());
                 var payloads = new GameAnalyticsPayloadFactory();
                 var audio = new AudioService(null, Config);
                 // Do not use SetSfxVolume: it persists the user's audio preference.
@@ -643,6 +711,13 @@ namespace Tests.AutoRecovery
                 await Booster.HandleUseAsync(new UseBoosterEvent { boosterType = type }, Game);
                 await UniTask.Yield();
             }
+            public async UniTask ClickBooster(BoosterType type)
+            {
+                var booster = _screen.BoosterPanel.GetComponentsInChildren<BoosterUI>(true).Single(x => x.Type == type);
+                booster.GetComponent<UnityEngine.UI.Button>().onClick.Invoke();
+                await Wait(() => !(bool)Get(Booster, "_boosterProcessing"), "booster button " + type);
+                await UniTask.Yield();
+            }
             public async UniTask Erase(int index = 10)
             {
                 await Use(BoosterType.Eraser);
@@ -739,7 +814,7 @@ namespace Tests.AutoRecovery
                 else Set(Dictionary, "_wordsByLength", null);
                 try
                 {
-                    await Use(BoosterType.Letter);
+                    await Use(BoosterType.Hint);
                     return false;
                 }
                 catch (Exception error) when ((partialApply && error is InvalidOperationException) || (!partialApply && error is NullReferenceException))
@@ -788,6 +863,22 @@ namespace Tests.AutoRecovery
                 await UniTask.Delay(400);
             }
             public void OnlyUsedWordInDictionary() => SetWords(new[] { "STONE" });
+            public void HintWords(params string[] words) => SetWords(words);
+            public void SelectWord(string word)
+            {
+                Manager.ClearWordSelection();
+                _screen.SetTextWord("");
+                int placed = Manager.WordsFieldData.PlacedLetterIndex;
+                foreach (int start in Enumerable.Range(0, 25))
+                {
+                    var path = new List<int>();
+                    if (!FindPath(word, 0, start, path) || !path.Contains(placed)) continue;
+                    foreach (int index in path) EventBus.Raise(new LetterSelectEvent { letter = Cells[index] });
+                    return;
+                }
+                throw new Exception("No test path for " + word);
+            }
+            public int MissingWordCount => _ui.MissingWords;
             private void SetWords(string[] words)
             {
                 Set(Dictionary, "_words", new HashSet<string>(words));
@@ -844,6 +935,8 @@ namespace Tests.AutoRecovery
             private sealed class TestUI : IUIManager
             {
                 private readonly Fixture _owner;
+                public int RewardPopups;
+                public RewardPopupData LastReward;
                 public int MissingWords;
                 public AdvicePopup Advice;
                 public bool HoldAdvice;
@@ -866,6 +959,20 @@ namespace Tests.AutoRecovery
                 public UniTask<T> ShowPopupAsync<T>(AssetKey key) where T : UIPopup => throw new NotSupportedException(typeof(T).Name);
                 public async UniTask<T> ShowPopupAsync<T, TPayload>(AssetKey key, TPayload payload) where T : UIPopup<TPayload>
                 {
+                    if (typeof(T) == typeof(RewardPopup))
+                    {
+                        RewardPopups++;
+                        LastReward = (RewardPopupData)(object)payload;
+                        return null;
+                    }
+                    if (typeof(T) == typeof(ConfirmPassPopup))
+                    {
+                        var popup = _owner.Clone<ConfirmPassPopup>("Assets/UI/Popups/MessagePopups/ConfirmPassPopup.prefab");
+                        var completion = new UniTaskCompletionSource<PopupExitData>();
+                        completion.TrySetResult(new PopupExitData { Result = PopupResult.Confirm });
+                        Set(popup, "_completionSource", completion);
+                        return (T)(object)popup;
+                    }
                     if (typeof(T) == typeof(AdvicePopup))
                     {
                         var popup = _owner.Clone<AdvicePopup>("Assets/UI/Popups/MessagePopups/AdvicePopup.prefab");
@@ -911,6 +1018,15 @@ namespace Tests.AutoRecovery
                 public UniTask HidePopupAsync<T>() where T : UIPopup => UniTask.CompletedTask;
                 public UniTask HideAllPopupsAsync() => UniTask.CompletedTask;
             }
+        }
+
+        private sealed class RecordingAnalytics : IAnalyticsProvider
+        {
+            public readonly List<AnalyticsEvent> Events = new List<AnalyticsEvent>();
+            public string ProviderName => "Test recorder";
+            public bool IsEnabled => true;
+            public UniTask InitializeAsync() => UniTask.CompletedTask;
+            public void Track(AnalyticsEvent analyticsEvent) => Events.Add(analyticsEvent);
         }
 
         private sealed class FakeInventory : InventorySyncService

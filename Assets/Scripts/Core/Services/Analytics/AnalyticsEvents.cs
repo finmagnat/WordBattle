@@ -161,6 +161,9 @@ namespace Core.Services
             public const string BoosterGameClicked = Group + "booster_game_clicked";
             public const string LetterBoosterSuccess = Group + "letter_booster_success";
             public const string LetterBoosterFail = Group + "letter_booster_fail";
+            public const string HintBoosterSuccess = Group + "hint_booster_success";
+            public const string HintBoosterFail = Group + "hint_booster_fail";
+            public const string HintBoosterResult = Group + "hint_booster_result";
             public const string EraserBoosterShown = Group + "eraser_booster_shown";
             public const string SwapBoosterShown = Group + "swap_booster_shown";
             public const string EraserBoosterClosed = Group + "eraser_booster_closed";

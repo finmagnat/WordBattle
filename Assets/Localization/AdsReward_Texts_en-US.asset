@@ -23,7 +23,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 632839000064
-    m_Localized: '"Bukovka" is popular with 83% of players!'
+    m_Localized: '"Hint" is popular with 83% of players!'
     m_Metadata:
       m_Items: []
   - m_Id: 1287104286720
@@ -56,6 +56,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 5118851917312000
     m_Localized: The coolest booster!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18529172099317760
+    m_Localized: Get a hint for the next round
     m_Metadata:
       m_Items: []
   references:

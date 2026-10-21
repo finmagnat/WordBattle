@@ -54,6 +54,8 @@ namespace Game.AI
 
                     if (++checkedWords % yieldEveryWordChecks == 0)
                         await UniTask.Yield();
+                    if (bCancelFunc())
+                        return SearchResult.Fail();
 
                     var word = raw.Trim().ToUpperInvariant();
                     if (word.Length != len)
@@ -70,14 +72,20 @@ namespace Game.AI
                         {
                             var used = new List<int>(word.Length) { insertIndex };
 
-                            if (!BuildPart(fieldItems, used, insertIndex, word, mid - 1, -1))
-                                continue;
-
-                            if (!BuildPart(fieldItems, used, insertIndex, word, mid + 1, +1))
+                            if (!BuildPart(fieldItems, used, insertIndex, word, mid - 1, -1,
+                                    () => BuildPart(fieldItems, used, insertIndex, word, mid + 1, +1)))
                                 continue;
 
                             if (used.Count == word.Length)
-                                return new SearchResult(true, word, insertIndex, insertChar, used);
+                            {
+                                // DFS visits the insertion, then the prefix backwards, then the suffix.
+                                // Export the actual reading order, including middle-of-word insertions.
+                                var ordered = new List<int>(word.Length);
+                                for (int i = mid; i >= 1; --i) ordered.Add(used[i]);
+                                ordered.Add(insertIndex);
+                                for (int i = mid + 1; i < used.Count; ++i) ordered.Add(used[i]);
+                                return new SearchResult(true, word, insertIndex, insertChar, ordered);
+                            }
                         }
                     }
                 }
@@ -122,12 +130,13 @@ namespace Game.AI
             int startIndex,
             string word,
             int nextIndex,
-            int direction)
+            int direction,
+            Func<bool> onComplete = null)
         {
             if (nextIndex < 0 || nextIndex >= word.Length)
-                return true;
+                return onComplete?.Invoke() ?? true;
 
-            return Dfs(fieldItems, used, startIndex, word, nextIndex, direction);
+            return Dfs(fieldItems, used, startIndex, word, nextIndex, direction, onComplete);
         }
 
         private static bool Dfs(
@@ -136,10 +145,11 @@ namespace Game.AI
             int currentIndex,
             string word,
             int nextWordIndex,
-            int direction)
+            int direction,
+            Func<bool> onComplete)
         {
             if (nextWordIndex < 0 || nextWordIndex >= word.Length)
-                return true;
+                return onComplete?.Invoke() ?? true;
 
             char target = word[nextWordIndex];
 
@@ -159,7 +169,7 @@ namespace Game.AI
 
                 used.Add(n);
 
-                if (Dfs(fieldItems, used, n, word, nextWordIndex + direction, direction))
+                if (Dfs(fieldItems, used, n, word, nextWordIndex + direction, direction, onComplete))
                     return true;
 
                 used.RemoveAt(used.Count - 1);

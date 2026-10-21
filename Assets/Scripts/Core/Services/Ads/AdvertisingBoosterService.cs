@@ -74,7 +74,18 @@ namespace Core.Services
                 return false;
             }
 
-            return _ads.ShowFor(data.RewardType, _ => GrantRewardAsync(data).Forget());
+            bool granted = false;
+            var snapshot = new AdsRewardItem
+            {
+                RewardType = data.RewardType, BoosterType = data.BoosterType,
+                Count = data.Count, Weight = data.Weight, LabelLocaleKeys = data.LabelLocaleKeys
+            };
+            return _ads.ShowFor(snapshot.RewardType, _ =>
+            {
+                if (granted) return;
+                granted = true;
+                GrantRewardAsync(snapshot).Forget();
+            });
         }
 
         private async UniTaskVoid GrantRewardAsync(AdsRewardItem data)

@@ -23,7 +23,15 @@ namespace Core.Config
             DailyBonusDayConfig.Fixed(3, BoosterType.Eraser, 1),
             DailyBonusDayConfig.Fixed(4, BoosterType.Swap, 1),
             DailyBonusDayConfig.Fixed(5, BoosterType.Letter, 1),
-            DailyBonusDayConfig.Fixed(6, BoosterType.Eraser, 1),
+            new DailyBonusDayConfig
+            {
+                Day = 6,
+                Rewards = new List<RewardDto>
+                {
+                    new() { ItemId = BoosterType.Eraser, Amount = 1 },
+                    new() { ItemId = BoosterType.Hint, Amount = 1 }
+                }
+            },
             DailyBonusDayConfig.Chest(7)
         };
 
@@ -142,7 +150,8 @@ namespace Core.Config
                 BoosterType.Eraser,
                 BoosterType.Slowdown,
                 BoosterType.Mixer,
-                BoosterType.Swap
+                BoosterType.Swap,
+                BoosterType.Hint
             };
         }
 
@@ -154,7 +163,8 @@ namespace Core.Config
                 new() { ItemId = BoosterType.Eraser, Amount = amount },
                 new() { ItemId = BoosterType.Slowdown, Amount = amount },
                 new() { ItemId = BoosterType.Mixer, Amount = amount },
-                new() { ItemId = BoosterType.Swap, Amount = amount }
+                new() { ItemId = BoosterType.Swap, Amount = amount },
+                new() { ItemId = BoosterType.Hint, Amount = amount }
             };
         }
     }

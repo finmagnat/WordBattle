@@ -16,10 +16,12 @@ namespace Core.Services.Shop
     /// Покупка и выдача наград через Unity IAP (Google Play).
     /// Rewarded офферы не покупаются — они триггерят показ рекламы.
     /// </summary>
-    public sealed class GooglePlayShopService : IShopService, IStoreListener
+    public class GooglePlayShopService : IShopService, IStoreListener
     {
         private readonly ShopCatalog _catalog;
-        private readonly IInventoryService _inventory;
+        private readonly PlayFabShopGateway _gateway;
+        private readonly HashSet<string> _processing = new();
+        private readonly HashSet<string> _completed = new();
         private readonly InventorySyncService _inventorySync;
         private readonly RewardedBoosterGrantService _rewardGrant;
         private readonly LocalizationService _localization;
@@ -34,19 +36,18 @@ namespace Core.Services.Shop
         private UniTaskCompletionSource<PurchaseResult> _purchaseTcs;
         private string _pendingPurchaseId;
 
-        private bool EnablePurchasePushToServer => _catalog.EnablePurchasePushToServer;
 
         [Inject]
         public GooglePlayShopService(
             ShopCatalog catalog,
-            IInventoryService inventory,
+            PlayFabShopGateway gateway,
             InventorySyncService inventorySync,
             RewardedBoosterGrantService rewardGrant,
             LocalizationService localization,
             AdsEntitlementService adsEntitlement)
         {
             _catalog = catalog;
-            _inventory = inventory;
+            _gateway = gateway;
             _inventorySync = inventorySync;
             _rewardGrant = rewardGrant;
             _localization = localization;
@@ -125,10 +126,8 @@ namespace Core.Services.Shop
                 case ShopOfferTypeDto.RewardedAd:
                     Debug.Log($"[ShopService] Execute rewarded: rewardType={offer.RewardType}");
 
-                    if (!_rewardGrant.TryShowAndGrant(offer.RewardType, offer.Rewards, out string error))
-                        return PurchaseResult.Fail(error);
-
-                    return PurchaseResult.Ok();
+                    return await _rewardGrant.ShowAndGrantAsync(offer.RewardType, offer.Rewards)
+                        ? PurchaseResult.Ok() : PurchaseResult.Fail("Reward was not granted");
 
                 default:
                     return PurchaseResult.Fail($"Unknown offer type: {offer.Type}");
@@ -151,9 +150,10 @@ namespace Core.Services.Shop
             _pendingPurchaseId = productId;
             _purchaseTcs = new UniTaskCompletionSource<PurchaseResult>();
 
+            var pending = _purchaseTcs.Task;
             _controller.InitiatePurchase(product);
 
-            return await _purchaseTcs.Task;
+            return await pending;
         }
 
         // -------- Unity IAP init --------
@@ -220,62 +220,55 @@ namespace Core.Services.Shop
 
         public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs e)
         {
+            // Validation, the whole server pack and inventory sync precede store consumption.
+            // Catalog rewards are never granted locally.
             var product = e.purchasedProduct;
-            var productId = product.definition.id;
+            string transaction = product.transactionID;
+            if (string.IsNullOrEmpty(transaction))
+            {
+                CompletePurchase(product.definition.id, PurchaseResult.Fail("Missing transaction ID"));
+                return PurchaseProcessingResult.Pending;
+            }
+            if (_completed.Contains(transaction)) return PurchaseProcessingResult.Complete;
+            if (_processing.Add(transaction)) ValidateAndGrantAsync(product, transaction).Forget();
+            return PurchaseProcessingResult.Pending;
+        }
 
+        private async UniTaskVoid ValidateAndGrantAsync(Product product, string transaction)
+        {
+            string productId = product.definition.id;
             try
             {
-                // Начисляем награду локально по ShopCatalog (только для IAP офферов)
                 var pack = _catalog.Offers.FirstOrDefault(p =>
-                    p.Type == ShopOfferType.IapPack &&
-                    p.ProductId == productId);
-
-                if (pack == null)
-                {
-                    Debug.LogError($"[IAP] Offer not found in ShopCatalog: {productId}. Confirming purchase.");
-                }
-                else if (pack != null && pack.DisableInterstitialAds)
-                {
-                    // Ставим entitlement (локально + PlayFab user data)
-                    _adsEntitlement.SetNoInterstitialAdsLocal(true);
-                    _adsEntitlement.SetNoInterstitialAdsAsync(true).Forget();
-                }
-                else
-                {
-                    foreach (var reward in pack.Rewards)
-                        _inventory.Add(reward.ItemId, reward.Amount);
-                }
-                
-                // Confirm/consume
-                _controller.ConfirmPendingPurchase(product);
-                Debug.Log($"[IAP] ConfirmPendingPurchase OK: {productId}");
-
-                // Optional server push + sync
-                if (EnablePurchasePushToServer && pack != null)
-                    PushPurchaseToServerAsync(pack).Forget();
-
-                if (_purchaseTcs != null && _pendingPurchaseId == productId)
-                {
-                    _purchaseTcs.TrySetResult(PurchaseResult.Ok());
-                    _purchaseTcs = null;
-                    _pendingPurchaseId = null;
-                }
+                    p.Type == ShopOfferType.IapPack && p.ProductId == productId);
+                if (pack == null) throw new InvalidOperationException("Unknown store product: " + productId);
+                var receipt = GoogleReceiptExtractor.Extract(product);
+                await _gateway.GrantPackOnServerAsync("google", productId,
+                    receipt.receiptJson, receipt.signature, product.metadata.isoCurrencyCode,
+                    decimal.ToInt32(decimal.Round(product.metadata.localizedPrice * 100)), transaction);
+                await _inventorySync.SyncFromServerAsync();
+                if (pack.DisableInterstitialAds) _adsEntitlement.SetNoInterstitialAdsLocal(true);
+                ConfirmPurchase(product);
+                _completed.Add(transaction);
+                CompletePurchase(productId, PurchaseResult.Ok());
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Debug.LogError($"[IAP] ProcessPurchase exception for {productId}: {ex}");
-
-                try { _controller.ConfirmPendingPurchase(product); } catch { /* ignore */ }
-
-                if (_purchaseTcs != null && _pendingPurchaseId == productId)
-                {
-                    _purchaseTcs.TrySetResult(PurchaseResult.ErrorResult(ex.Message));
-                    _purchaseTcs = null;
-                    _pendingPurchaseId = null;
-                }
+                // Store redelivery can retry a failed or unverified transaction.
+                Debug.LogWarning("[IAP] Purchase remains pending: " + productId + ": " + exception.Message);
+                CompletePurchase(productId, PurchaseResult.ErrorResult(exception.Message));
             }
+            finally { _processing.Remove(transaction); }
+        }
 
-            return PurchaseProcessingResult.Complete;
+        protected virtual void ConfirmPurchase(Product product) => _controller.ConfirmPendingPurchase(product);
+
+        private void CompletePurchase(string productId, PurchaseResult result)
+        {
+            if (_purchaseTcs == null || _pendingPurchaseId != productId) return;
+            _purchaseTcs.TrySetResult(result);
+            _purchaseTcs = null;
+            _pendingPurchaseId = null;
         }
 
         public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
@@ -290,23 +283,5 @@ namespace Core.Services.Shop
             }
         }
 
-        // -------- Optional server sync --------
-
-        private async UniTaskVoid PushPurchaseToServerAsync(ShopOfferConfig pack)
-        {
-            try
-            {
-                foreach (var reward in pack.Rewards)
-                    await _inventorySync.GrantBoosterAsync((BoosterType)reward.ItemId, reward.Amount);
-
-                await _inventorySync.SyncFromServerAsync();
-
-                Debug.Log($"[IAP] Purchase pushed to server and synced: {pack.ProductId}");
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError($"[IAP] PushPurchaseToServer failed for {pack.ProductId}: {ex}");
-            }
-        }
     }
 }
